@@ -6,10 +6,9 @@ import { LuQrCode } from 'react-icons/lu';
 
 import PageHeader from '@/components/PageHeader';
 import PageWrapper from '@/components/PageWrapper';
+import QRCodeScanner from '@/components/QRCodeScanner';
 import SendPixForm from '@/components/SendPixForm';
-
-import QRCodeScanner from '../../components/QRCodeScanner';
-import SendPixPreview from '../../components/SendPixPreview';
+import SendPixPreview from '@/components/SendPixPreview';
 
 export default function Send() {
   const [qrPixKey, setQrPixKey] = useState('');

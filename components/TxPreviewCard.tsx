@@ -6,7 +6,7 @@ interface TxPreviewCardProps {
 const TxPreviewCard = ({ title, content }: TxPreviewCardProps) => {
   return (
     <>
-      <div className="w-full p-4 mb-8 rounded-2xl bg-slate-100 dark:bg-slate-700">
+      <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
         <span className="text-sm text-slate-400 font-light uppercase">
           {title}
         </span>
