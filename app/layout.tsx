@@ -7,12 +7,6 @@ import './globals.css';
 
 const nunito = Nunito({ weight: ['800', '900'], subsets: ['latin'] });
 
-// export const metadata: Metadata = {
-//   title: 'TEMCRYPTO',
-//   description: 'Pay and get paid to Pix using crypto.',
-//   metadataBase: new URL('https://temcrypto.com'),
-// };
-
 // Set metadata
 const SITE_NAME = 'TEMCRYPTO';
 const APP_URL = 'https://app.temcrypto.com';
@@ -32,6 +26,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
+  description: 'Pay and get paid to Pix using crypto.',
   applicationName: SITE_NAME,
   metadataBase: new URL(APP_URL),
   formatDetection: {

@@ -1,11 +1,6 @@
-import { type Metadata } from 'next';
 import { createPayment } from '@/app/actions';
 import PageHeader from '@/components/PageHeader';
 import PageWrapper from '@/components/PageWrapper';
-
-export const metadata: Metadata = {
-  title: 'RECEIVE',
-};
 
 export default function Receive() {
   return (
