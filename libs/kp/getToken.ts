@@ -13,9 +13,9 @@ const TOKEN_EXPIRATION = 120; // Expiration in seconds (2m)
  * has expired or does not exist, it makes a POST request to the API to fetch a new
  * token and updates the cache.
  *
- * @returns {Promise<string | Error>} The fetched or cached token if successful, or an Error object if failed.
+ * @returns {Promise<string>} The fetched or cached token if successful, or throw an Error if failed.
  */
-async function getToken(): Promise<string | Error> {
+async function getToken(): Promise<string> {
   const now = new Date();
   if (kpToken !== '' && now < tokenExpiration) {
     console.log('🚀 ~ getToken ~ using cached kpToken');
@@ -50,7 +50,7 @@ async function getToken(): Promise<string | Error> {
     return kpToken;
   } catch (err: any) {
     console.error('KP: Error getting token:', err.message);
-    return new Error('Error getting token');
+    throw new Error('Error getting token');
   }
 }
 

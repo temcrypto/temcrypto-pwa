@@ -12,11 +12,11 @@ import { type kpPixValidationResponse } from './types';
  * or an error message.
  *
  * @param {string} pixKey The Pix key to be validated.
- * @returns {Promise<{data?: kpPixValidationResponse; error?: Error}>} An object containing either the validation data or an error.
+ * @returns {Promise<kpPixValidationResponse>} An object containing either the validation data or throw an error if fails.
  */
 async function validatePixKey(
   pixKey: string
-): Promise<{ data?: kpPixValidationResponse; error?: Error }> {
+): Promise<kpPixValidationResponse> {
   console.log('🚀 ~ validatePixKey ~ pixKey:', pixKey);
 
   try {
@@ -43,7 +43,7 @@ async function validatePixKey(
     };
 
     // Since httpClient handles request errors, assume a successful response if no exceptions are thrown.
-    return { data: response };
+    return response;
   } catch (err) {
     console.error('🚀 ~ validatePixKey ~ err:', err);
 
@@ -53,8 +53,7 @@ async function validatePixKey(
     if (err instanceof Error) {
       errorMessage += `: ${err.message}`;
     }
-    const error = new Error(errorMessage);
-    return { error };
+    throw new Error(errorMessage);
   }
 }
 

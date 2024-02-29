@@ -13,13 +13,13 @@ import { type kpRatePair, type kpRateResponse, type kpRateType } from './types';
  * @param {kpRatePair} pair The currency pair for which to get the rate.
  * @param {kpRateType} type The type of rate to fetch.
  * @param {number} amount The amount for which to calculate the rate.
- * @returns {Promise<{data?: kpRateResponse; error?: Error}>} An object containing either the rate data or an error.
+ * @returns {Promise<kpRateResponse>} An object containing either the rate data or throw an error if fails.
  */
 async function getRate(
   pair: kpRatePair,
   type: kpRateType,
   amount: number
-): Promise<{ data?: kpRateResponse; error?: Error }> {
+): Promise<kpRateResponse> {
   console.log('🚀 ~ getRate ~ pair, type, amount:', pair, type, amount);
 
   try {
@@ -52,16 +52,14 @@ async function getRate(
     };
 
     // Assuming httpClient handles non-200 responses by throwing an error, so no need for status check here.
-    return { data: response };
+    return response;
   } catch (err) {
-    console.error('🚀 ~ getRate ~ err:', err);
-
+    console.error('🚀 ~ getRate ~ err:', err); // TODO: improve error logs
     let errorMessage = 'Error getting the pair rate';
     if (err instanceof Error) {
       errorMessage += `: ${err.message}`;
     }
-    const error = new Error(errorMessage);
-    return { error };
+    throw new Error(errorMessage);
   }
 }
 

@@ -1,13 +1,30 @@
 const MAX_RETRY = 3;
 const RETRY_BACKOFF = 300;
 
+/**
+ * Refreshes the authentication token.
+ * This function should contain the logic to refresh the auth token and return a new token.
+ * Returns a new token if successful, or null if the refresh fails.
+ * @returns {Promise<string | null>} The new token or null.
+ */
 async function refreshAuthToken(): Promise<string | null> {
-  // Aquí iría la lógica para refrescar el token.
-  // Retorna el nuevo token o null si falla.
-  return 'newToken'; // Ejemplo, reemplazar con la lógica real.
+  // This is a placeholder. Replace with actual logic to refresh the token.
+  return 'newToken'; // Example, replace with real logic.
 }
 
-// Función para realizar una solicitud con reintentos
+/**
+ * Performs an HTTP request with retry logic for failures.
+ * Attempts to fetch a resource from the provided URL. If the request fails due to
+ * authentication error (401), it tries to refresh the token and retry the request.
+ * For server errors (status >= 500), it retries the request based on the retry policy.
+ *
+ * @param {string} url The URL to fetch.
+ * @param {RequestInit} options The options for the fetch request.
+ * @param {number} retries The number of retries left (defaults to MAX_RETRY).
+ * @param {number} backoff The backoff delay before retrying (defaults to RETRY_BACKOFF).
+ * @returns {Promise<Response>} The fetch response.
+ * @throws {Error} Throws an error if the request ultimately fails or if token refresh fails.
+ */
 async function fetchWithRetry(
   url: string,
   options: RequestInit,
@@ -23,15 +40,16 @@ async function fetchWithRetry(
       const newToken = await refreshAuthToken();
 
       if (newToken) {
-        // Clonar options para evitar mutaciones no deseadas
+        // Clone options to avoid undesired mutations.
         const updatedOptions = {
           ...options,
           headers: {
             ...options.headers,
-            Authorization: `Bearer ${newToken}`, // Asume que usas tokens tipo Bearer
+            Authorization: `Bearer ${newToken}`, // Assumes Bearer token usage.
           },
         };
-        return fetch(url, updatedOptions); // Intenta la solicitud nuevamente con el nuevo token. Usa las opciones actualizadas
+        // Retry the request with the updated options.
+        return fetch(url, updatedOptions);
       } else {
         throw new Error('Unable to refresh auth token');
       }
@@ -51,7 +69,15 @@ async function fetchWithRetry(
   }
 }
 
-async function get(url: string, headers: HeadersInit = {}) {
+/**
+ * Performs a GET request using the fetchWithRetry function.
+ *
+ * @param {string} url The URL to perform the GET request.
+ * @param {HeadersInit} headers Additional headers for the request.
+ * @returns {Promise<any>} The JSON response body.
+ * @throws {Error} Throws an error if handling the response fails.
+ */
+async function get(url: string, headers: HeadersInit = {}): Promise<any> {
   try {
     const response = await fetchWithRetry(url, {
       method: 'GET',
@@ -66,7 +92,20 @@ async function get(url: string, headers: HeadersInit = {}) {
   }
 }
 
-async function post<T>(url: string, body: T, headers: HeadersInit = {}) {
+/**
+ * Performs a POST request using the fetchWithRetry function.
+ *
+ * @param {string} url The URL to perform the POST request.
+ * @param {T} body The body of the request to be stringified.
+ * @param {HeadersInit} headers Additional headers for the request.
+ * @returns {Promise<any>} The JSON response body.
+ * @throws {Error} Throws an error if handling the response fails.
+ */
+async function post<T>(
+  url: string,
+  body: T,
+  headers: HeadersInit = {}
+): Promise<any> {
   try {
     const response = await fetchWithRetry(url, {
       method: 'POST',
@@ -82,21 +121,32 @@ async function post<T>(url: string, body: T, headers: HeadersInit = {}) {
   }
 }
 
-async function handleResponse(response: Response) {
+/**
+ * Handles the HTTP response, parsing the JSON content.
+ *
+ * @param {Response} response The response object from the fetch request.
+ * @returns {Promise<any>} The parsed JSON response body.
+ * @throws {Error} Throws an error if the response is not OK.
+ */
+async function handleResponse(response: Response): Promise<any> {
   if (!response.ok) {
     const error = await response.text();
     throw new Error(error);
   }
-  return response.json(); // Asume que la respuesta es JSON
+  return response.json(); // Assumes the response is JSON.
 }
 
-function handleError(error: unknown) {
-  // Verifica si el error es una instancia de Error
+/**
+ * Handles errors occurred during the fetch request or response handling.
+ *
+ * @param {unknown} error The caught error object.
+ * @throws {Error} Rethrows the error after logging.
+ */
+function handleError(error: unknown): void {
   if (error instanceof Error) {
     console.error('KP: HTTP Client Error:', error.message);
     throw error;
   } else {
-    // Si no es un Error, maneja el caso o lanza un nuevo Error
     console.error('KP: An unexpected error occurred:', error);
     throw new Error('An unexpected error occurred');
   }

@@ -46,16 +46,10 @@ type PixKeyData = {
 export async function fetchPixKeyData(pixKey: string): Promise<PixKeyData> {
   console.log('🚀 ~ fetchPixKeyData ~ pixKey:', pixKey);
 
-  // Validate and sanitize the input here if necessary.
-  const { data: pixData, error } = await validatePixKey(pixKey);
+  try {
+    // Validate and sanitize the input here if necessary.
+    const pixData = await validatePixKey(pixKey);
 
-  if (error) {
-    console.error('🚀 ~ fetchPixKeyData ~ error:', error);
-    // Provides a more useful error handling for the consumers of the function.
-    throw new Error('Failed to fetch Pix key data');
-  }
-
-  if (pixData) {
     // Ensure the return type matches what's documented.
     return {
       name: pixData.name,
@@ -63,10 +57,11 @@ export async function fetchPixKeyData(pixKey: string): Promise<PixKeyData> {
       reformatedPixKey: pixData.reformated_key,
       amount: '10',
     };
+  } catch (err) {
+    console.error('🚀 ~ fetchPixKeyData ~ err:', err);
+    // Provides a more useful error handling for the consumers of the function.
+    throw new Error('Failed to fetch Pix key data');
   }
-
-  // Consider handling the case where there is no error but also no data.
-  throw new Error('No Pix data found for the provided key');
 }
 
 // Create USDT payment
