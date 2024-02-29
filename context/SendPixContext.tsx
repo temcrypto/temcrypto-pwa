@@ -35,7 +35,7 @@ export const SendPixContext = createContext<SendPixContextType | undefined>(
 export function SendPixProvider({ children }: { children: ReactNode }) {
   const initialState: SendPixState = {
     amount: '',
-    name: 'fulanita',
+    name: '',
     pixKey: '',
     reformatedPixKey: '',
     sending: false,
