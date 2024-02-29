@@ -1,10 +1,10 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { LuQrCode } from 'react-icons/lu';
 
-import { fetchPixKeyData } from '@/app/actions';
+import { fetchPixKeyData, submitPixPayment } from '@/app/actions';
 import PageHeader from '@/components/PageHeader';
 import PageWrapper from '@/components/PageWrapper';
 import QRCodeScanner from '@/components/QRCodeScanner';
@@ -35,6 +35,7 @@ export default function Send() {
               name: pixKeyData.name,
               pixKey: pixKeyData.pixKey,
               reformatedPixKey: pixKeyData.reformatedPixKey,
+              sending: !!(pixKeyData.amount && pixKeyData.reformatedPixKey),
             },
             ...(pixKeyData.amount && { amount: pixKeyData.amount }),
           }));
@@ -55,9 +56,19 @@ export default function Send() {
   }, []);
 
   // Form helpers
-  const handleFormSubmit = useCallback((data: any) => {
-    setOpenPreview(true);
-  }, []);
+  const handleFormSubmit = useCallback(
+    async (e: FormEvent) => {
+      try {
+        e.preventDefault(); // Prevent default form submission
+        setSendPixState((prevState) => ({ ...prevState, sending: true }));
+        // const formData = {}; // Prepare the data
+        // const pixPayment = await submitPixPayment(formData);
+      } finally {
+        setSendPixState((prevState) => ({ ...prevState, sending: false }));
+      }
+    },
+    [setSendPixState]
+  );
 
   useEffect(() => {
     console.log('🚀 ~ openQrScanner changed:', openQrScanner);

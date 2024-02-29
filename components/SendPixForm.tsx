@@ -63,18 +63,19 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
   );
 
   // Handle form submission
-  const handleSubmit = useCallback(
-    async (e: FormEvent) => {
-      e.preventDefault(); // Prevent default form submission
-      const formData = { ...sendPixState }; // Prepare the data
-      const pixPayment = await submitPixPayment(formData);
-      onSubmit(pixPayment); // Callback with the result
-    },
-    [sendPixState, onSubmit]
-  );
+  // const handleSubmit = useCallback(
+  //   async (e: FormEvent) => {
+  //     e.preventDefault(); // Prevent default form submission
+  //     // setSendPixState((prevState) => ({ ...prevState, sending: true }));
+  //     // const formData = { ...sendPixState }; // Prepare the data
+  //     // const pixPayment = await submitPixPayment(formData);
+  //     onSubmit(pixPayment); // Callback with the result
+  //   },
+  //   [sendPixState, onSubmit, setSendPixState]
+  // );
 
   return (
-    <form onSubmit={handleSubmit} className="mt-20">
+    <form onSubmit={onSubmit} className="mt-20">
       <PixKeyInput
         id="pixKey"
         name="pixKey"
@@ -84,6 +85,7 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
         onChange={handlePixKeyChange}
         required={true}
         onClickPaste={handlePixKeyPaste}
+        disabled={sendPixState.sending}
       />
 
       <AmountInput
@@ -96,9 +98,10 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
         required={true}
         autoFocus={amountAutoFocus}
         readOnly={sendPixState.pixKey === ''}
+        disabled={sendPixState.sending}
       />
 
-      <SendSubmitButton canSubmit={canSubmit} />
+      <SendSubmitButton canSubmit={canSubmit} disabled={sendPixState.sending} />
     </form>
   );
 };

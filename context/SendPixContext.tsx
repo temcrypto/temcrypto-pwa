@@ -14,6 +14,7 @@ type SendPixState = {
   name: string;
   pixKey: string;
   reformatedPixKey: string;
+  sending: boolean;
 };
 
 type SendPixContextType = {
@@ -37,6 +38,7 @@ export function SendPixProvider({ children }: { children: ReactNode }) {
     name: 'fulanita',
     pixKey: '',
     reformatedPixKey: '',
+    sending: false,
   };
 
   const [sendPixState, setSendPixState] = useState<SendPixState>(initialState);
