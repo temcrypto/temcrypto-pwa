@@ -1,14 +1,28 @@
 import { KP_BASE_URL_V2 } from './constants';
+import { kpGetTokenResponse } from './types';
 
 let kpToken: string = '';
+let tokenExpiration: Date = new Date();
+const TOKEN_EXPIRATION = 120; // Expiration in seconds (2m)
 
-async function getToken() {
-  if (kpToken !== '') {
-    console.log('🚀 ~ getToken ~ current kpToken:', kpToken);
+/**
+ * Fetches and caches an authentication token. If a cached token is still valid,
+ * it returns the cached token. Otherwise, it fetches a new token from the API.
+ *
+ * Validates the token's expiration before returning the cached token. If the token
+ * has expired or does not exist, it makes a POST request to the API to fetch a new
+ * token and updates the cache.
+ *
+ * @returns {Promise<string | Error>} The fetched or cached token if successful, or an Error object if failed.
+ */
+async function getToken(): Promise<string | Error> {
+  const now = new Date();
+  if (kpToken !== '' && now < tokenExpiration) {
+    console.log('🚀 ~ getToken ~ using cached kpToken');
     return kpToken;
   }
 
-  console.log('🚀 ~ getToken ~');
+  console.log('🚀 ~ getToken ~ fetching new token');
 
   try {
     const url = `${KP_BASE_URL_V2}/auth/token`;
@@ -23,21 +37,20 @@ async function getToken() {
     });
 
     if (response.status !== 200) {
-      const error = new Error('Request failed') as any; // TODO: improve type
-      error.status = response.status;
-      error.statusText = response.statusText;
-      throw error;
+      throw new Error(
+        `Request failed with status ${response.status}: ${response.statusText}`
+      );
     }
 
-    const data = await response.json();
-    kpToken = data.token as string;
-    console.log('🚀 ~ getToken ~ new kpToken:', kpToken);
+    const data: kpGetTokenResponse = await response.json();
+    kpToken = data.access_token;
+    tokenExpiration = new Date(now.getTime() + TOKEN_EXPIRATION * 1000);
+
+    console.log('🚀 ~ getToken ~ new kpToken obtained');
     return kpToken;
-  } catch (error: any) {
-    console.log('🚀 ~ getToken ~ error:', error, error.status);
-    const err = new Error(error.statusText) as any; // TODO: improve type
-    err.status = error.status || 500;
-    throw err;
+  } catch (err: any) {
+    console.error('KP: Error getting token:', err.message);
+    return new Error('Error getting token');
   }
 }
 

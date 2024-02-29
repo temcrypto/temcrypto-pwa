@@ -4,34 +4,52 @@ import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import { LuQrCode } from 'react-icons/lu';
 
+import { fetchPixKeyData } from '@/app/actions';
 import PageHeader from '@/components/PageHeader';
 import PageWrapper from '@/components/PageWrapper';
 import QRCodeScanner from '@/components/QRCodeScanner';
 import SendPixForm from '@/components/SendPixForm';
 import SendPixPreview from '@/components/SendPixPreview';
+import { useSendPixContext } from '@/context/SendPixContext';
 
 export default function Send() {
-  const [qrPixKey, setQrPixKey] = useState('');
   const [openQrScanner, setOpenQrScanner] = useState(false);
-  const [previewData, setPreviewData] = useState(null);
+  const [openPreview, setOpenPreview] = useState(false);
+  const { sendPixState, setSendPixState } = useSendPixContext();
 
   // QRCodeScanner helpers
-  const handleQrScan = useCallback((text: string) => {
-    setQrPixKey(text);
-  }, []);
+  const handleQrScan = useCallback(
+    async (text: string) => {
+      try {
+        const pixKeyData = await fetchPixKeyData(text);
+        console.log('🚀 ~ handleQrScan ~ pixKeyData:', pixKeyData);
 
-  const handleQrError = useCallback((error: Error) => {
+        setSendPixState((prevState) => ({
+          ...prevState,
+          ...{
+            name: pixKeyData.name,
+            pixKey: pixKeyData.pixKey,
+            reformatedPixKey: pixKeyData.reformatedPixKey,
+          },
+          ...(pixKeyData.amount && { amount: pixKeyData.amount }),
+        }));
+      } catch (err) {
+        console.log('🚀 ~ handleQrScan ~ err:', err);
+        toast.error("Can't fetch the Pix Key data. Try again please."); // TODO: Improve UI error messages
+      } finally {
+        setOpenQrScanner(false);
+      }
+    },
+    [setSendPixState]
+  );
+
+  const handleQrError = useCallback(() => {
     toast.error("Can't opening the camera. Check permissions.");
   }, []);
 
   // Form helpers
   const handleFormSubmit = useCallback((data: any) => {
-    // TODO: Fix typing
-    setPreviewData(data);
-  }, []);
-
-  const handlePreviewClose = useCallback(() => {
-    setPreviewData(null);
+    setOpenPreview(true);
   }, []);
 
   return (
@@ -41,6 +59,11 @@ export default function Send() {
           title="Send"
           subtitle="Scan a QR code or enter a Chave Pix: CPF, CNPJ, phone number, or email."
         />
+
+        <div>name: {sendPixState.name}</div>
+        <div>reformatedPixKey: {sendPixState.reformatedPixKey}</div>
+        <div>pixKey: {sendPixState.pixKey}</div>
+        <div>amount: {sendPixState.amount}</div>
 
         <button
           type="button"
@@ -55,7 +78,7 @@ export default function Send() {
           Scan
         </button>
 
-        <SendPixForm initialPixKey={qrPixKey} onSubmit={handleFormSubmit} />
+        <SendPixForm onSubmit={handleFormSubmit} />
 
         <QRCodeScanner
           isOpen={openQrScanner}
@@ -68,10 +91,11 @@ export default function Send() {
         />
 
         <SendPixPreview
-          isOpen={!!previewData}
+          isOpen={openPreview}
           sheetRootId="layout-app"
-          previewData={previewData}
-          onClose={handlePreviewClose}
+          onClose={() => {
+            setOpenPreview(false);
+          }}
         />
       </section>
     </PageWrapper>

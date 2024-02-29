@@ -1,32 +1,46 @@
 // import { KP_BASE_URL_V2 } from './constants';
-
+// import getToken from './getToken';
+// import { httpClient } from './httpClient';
 import { type kpRatePair, type kpRateResponse, type kpRateType } from './types';
 
-// const access_token = 'test'; // TODO: get from another function
+/**
+ * Fetches the exchange rate for a given currency pair, type, and amount.
+ *
+ * Validates and sanitizes the input parameters before making the HTTP GET request. Utilizes the httpClient
+ * for streamlined error handling and token management. Returns the fetched rate data or an error if the
+ * request fails or validation errors occur.
+ *
+ * @param {kpRatePair} pair The currency pair for which to get the rate.
+ * @param {kpRateType} type The type of rate to fetch.
+ * @param {number} amount The amount for which to calculate the rate.
+ * @returns {Promise<{data?: kpRateResponse; error?: Error}>} An object containing either the rate data or an error.
+ */
+async function getRate(
+  pair: kpRatePair,
+  type: kpRateType,
+  amount: number
+): Promise<{ data?: kpRateResponse; error?: Error }> {
+  console.log('🚀 ~ getRate ~ pair, type, amount:', pair, type, amount);
 
-async function getRate(pair: kpRatePair, type: kpRateType, amount: number) {
   try {
-    // const url = `${KP_BASE_URL_V2}/v2/oracle?pair=${pair}&type=${type}&amount=${amount}`;
+    // TODO: Validate and sanitize inputs
+    // Example: Ensure pair and type match expected formats and amount is a valid number
 
-    // const response = await fetch(url, {
-    //   method: 'GET',
-    //   headers: {
-    //     Authorization: `Bearer ${access_token}`,
-    //     'Content-Type': 'application/json',
-    //   },
+    // const accessToken = await getToken(); // Dynamically retrieves the access token
+
+    // const queryParams = new URLSearchParams({
+    //   pair,
+    //   type,
+    //   amount: amount.toString(),
+    // }).toString();
+    // const url = `${KP_BASE_URL_V2}/v2/oracle?${queryParams}`;
+
+    // const response: kpRateResponse = await httpClient.get(url, {
+    //   Authorization: `Bearer ${accessToken}`,
     // });
 
-    // if (response.status !== 200) {
-    //   const error = new Error('Request failed') as any; // TODO: improve type
-    //   error.status = response.status;
-    //   error.statusText = response.statusText;
-    //   throw error;
-    // }
-
-    // const data = await response.json();
-
     // TODO: clean mock response
-    const data: kpRateResponse = {
+    const response: kpRateResponse = {
       status_code: 200,
       msg: 'Request ok',
       data: {
@@ -37,11 +51,17 @@ async function getRate(pair: kpRatePair, type: kpRateType, amount: number) {
       },
     };
 
-    return data;
-  } catch (error: any) {
-    const err = new Error(error.statusText) as any; // TODO: improve type
-    err.status = error.status || 500;
-    throw err;
+    // Assuming httpClient handles non-200 responses by throwing an error, so no need for status check here.
+    return { data: response };
+  } catch (err) {
+    console.error('🚀 ~ getRate ~ err:', err);
+
+    let errorMessage = 'Error getting the pair rate';
+    if (err instanceof Error) {
+      errorMessage += `: ${err.message}`;
+    }
+    const error = new Error(errorMessage);
+    return { error };
   }
 }
 

@@ -2,6 +2,7 @@ import { type Metadata, type Viewport } from 'next';
 import { Nunito } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import Header from '@/components/Header';
+import { SendPixProvider } from '@/context/SendPixContext';
 
 import './globals.css';
 
@@ -64,7 +65,9 @@ export default function RootLayout({
         >
           <div className="flex h-screen flex-col justify-between">
             <Header />
-            <main className="mb-auto py-8">{children}</main>
+            <main className="mb-auto py-8">
+              <SendPixProvider>{children}</SendPixProvider>
+            </main>
             <Toaster />
           </div>
         </section>

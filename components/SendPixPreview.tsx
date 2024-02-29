@@ -1,42 +1,27 @@
 import { useCallback } from 'react';
 import Sheet from 'react-modal-sheet';
+import { useSendPixContext } from '@/context/SendPixContext';
 import TxPreviewCard from './TxPreviewCard';
 
 interface SendPixPreviewProps {
   isOpen: boolean;
   sheetRootId?: string;
-  previewData: any; // TODO: Fix typing
   onClose?: () => void;
 }
-
-const defaultPreviewData = {
-  toName: '',
-  toPixKey: '',
-  amount: '',
-  rate: '',
-};
 
 const SendPixPreview = ({
   isOpen = false,
   sheetRootId,
-  previewData,
   onClose,
 }: SendPixPreviewProps) => {
+  const { sendPixState, setSendPixState } = useSendPixContext();
+  const rate = 4.77;
+
   const handleClose = useCallback(() => {
     if (onClose) {
       onClose();
     }
   }, [onClose]);
-
-  const {
-    toName = '',
-    toPixKey = '',
-    amount = '',
-    rate = '',
-  } = {
-    ...defaultPreviewData,
-    ...previewData,
-  };
 
   return (
     <Sheet
@@ -56,12 +41,15 @@ const SendPixPreview = ({
           </div>
 
           <Sheet.Scroller>
-            <TxPreviewCard title="To" content={toName} />
+            <TxPreviewCard title="To" content={sendPixState.name} />
 
-            <TxPreviewCard title="Chave Pix" content={toPixKey} />
+            <TxPreviewCard title="Chave Pix" content={sendPixState.pixKey} />
 
             <div className="flex space-x-8">
-              <TxPreviewCard title="Amount" content={`R$  ${amount}`} />
+              <TxPreviewCard
+                title="Amount"
+                content={`R$  ${sendPixState.amount}`}
+              />
               <TxPreviewCard title="Rate" content={`1 USDT = R$ ${rate}`} />
             </div>
           </Sheet.Scroller>

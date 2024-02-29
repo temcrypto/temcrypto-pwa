@@ -8,10 +8,12 @@ export async function GET(
   context: { params: { pair: kpRatePair } }
 ) {
   const { pair } = context.params;
-  const kpToken = await getToken();
-  console.log('🚀 ~ kpToken:', kpToken);
+
   try {
+    const kpToken = await getToken();
+    console.log('🚀 ~ kpToken:', kpToken);
     const rate = await getRate(pair, 'charge', 100);
+
     return NextResponse.json({ pair, rate }, { status: 200 });
   } catch (error: any) {
     return new NextResponse(`${error.message}: ${error.statusText}`, {

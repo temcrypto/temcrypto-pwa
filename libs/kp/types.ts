@@ -1,4 +1,11 @@
+// API
 type kpResponseCode = 200 | 400 | 401 | 500;
+
+// Auth
+export type kpGetTokenResponse = {
+  access_token: string;
+  token_type: string;
+};
 
 // Rates
 export type kpRatePair =
@@ -19,4 +26,11 @@ export type kpRateResponse = {
     rate: number;
     timeout: number;
   };
+};
+
+// Pix Validation
+export type kpPixValidationResponse = {
+  msg: string;
+  name: string;
+  reformated_key: string;
 };

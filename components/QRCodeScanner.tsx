@@ -72,8 +72,6 @@ const QRCodeScanner = ({
                   // TODO: check if we can get the amount and update the amount input
                   const text = result.getText();
                   onScan(text);
-                  // Close reader
-                  handleClose();
                 }
 
                 // Check if the camera is allowed or close
