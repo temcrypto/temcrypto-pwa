@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import getRate from '@/libs/kp/getRate';
-import { type kpRatePair } from '@/libs/kp/types';
+import getRate from '@/lib/kp/getRate';
+import { type kpRatePair } from '@/lib/kp/types';
 
 export async function GET(
   _: NextRequest,

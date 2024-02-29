@@ -1,6 +1,6 @@
 'use server';
 
-import validatePixKey from '@/libs/kp/validatePixKey';
+import validatePixKey from '@/lib/kp/validatePixKey';
 import { rangeDelay } from 'delay';
 
 // Submit Pix Payment data
