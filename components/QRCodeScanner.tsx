@@ -23,6 +23,7 @@ const QRCodeScanner = ({
   // Component events handlers
   const handleClose = useCallback(() => {
     if (onClose) {
+      console.log('🚀 ~ handleClose ~ onClose:', onClose);
       onClose();
     }
   }, [onClose]);
@@ -36,6 +37,26 @@ const QRCodeScanner = ({
     [onError]
   );
 
+  // Handle result after scan
+  const handleResult = useCallback(
+    (result: any, error: any) => {
+      if (!!result) {
+        // TODO: check if we can get the amount and update the amount input
+        const text = result.getText();
+        onScan(text);
+      }
+
+      // Check if the camera is allowed or close
+      if (!!error && error.name.includes('NotAllowedError')) {
+        handleQrError(error);
+        // Close reader
+        handleClose();
+      }
+    },
+    [handleClose, handleQrError, onScan]
+  );
+
+  // Check Camera permission
   useEffect(() => {
     const checkCameraPermission = () => {
       navigator.permissions
@@ -67,20 +88,7 @@ const QRCodeScanner = ({
                 facingMode: 'environment',
               }}
               scanDelay={250}
-              onResult={(result, error) => {
-                if (!!result) {
-                  // TODO: check if we can get the amount and update the amount input
-                  const text = result.getText();
-                  onScan(text);
-                }
-
-                // Check if the camera is allowed or close
-                if (!!error && error.name.includes('NotAllowedError')) {
-                  handleQrError(error);
-                  // Close reader
-                  handleClose();
-                }
-              }}
+              onResult={handleResult}
               ViewFinder={() => (
                 <div
                   style={{

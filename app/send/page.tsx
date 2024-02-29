@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { LuQrCode } from 'react-icons/lu';
 
@@ -15,32 +15,39 @@ import { useSendPixContext } from '@/context/SendPixContext';
 export default function Send() {
   const [openQrScanner, setOpenQrScanner] = useState(false);
   const [openPreview, setOpenPreview] = useState(false);
-  const { sendPixState, setSendPixState } = useSendPixContext();
+  const { setSendPixState } = useSendPixContext();
 
   // QRCodeScanner helpers
   const handleQrScan = useCallback(
     async (text: string) => {
       try {
-        const pixKeyData = await fetchPixKeyData(text);
-        console.log('🚀 ~ handleQrScan ~ pixKeyData:', pixKeyData);
+        if (openQrScanner && text !== '') {
+          const pixKeyData = await fetchPixKeyData(text);
+          console.log(
+            '🚀 ~ handleQrScan ~ pixKeyData:',
+            pixKeyData,
+            openQrScanner
+          );
 
-        setSendPixState((prevState) => ({
-          ...prevState,
-          ...{
-            name: pixKeyData.name,
-            pixKey: pixKeyData.pixKey,
-            reformatedPixKey: pixKeyData.reformatedPixKey,
-          },
-          ...(pixKeyData.amount && { amount: pixKeyData.amount }),
-        }));
+          setSendPixState((prevState) => ({
+            ...prevState,
+            ...{
+              name: pixKeyData.name,
+              pixKey: pixKeyData.pixKey,
+              reformatedPixKey: pixKeyData.reformatedPixKey,
+            },
+            ...(pixKeyData.amount && { amount: pixKeyData.amount }),
+          }));
+        }
       } catch (err) {
         console.log('🚀 ~ handleQrScan ~ err:', err);
         toast.error("Can't fetch the Pix Key data. Try again please."); // TODO: Improve UI error messages
       } finally {
         setOpenQrScanner(false);
+        console.log('🚀 ~ setOpenQrScanner: finally', openQrScanner);
       }
     },
-    [setSendPixState]
+    [setSendPixState, openQrScanner]
   );
 
   const handleQrError = useCallback(() => {
@@ -52,6 +59,10 @@ export default function Send() {
     setOpenPreview(true);
   }, []);
 
+  useEffect(() => {
+    console.log('🚀 ~ openQrScanner changed:', openQrScanner);
+  }, [openQrScanner]);
+
   return (
     <PageWrapper>
       <section id="page-send" className="pb-6">
@@ -59,11 +70,6 @@ export default function Send() {
           title="Send"
           subtitle="Scan a QR code or enter a Chave Pix: CPF, CNPJ, phone number, or email."
         />
-
-        <div>name: {sendPixState.name}</div>
-        <div>reformatedPixKey: {sendPixState.reformatedPixKey}</div>
-        <div>pixKey: {sendPixState.pixKey}</div>
-        <div>amount: {sendPixState.amount}</div>
 
         <button
           type="button"
@@ -80,12 +86,14 @@ export default function Send() {
 
         <SendPixForm onSubmit={handleFormSubmit} />
 
+        {/* Bottom Sheets */}
         <QRCodeScanner
           isOpen={openQrScanner}
           sheetRootId="layout-app"
           onScan={handleQrScan}
           onError={handleQrError}
           onClose={() => {
+            console.log('🚀 ~ Send ~ QRCodeScanner onClose:');
             setOpenQrScanner(false);
           }}
         />
@@ -94,6 +102,7 @@ export default function Send() {
           isOpen={openPreview}
           sheetRootId="layout-app"
           onClose={() => {
+            console.log('🚀 ~ Send ~ SendPixPreview onClose:');
             setOpenPreview(false);
           }}
         />
