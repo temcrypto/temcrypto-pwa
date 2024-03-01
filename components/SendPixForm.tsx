@@ -1,13 +1,11 @@
 'use client';
 
-import React, { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 
-import { submitPixPayment } from '@/app/actions';
 import { useSendPixContext } from '@/context/SendPixContext';
 
 import AmountInput from './AmountInput';
 import PixKeyInput from './PixKeyInput';
-import SendSubmitButton from './SendSubmitButton';
 
 // Regular Expression to Validate Currency Inputs from 5.00 up to 500.00
 
@@ -62,18 +60,6 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
     [setSendPixState]
   );
 
-  // Handle form submission
-  // const handleSubmit = useCallback(
-  //   async (e: FormEvent) => {
-  //     e.preventDefault(); // Prevent default form submission
-  //     // setSendPixState((prevState) => ({ ...prevState, sending: true }));
-  //     // const formData = { ...sendPixState }; // Prepare the data
-  //     // const pixPayment = await submitPixPayment(formData);
-  //     onSubmit(pixPayment); // Callback with the result
-  //   },
-  //   [sendPixState, onSubmit, setSendPixState]
-  // );
-
   return (
     <form onSubmit={onSubmit} className="mt-20">
       <PixKeyInput
@@ -85,7 +71,7 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
         onChange={handlePixKeyChange}
         required={true}
         onClickPaste={handlePixKeyPaste}
-        disabled={sendPixState.sending}
+        disabled={sendPixState.loading}
       />
 
       <AmountInput
@@ -96,12 +82,21 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
         value={sendPixState.amount}
         onChange={handleAmountChange}
         required={true}
+        pattern={amountRegex.source}
         autoFocus={amountAutoFocus}
         readOnly={sendPixState.pixKey === ''}
-        disabled={sendPixState.sending}
+        disabled={sendPixState.loading}
       />
 
-      <SendSubmitButton canSubmit={canSubmit} disabled={sendPixState.sending} />
+      <button
+        type="submit"
+        className={`transition ease-in-out w-full rounded-2xl p-4 mt-8 text-center text-xl text-white bg-pink-500 ring ring-pink-500 active:bg-pink-700 active:ring-pink-700 hover:bg-pink-600 hover:ring-pink-600 disabled:text-slate-400 disabled:bg-slate-300 disabled:ring-slate-300 cursor-pointer disabled:cursor-not-allowed ${
+          sendPixState.loading ? 'animate-pulse' : ''
+        }`}
+        disabled={!canSubmit || sendPixState.loading}
+      >
+        {sendPixState.loading ? 'Loading...' : 'Continue'}
+      </button>
     </form>
   );
 };

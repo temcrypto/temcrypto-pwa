@@ -1,5 +1,6 @@
 'use server';
 
+import getRate from '@/lib/kp/getRate';
 import validatePixKey from '@/lib/kp/validatePixKey';
 import { rangeDelay } from 'delay';
 
@@ -71,4 +72,15 @@ export async function createPayment(formData: FormData) {
   };
 
   console.log('🚀 ~ createPayment ~ rawFormData:', rawFormData);
+}
+
+export async function getSwapRate(amountBrl: number) {
+  const pair = 'BRLUSDT';
+  const { data } = await getRate(pair, 'charge', amountBrl);
+  return {
+    amountBrl,
+    amountUsdt: data.total_usdt,
+    rateUsdtBrl: amountBrl / data.total_usdt,
+    timeout: data.timeout,
+  };
 }

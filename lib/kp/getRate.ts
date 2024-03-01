@@ -40,13 +40,15 @@ async function getRate(
     // });
 
     // TODO: clean mock response
+    const rateUsdtBrl = 5;
     const response: kpRateResponse = {
       status_code: 200,
       msg: 'Request ok',
       data: {
-        total_brl: 100.0,
-        total_usdt: 19.37735,
-        rate: 0.193773,
+        total_brl: amount,
+        // total_usdt: 19.37735,
+        total_usdt: amount / rateUsdtBrl,
+        rate: 1 / rateUsdtBrl,
         timeout: 178,
       },
     };

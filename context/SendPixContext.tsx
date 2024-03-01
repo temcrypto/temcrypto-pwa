@@ -14,6 +14,8 @@ type SendPixState = {
   name: string;
   pixKey: string;
   reformatedPixKey: string;
+  rateUsdtBrl?: number;
+  loading: boolean;
   sending: boolean;
 };
 
@@ -38,7 +40,9 @@ export function SendPixProvider({ children }: { children: ReactNode }) {
     name: '',
     pixKey: '',
     reformatedPixKey: '',
-    sending: false,
+    rateUsdtBrl: undefined,
+    loading: false, // Loading Pix Key data from API
+    sending: false, // Sending payment info
   };
 
   const [sendPixState, setSendPixState] = useState<SendPixState>(initialState);

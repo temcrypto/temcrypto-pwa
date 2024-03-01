@@ -3,8 +3,9 @@
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { LuQrCode } from 'react-icons/lu';
+import { rangeDelay } from 'delay';
 
-import { fetchPixKeyData, submitPixPayment } from '@/app/actions';
+import { fetchPixKeyData, getSwapRate } from '@/app/actions';
 import PageHeader from '@/components/PageHeader';
 import PageWrapper from '@/components/PageWrapper';
 import QRCodeScanner from '@/components/QRCodeScanner';
@@ -15,12 +16,13 @@ import { useSendPixContext } from '@/context/SendPixContext';
 export default function Send() {
   const [openQrScanner, setOpenQrScanner] = useState(false);
   const [openPreview, setOpenPreview] = useState(false);
-  const { setSendPixState } = useSendPixContext();
+  const { sendPixState, setSendPixState } = useSendPixContext();
 
   // QRCodeScanner helpers
   const handleQrScan = useCallback(
     async (text: string) => {
       try {
+        // Validate scanned text
         if (openQrScanner && text !== '') {
           const pixKeyData = await fetchPixKeyData(text);
           console.log(
@@ -29,16 +31,30 @@ export default function Send() {
             openQrScanner
           );
 
+          let amountRateObj = {};
+          if (pixKeyData.amount) {
+            const swapRates = await getSwapRate(Number(sendPixState.amount));
+            console.log('🚀 ~ swapRates:', swapRates);
+            amountRateObj = {
+              amount: pixKeyData.amount,
+              rateUsdtBrl: swapRates.rateUsdtBrl,
+            };
+          }
+
           setSendPixState((prevState) => ({
             ...prevState,
             ...{
               name: pixKeyData.name,
               pixKey: pixKeyData.pixKey,
               reformatedPixKey: pixKeyData.reformatedPixKey,
-              sending: !!(pixKeyData.amount && pixKeyData.reformatedPixKey),
             },
-            ...(pixKeyData.amount && { amount: pixKeyData.amount }),
+            ...amountRateObj,
           }));
+
+          // Open preview sheet if we have all the necessary info
+          if (!!(pixKeyData.amount && pixKeyData.reformatedPixKey)) {
+            setOpenPreview(true);
+          }
         }
       } catch (err) {
         console.log('🚀 ~ handleQrScan ~ err:', err);
@@ -48,7 +64,7 @@ export default function Send() {
         console.log('🚀 ~ setOpenQrScanner: finally', openQrScanner);
       }
     },
-    [setSendPixState, openQrScanner]
+    [setSendPixState, openQrScanner, sendPixState.amount]
   );
 
   const handleQrError = useCallback(() => {
@@ -58,16 +74,37 @@ export default function Send() {
   // Form helpers
   const handleFormSubmit = useCallback(
     async (e: FormEvent) => {
+      console.log('🚀 ~ Send ~ handleFormSubmit:', e);
       try {
         e.preventDefault(); // Prevent default form submission
-        setSendPixState((prevState) => ({ ...prevState, sending: true }));
-        // const formData = {}; // Prepare the data
-        // const pixPayment = await submitPixPayment(formData);
+        setSendPixState((prevState) => ({ ...prevState, loading: true }));
+
+        const pixKeyData = await fetchPixKeyData(sendPixState.pixKey);
+        console.log('🚀 ~ handleFormSubmit ~ pixKeyData:', pixKeyData);
+
+        const swapRates = await getSwapRate(Number(sendPixState.amount));
+        console.log('🚀 ~ swapRates:', swapRates);
+
+        // TODO: remove test delay
+        await rangeDelay(1000, 5000);
+
+        setSendPixState((prevState) => ({
+          ...prevState,
+          ...{
+            name: pixKeyData.name,
+            rateUsdtBrl: swapRates.rateUsdtBrl,
+            loading: false,
+          },
+        }));
+
+        setOpenPreview(true);
+      } catch (err) {
+        console.log('🚀 ~ Send ~ handleFormSubmit error:', err);
       } finally {
-        setSendPixState((prevState) => ({ ...prevState, sending: false }));
+        setSendPixState((prevState) => ({ ...prevState, loading: false }));
       }
     },
-    [setSendPixState]
+    [setSendPixState, sendPixState.amount, sendPixState.pixKey]
   );
 
   useEffect(() => {
