@@ -56,7 +56,7 @@ export async function fetchPixKeyData(pixKey: string): Promise<PixKeyData> {
       name: pixData.name,
       pixKey: pixKey,
       reformatedPixKey: pixData.reformated_key,
-      amount: '10',
+      amount: (Math.random() * (500 - 5) + 5).toFixed(2),
     };
   } catch (err) {
     console.error('🚀 ~ fetchPixKeyData ~ err:', err);

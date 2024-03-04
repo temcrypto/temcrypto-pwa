@@ -10,11 +10,12 @@ import {
 
 // Define a type for the state and another for the context which includes both the state and the functions to update it.
 type SendPixState = {
-  amount: string;
   name: string;
   pixKey: string;
   reformatedPixKey: string;
-  rateUsdtBrl?: number;
+  amountBrl: string;
+  amountUsdt: string;
+  rateUsdtBrl: string;
   loading: boolean;
   sending: boolean;
 };
@@ -36,11 +37,12 @@ export const SendPixContext = createContext<SendPixContextType | undefined>(
  */
 export function SendPixProvider({ children }: { children: ReactNode }) {
   const initialState: SendPixState = {
-    amount: '',
     name: '',
     pixKey: '',
     reformatedPixKey: '',
-    rateUsdtBrl: undefined,
+    amountBrl: '',
+    amountUsdt: '',
+    rateUsdtBrl: '',
     loading: false, // Loading Pix Key data from API
     sending: false, // Sending payment info
   };

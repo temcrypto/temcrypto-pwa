@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import Sheet from 'react-modal-sheet';
-import { rangeDelay } from 'delay';
-import { useSendPixContext } from '@/context/SendPixContext';
-import TxPreviewCard from './TxPreviewCard';
 import toast from 'react-hot-toast';
+import { rangeDelay } from 'delay';
+
+import { useSendPixContext } from '@/context/SendPixContext';
 
 interface SendPixPreviewProps {
   isOpen: boolean;
@@ -32,6 +32,7 @@ const SendPixPreview = ({
   }, [setSendPixState]);
 
   const handleClose = useCallback(() => {
+    console.log('🚀 ~ handleClose ~ handleClose:');
     if (onClose) {
       onClose();
     }
@@ -55,19 +56,41 @@ const SendPixPreview = ({
           </div>
 
           <Sheet.Scroller>
-            <TxPreviewCard title="To" content={sendPixState.name} />
+            <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+              <div className="text-sm text-slate-400 font-light uppercase">
+                To
+              </div>
+              <p className="dark:text-white break-words">{sendPixState.name}</p>
 
-            <TxPreviewCard title="Chave Pix" content={sendPixState.pixKey} />
+              <div className="text-sm text-slate-400 font-light uppercase mt-4">
+                Chave Pix
+              </div>
+              <p className="dark:text-white break-words">
+                {sendPixState.reformatedPixKey}
+              </p>
+            </div>
 
-            <div className="flex space-x-8">
-              <TxPreviewCard
-                title="Amount"
-                content={`R$  ${sendPixState.amount}`}
-              />
-              <TxPreviewCard
-                title="Rate"
-                content={`1 USDT = R$ ${sendPixState.rateUsdtBrl}`}
-              />
+            <div className="flex space-x-4">
+              <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+                <span className="text-sm text-slate-400 font-light uppercase">
+                  Amount
+                </span>
+                <p className="dark:text-white break-words">
+                  <span>R$ {sendPixState.amountBrl}</span>
+                  <span className="pl-1 text-sm text-slate-300">
+                    ({sendPixState.amountUsdt} USDT)
+                  </span>
+                </p>
+              </div>
+
+              <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+                <span className="text-sm text-slate-400 font-light uppercase">
+                  Rate
+                </span>
+                <p className="dark:text-white break-words">
+                  1 USDT = R$ {sendPixState.rateUsdtBrl}
+                </p>
+              </div>
             </div>
           </Sheet.Scroller>
 

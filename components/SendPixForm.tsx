@@ -54,7 +54,7 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
     (e: ChangeEvent<HTMLInputElement>) => {
       const inputValue = e.target.value;
       const isValid = amountRegex.test(inputValue);
-      setSendPixState((prevState) => ({ ...prevState, amount: inputValue }));
+      setSendPixState((prevState) => ({ ...prevState, amountBrl: inputValue }));
       setCanSubmit(isValid);
     },
     [setSendPixState]
@@ -79,7 +79,7 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
         name="amount"
         aria-label="Enter the transaction amount between 5.00 and 500.00"
         placeholder="5.00 - 500.00"
-        value={sendPixState.amount}
+        value={sendPixState.amountBrl}
         onChange={handleAmountChange}
         required={true}
         pattern={amountRegex.source}

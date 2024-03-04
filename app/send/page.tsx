@@ -33,11 +33,13 @@ export default function Send() {
 
           let amountRateObj = {};
           if (pixKeyData.amount) {
-            const swapRates = await getSwapRate(Number(sendPixState.amount));
+            const swapRates = await getSwapRate(Number(pixKeyData.amount));
             console.log('🚀 ~ swapRates:', swapRates);
             amountRateObj = {
-              amount: pixKeyData.amount,
-              rateUsdtBrl: swapRates.rateUsdtBrl,
+              amountBrl: pixKeyData.amount,
+              amountUsdt: swapRates.amountUsdt.toFixed(2),
+              rateUsdtBrl: swapRates.rateUsdtBrl.toFixed(2),
+              // timeout: swapRates.timeout,
             };
           }
 
@@ -64,7 +66,7 @@ export default function Send() {
         console.log('🚀 ~ setOpenQrScanner: finally', openQrScanner);
       }
     },
-    [setSendPixState, openQrScanner, sendPixState.amount]
+    [setSendPixState, openQrScanner]
   );
 
   const handleQrError = useCallback(() => {
@@ -82,7 +84,7 @@ export default function Send() {
         const pixKeyData = await fetchPixKeyData(sendPixState.pixKey);
         console.log('🚀 ~ handleFormSubmit ~ pixKeyData:', pixKeyData);
 
-        const swapRates = await getSwapRate(Number(sendPixState.amount));
+        const swapRates = await getSwapRate(Number(sendPixState.amountBrl));
         console.log('🚀 ~ swapRates:', swapRates);
 
         // TODO: remove test delay
@@ -92,7 +94,8 @@ export default function Send() {
           ...prevState,
           ...{
             name: pixKeyData.name,
-            rateUsdtBrl: swapRates.rateUsdtBrl,
+            amountUsdt: swapRates.amountUsdt.toFixed(2),
+            rateUsdtBrl: swapRates.rateUsdtBrl.toFixed(2),
             loading: false,
           },
         }));
@@ -104,7 +107,7 @@ export default function Send() {
         setSendPixState((prevState) => ({ ...prevState, loading: false }));
       }
     },
-    [setSendPixState, sendPixState.amount, sendPixState.pixKey]
+    [setSendPixState, sendPixState.amountBrl, sendPixState.pixKey]
   );
 
   useEffect(() => {
