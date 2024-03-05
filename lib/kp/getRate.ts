@@ -20,8 +20,6 @@ async function getRate(
   type: kpRateType,
   amount: number
 ): Promise<kpRateResponse> {
-  console.log('🚀 ~ getRate ~ pair, type, amount:', pair, type, amount);
-
   try {
     // TODO: Validate and sanitize inputs
     // Example: Ensure pair and type match expected formats and amount is a valid number
@@ -40,7 +38,7 @@ async function getRate(
     // });
 
     // TODO: clean mock response
-    const rateUsdtBrl = 5;
+    const rateUsdtBrl = 4.63;
     const response: kpRateResponse = {
       status_code: 200,
       msg: 'Request ok',
@@ -56,7 +54,6 @@ async function getRate(
     // Assuming httpClient handles non-200 responses by throwing an error, so no need for status check here.
     return response;
   } catch (err) {
-    console.error('🚀 ~ getRate ~ err:', err); // TODO: improve error logs
     let errorMessage = 'Error getting the pair rate';
     if (err instanceof Error) {
       errorMessage += `: ${err.message}`;

@@ -4,7 +4,7 @@ export type CurrencyValue = number | string;
 
 const getCurrencyOpt = (amount: CurrencyValue) => {
   const amountSafe = typeof amount === 'number' ? amount.toFixed(2) : amount;
-  console.log("🚀 ~ getCurrencyOpt ~ amountSafe:", amount, amountSafe)
+  console.log('🚀 ~ getCurrencyOpt ~ amountSafe:', amount, amountSafe);
   const decimal = amountSafe.includes(',') ? ',' : '.';
   return { decimal };
 };
@@ -27,6 +27,6 @@ export const BRL = (value: CurrencyValue) => {
     symbol: 'R$ ',
     precision: 2,
     decimal: currencyOpt.decimal,
-    // separator: '.',
+    separator: '.',
   });
 };

@@ -1,6 +1,5 @@
 'use server';
 
-import currency from 'currency.js';
 import { rangeDelay } from 'delay';
 
 import getRate from '@/lib/kp/getRate';
