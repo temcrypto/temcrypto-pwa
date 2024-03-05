@@ -15,7 +15,7 @@ type SendPixState = {
   reformatedPixKey: string;
   amountBrl: string;
   amountUsdt: string;
-  rateUsdtBrl: string;
+  rateUsdtBrl: number;
   loading: boolean;
   sending: boolean;
 };
@@ -42,7 +42,7 @@ export function SendPixProvider({ children }: { children: ReactNode }) {
     reformatedPixKey: '',
     amountBrl: '',
     amountUsdt: '',
-    rateUsdtBrl: '',
+    rateUsdtBrl: 0,
     loading: false, // Loading Pix Key data from API
     sending: false, // Sending payment info
   };

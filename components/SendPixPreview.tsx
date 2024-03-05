@@ -4,6 +4,8 @@ import toast from 'react-hot-toast';
 import { rangeDelay } from 'delay';
 
 import { useSendPixContext } from '@/context/SendPixContext';
+import AmountUSDT from './AmountUSDT';
+import AmountBRL from './AmountBRL';
 
 interface SendPixPreviewProps {
   isOpen: boolean;
@@ -76,9 +78,11 @@ const SendPixPreview = ({
                   Amount
                 </span>
                 <p className="dark:text-white break-words">
-                  <span>R$ {sendPixState.amountBrl}</span>
+                  <span>
+                    <AmountBRL amount={sendPixState.amountBrl} />
+                  </span>
                   <span className="pl-1 text-sm text-slate-300">
-                    ({sendPixState.amountUsdt} USDT)
+                    (<AmountUSDT amount={sendPixState.amountUsdt} />)
                   </span>
                 </p>
               </div>
@@ -88,7 +92,8 @@ const SendPixPreview = ({
                   Rate
                 </span>
                 <p className="dark:text-white break-words">
-                  1 USDT = R$ {sendPixState.rateUsdtBrl}
+                  <AmountUSDT amount="1" /> ={' '}
+                  <AmountBRL amount={sendPixState.rateUsdtBrl} />
                 </p>
               </div>
             </div>

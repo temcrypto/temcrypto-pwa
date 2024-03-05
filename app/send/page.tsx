@@ -12,6 +12,7 @@ import QRCodeScanner from '@/components/QRCodeScanner';
 import SendPixForm from '@/components/SendPixForm';
 import SendPixPreview from '@/components/SendPixPreview';
 import { useSendPixContext } from '@/context/SendPixContext';
+import { BRL, USDT } from '@/lib/currency';
 
 export default function Send() {
   const [openQrScanner, setOpenQrScanner] = useState(false);
@@ -33,12 +34,12 @@ export default function Send() {
 
           let amountRateObj = {};
           if (pixKeyData.amount) {
-            const swapRates = await getSwapRate(Number(pixKeyData.amount));
+            const swapRates = await getSwapRate(pixKeyData.amount);
             console.log('🚀 ~ swapRates:', swapRates);
             amountRateObj = {
-              amountBrl: pixKeyData.amount,
-              amountUsdt: swapRates.amountUsdt.toFixed(2),
-              rateUsdtBrl: swapRates.rateUsdtBrl.toFixed(2),
+              amountBrl: BRL(pixKeyData.amount).value,
+              amountUsdt: USDT(swapRates.amountUsdt).value,
+              rateUsdtBrl: swapRates.rateUsdtBrl,
               // timeout: swapRates.timeout,
             };
           }
@@ -84,7 +85,7 @@ export default function Send() {
         const pixKeyData = await fetchPixKeyData(sendPixState.pixKey);
         console.log('🚀 ~ handleFormSubmit ~ pixKeyData:', pixKeyData);
 
-        const swapRates = await getSwapRate(Number(sendPixState.amountBrl));
+        const swapRates = await getSwapRate(sendPixState.amountBrl);
         console.log('🚀 ~ swapRates:', swapRates);
 
         // TODO: remove test delay
@@ -95,8 +96,8 @@ export default function Send() {
           ...{
             name: pixKeyData.name,
             reformatedPixKey: pixKeyData.reformatedPixKey,
-            amountUsdt: swapRates.amountUsdt.toFixed(2),
-            rateUsdtBrl: swapRates.rateUsdtBrl.toFixed(2),
+            amountUsdt: USDT(swapRates.amountUsdt).toString(),
+            rateUsdtBrl: swapRates.rateUsdtBrl,
             loading: false,
           },
         }));
