@@ -72,11 +72,33 @@ const SendPixPreview = ({
               </p>
             </div>
 
-            <div className="flex space-x-4">
-              <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
-                <span className="text-sm text-slate-400 font-light uppercase">
-                  Amount
+            <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+              <div className="text-sm text-slate-400 font-light uppercase">
+                Amount
+              </div>
+              <p className="dark:text-white break-words">
+                <span>
+                  <AmountBRL amount={sendPixState.amountBrl} />
                 </span>
+                <span className="pl-1 text-sm text-slate-300">
+                  (<AmountUSDT amount={sendPixState.amountUsdt} />)
+                </span>
+              </p>
+
+              <div className="text-sm text-slate-400 font-light uppercase mt-4">
+                Rate
+              </div>
+              <p className="dark:text-white break-words">
+                <AmountUSDT amount="1" /> ={' '}
+                <AmountBRL amount={sendPixState.rateUsdtBrl} />
+              </p>
+            </div>
+
+            {/* <div className="flex space-x-4">
+              <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+                <div className="text-sm text-slate-400 font-light uppercase">
+                  Amount
+                </div>
                 <p className="dark:text-white break-words">
                   <span>
                     <AmountBRL amount={sendPixState.amountBrl} />
@@ -88,15 +110,15 @@ const SendPixPreview = ({
               </div>
 
               <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
-                <span className="text-sm text-slate-400 font-light uppercase">
+                <div className="text-sm text-slate-400 font-light uppercase">
                   Rate
-                </span>
+                </div>
                 <p className="dark:text-white break-words">
                   <AmountUSDT amount="1" /> ={' '}
                   <AmountBRL amount={sendPixState.rateUsdtBrl} />
                 </p>
               </div>
-            </div>
+            </div> */}
           </Sheet.Scroller>
 
           <button

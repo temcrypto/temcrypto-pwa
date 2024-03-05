@@ -86,7 +86,7 @@ export default function Send() {
         console.log('🚀 ~ handleFormSubmit ~ pixKeyData:', pixKeyData);
 
         const swapRates = await getSwapRate(sendPixState.amountBrl);
-        console.log('🚀 ~ swapRates:', swapRates);
+        console.log('🚀 ~ swapRates:', swapRates, sendPixState.amountBrl);
 
         // TODO: remove test delay
         await rangeDelay(1000, 5000);

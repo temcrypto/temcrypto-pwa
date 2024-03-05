@@ -1,7 +1,7 @@
-import { USDT } from '@/lib/currency';
+import { type CurrencyValue, USDT } from '@/lib/currency';
 
 interface USDTProps {
-  amount: number | string;
+  amount: CurrencyValue;
 }
 
 const AmountUSDT = ({ amount }: USDTProps) => {

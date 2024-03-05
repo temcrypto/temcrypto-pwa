@@ -1,7 +1,7 @@
-import { BRL } from '@/lib/currency';
+import { BRL, type CurrencyValue } from '@/lib/currency';
 
 interface BRLProps {
-  amount: number | string;
+  amount: CurrencyValue;
 }
 
 const AmountBRL = ({ amount }: BRLProps) => {

@@ -1,10 +1,11 @@
 'use server';
 
+import currency from 'currency.js';
 import { rangeDelay } from 'delay';
 
-import { BRL } from '@/lib/currency';
 import getRate from '@/lib/kp/getRate';
 import validatePixKey from '@/lib/kp/validatePixKey';
+import { BRL } from '@/lib/currency';
 
 // Submit Pix Payment data
 export async function submitPixPayment(formData: any) {
@@ -84,13 +85,13 @@ type SwapRate = {
 };
 
 export async function getSwapRate(amountBrl: string): Promise<SwapRate> {
-  const amountSafe = BRL(amountBrl).value;
-  const { data } = await getRate('BRLUSDT', 'charge', amountSafe);
+  const amountBrlSafe = BRL(amountBrl);
+  const { data } = await getRate('BRLUSDT', 'charge', amountBrlSafe.value);
 
   return {
-    amountBrl: amountSafe,
+    amountBrl: amountBrlSafe.value,
     amountUsdt: data.total_usdt,
-    rateUsdtBrl: amountSafe / data.total_usdt,
+    rateUsdtBrl: amountBrlSafe.divide(data.total_usdt).value,
     timeout: data.timeout,
   };
 }
