@@ -52,7 +52,7 @@ export default function App() {
           </ul>
           <Link
             href="/send"
-            className="flex justify-center items-center bg-pink-500 rounded-2xl py-5 px-4 text-center text-white text-xl"
+            className="flex justify-center items-center py-5 px-4 bg-pink-500 hover:bg-pink-600 active:bg-pink-700 rounded-2xl text-white text-xl"
           >
             Send
           </Link>
@@ -99,7 +99,7 @@ export default function App() {
           </ul>
           <Link
             href={'/receive'}
-            className="flex justify-center items-center bg-pink-500 rounded-2xl py-5 px-4 text-center text-white text-xl"
+            className="flex justify-center items-center py-5 px-4 bg-pink-500 hover:bg-pink-600 active:bg-pink-700 rounded-2xl text-white text-xl"
           >
             Receive
           </Link>
