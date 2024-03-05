@@ -94,6 +94,7 @@ export default function Send() {
           ...prevState,
           ...{
             name: pixKeyData.name,
+            reformatedPixKey: pixKeyData.reformatedPixKey,
             amountUsdt: swapRates.amountUsdt.toFixed(2),
             rateUsdtBrl: swapRates.rateUsdtBrl.toFixed(2),
             loading: false,

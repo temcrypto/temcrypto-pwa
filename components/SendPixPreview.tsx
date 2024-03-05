@@ -32,7 +32,7 @@ const SendPixPreview = ({
   }, [setSendPixState]);
 
   const handleClose = useCallback(() => {
-    console.log('🚀 ~ handleClose ~ handleClose:');
+    console.log('🚀 ~ SendPixPreview handleClose ~ handleClose:');
     if (onClose) {
       onClose();
     }
