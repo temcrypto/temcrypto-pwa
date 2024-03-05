@@ -12,8 +12,8 @@ export default function App() {
         className="flex flex-col space-y-8 justify-between items-center sm:flex-row sm:space-y-0 sm:space-x-8"
       >
         <div className="w-full p-8 shadow-xl rounded-2xl bg-slate-700 text-gray-400">
-          <div className="mb-8 pb-8 flex items-center border-b border-gray-600">
-            <div className="flex rounded-2xl w-16 h-16 bg-pink-500 items-center justify-center text-3xl text-white">
+          <div className="mb-8 flex items-center">
+            <div className="flex rounded-2xl w-16 h-16 bg-white items-center justify-center text-3xl text-[#009393]">
               {/* <LuUpload /> */}
               <SiTether />
             </div>
@@ -59,8 +59,8 @@ export default function App() {
         </div>
 
         <div className="w-full p-8 bg-white shadow-xl rounded-2xl">
-          <div className="mb-8 pb-8 flex items-center border-b border-gray-300">
-            <div className="flex rounded-2xl w-16 h-16 bg-pink-500 items-center justify-center text-3xl text-white">
+          <div className="mb-8 flex items-center">
+            <div className="flex rounded-2xl w-16 h-16 bg-white items-center justify-center text-3xl text-[#32BCAD] border border-[#32BCAD]">
               {/* <LuDownload /> */}
               <FaPix />
             </div>
