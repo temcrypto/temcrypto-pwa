@@ -87,7 +87,7 @@ const QRCodeScanner = ({
                 aspectRatio: 1,
                 facingMode: 'environment',
               }}
-              scanDelay={250}
+              scanDelay={500}
               onResult={handleResult}
               ViewFinder={() => (
                 <div
