@@ -4,7 +4,6 @@ import { rangeDelay } from 'delay';
 
 import getRate from '@/lib/kp/getRate';
 import validatePixKey from '@/lib/kp/validatePixKey';
-import { BRL } from '@/lib/currency';
 import currency from 'currency.js';
 
 // Submit Pix Payment data
