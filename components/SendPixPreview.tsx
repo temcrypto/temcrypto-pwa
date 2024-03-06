@@ -18,20 +18,8 @@ const SendPixPreview = ({
   sheetRootId,
   onClose,
 }: SendPixPreviewProps) => {
-  const { sendPixState, setSendPixState } = useSendPixContext();
-
-  const handleSumbit = useCallback(async () => {
-    try {
-      console.log('🚀 ~ handleSumbit ~ handleSumbit:');
-      setSendPixState((prevState) => ({ ...prevState, sending: true }));
-      await rangeDelay(1000, 5000);
-    } catch (err) {
-      console.log('🚀 ~ handleSumbit ~ err:', err);
-    } finally {
-      setSendPixState((prevState) => ({ ...prevState, sending: false }));
-      toast.success('Send successfully!');
-    }
-  }, [setSendPixState]);
+  const { sendPixState, setSendPixState, resetSendPixState } =
+    useSendPixContext();
 
   const handleClose = useCallback(() => {
     console.log('🚀 ~ SendPixPreview handleClose ~ handleClose:');
@@ -39,6 +27,21 @@ const SendPixPreview = ({
       onClose();
     }
   }, [onClose]);
+
+  const handleSumbit = useCallback(async () => {
+    try {
+      console.log('🚀 ~ handleSumbit ~ handleSumbit:');
+      setSendPixState((prevState) => ({ ...prevState, sending: true }));
+      await rangeDelay(1000, 5000);
+      toast.success('Send successfully!');
+      handleClose();
+    } catch (err) {
+      console.log('🚀 ~ handleSumbit ~ err:', err);
+    } finally {
+      // setSendPixState((prevState) => ({ ...prevState, sending: false }));
+      resetSendPixState();
+    }
+  }, [setSendPixState, handleClose, resetSendPixState]);
 
   return (
     <Sheet
@@ -78,10 +81,10 @@ const SendPixPreview = ({
               </div>
               <p className="dark:text-white break-words">
                 <span>
-                  <AmountBRL amount={sendPixState.amountBrl} />
+                  <AmountBRL amount={sendPixState.amountBrl as number} />
                 </span>
                 <span className="pl-1 text-sm text-slate-300">
-                  (<AmountUSDT amount={sendPixState.amountUsdt} />)
+                  (<AmountUSDT amount={sendPixState.amountUsdt as number} />)
                 </span>
               </p>
 
@@ -89,8 +92,8 @@ const SendPixPreview = ({
                 Rate
               </div>
               <p className="dark:text-white break-words">
-                <AmountUSDT amount="1" /> ={' '}
-                <AmountBRL amount={sendPixState.rateUsdtBrl} />
+                <AmountUSDT amount={1} /> ={' '}
+                <AmountBRL amount={sendPixState.rateUsdtBrl as number} />
               </p>
             </div>
 

@@ -1,11 +1,21 @@
-import { type CurrencyValue, USDT } from '@/lib/currency';
+import currency from 'currency.js';
 
 interface USDTProps {
-  amount: CurrencyValue;
+  amount: number;
 }
 
 const AmountUSDT = ({ amount }: USDTProps) => {
-  return <>{USDT(amount).format()}</>;
+  return (
+    <>
+      {currency(amount).format({
+        symbol: 'USDT',
+        precision: 2,
+        pattern: `# !`,
+        decimal: '.',
+        separator: ',',
+      })}
+    </>
+  );
 };
 
 export default AmountUSDT;

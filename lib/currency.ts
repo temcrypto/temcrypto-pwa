@@ -11,6 +11,7 @@ const getCurrencyOpt = (amount: CurrencyValue) => {
 
 export const USDT = (value: CurrencyValue) => {
   const currencyOpt = getCurrencyOpt(value);
+  console.log('🚀 ~ USDT ~ currencyOpt:', value, currencyOpt);
   return currency(value, {
     symbol: 'USDT',
     precision: 2,

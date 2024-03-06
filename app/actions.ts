@@ -5,6 +5,7 @@ import { rangeDelay } from 'delay';
 import getRate from '@/lib/kp/getRate';
 import validatePixKey from '@/lib/kp/validatePixKey';
 import { BRL } from '@/lib/currency';
+import currency from 'currency.js';
 
 // Submit Pix Payment data
 export async function submitPixPayment(formData: any) {
@@ -32,7 +33,7 @@ type PixKeyData = {
   name: string;
   pixKey: string;
   reformatedPixKey: string;
-  amount?: string;
+  amount?: number;
 };
 
 /**
@@ -58,7 +59,7 @@ export async function fetchPixKeyData(pixKey: string): Promise<PixKeyData> {
       name: pixData.name,
       pixKey: pixKey,
       reformatedPixKey: pixData.reformated_key,
-      amount: (Math.random() * (500 - 5) + 5).toFixed(2),
+      amount: Math.random() * (500 - 5) + 5,
     };
   } catch (err) {
     console.error('🚀 ~ fetchPixKeyData ~ err:', err);
@@ -83,14 +84,13 @@ type SwapRate = {
   timeout: number;
 };
 
-export async function getSwapRate(amountBrl: string): Promise<SwapRate> {
-  const amountBrlSafe = BRL(amountBrl);
-  const { data } = await getRate('BRLUSDT', 'charge', amountBrlSafe.value);
+export async function getSwapRate(amountBrl: number): Promise<SwapRate> {
+  const { data } = await getRate('BRLUSDT', 'charge', amountBrl);
 
   return {
-    amountBrl: amountBrlSafe.value,
+    amountBrl: amountBrl,
     amountUsdt: data.total_usdt,
-    rateUsdtBrl: amountBrlSafe.divide(data.total_usdt).value,
+    rateUsdtBrl: currency(amountBrl).divide(data.total_usdt).value,
     timeout: data.timeout,
   };
 }

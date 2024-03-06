@@ -6,6 +6,7 @@ import {
   useContext,
   useMemo,
   type ReactNode,
+  useCallback,
 } from 'react';
 
 // Define a type for the state and another for the context which includes both the state and the functions to update it.
@@ -13,9 +14,9 @@ type SendPixState = {
   name: string;
   pixKey: string;
   reformatedPixKey: string;
-  amountBrl: string;
-  amountUsdt: string;
-  rateUsdtBrl: number;
+  amountBrl?: number;
+  amountUsdt?: number;
+  rateUsdtBrl?: number;
   loading: boolean;
   sending: boolean;
 };
@@ -23,6 +24,7 @@ type SendPixState = {
 type SendPixContextType = {
   sendPixState: SendPixState;
   setSendPixState: React.Dispatch<React.SetStateAction<SendPixState>>;
+  resetSendPixState: () => void;
 };
 
 // Create the context with a more descriptive and type-safe initial value.
@@ -36,23 +38,30 @@ export const SendPixContext = createContext<SendPixContextType | undefined>(
  * @param {ReactNode} children - The children components that will consume the context.
  */
 export function SendPixProvider({ children }: { children: ReactNode }) {
-  const initialState: SendPixState = {
-    name: '',
-    pixKey: '',
-    reformatedPixKey: '',
-    amountBrl: '',
-    amountUsdt: '',
-    rateUsdtBrl: 0,
-    loading: false, // Loading Pix Key data from API
-    sending: false, // Sending payment info
-  };
+  const initialState: SendPixState = useMemo(
+    () => ({
+      name: '',
+      pixKey: '',
+      reformatedPixKey: '',
+      amountBrl: undefined,
+      amountUsdt: undefined,
+      rateUsdtBrl: undefined,
+      loading: false, // Loading Pix Key data from API
+      sending: false, // Sending payment info
+    }),
+    []
+  );
 
   const [sendPixState, setSendPixState] = useState<SendPixState>(initialState);
 
+  const resetSendPixState = useCallback(() => {
+    setSendPixState(initialState);
+  }, [initialState]);
+
   // Use useMemo to optimize performance and avoid unnecessary re-renders of the context consumers.
   const value = useMemo(
-    () => ({ sendPixState, setSendPixState }),
-    [sendPixState]
+    () => ({ sendPixState, setSendPixState, resetSendPixState }),
+    [sendPixState, resetSendPixState]
   );
 
   return (

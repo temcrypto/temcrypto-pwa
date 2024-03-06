@@ -1,11 +1,19 @@
-import { BRL, type CurrencyValue } from '@/lib/currency';
+import currency from 'currency.js';
 
 interface BRLProps {
-  amount: CurrencyValue;
+  amount: number;
 }
 
 const AmountBRL = ({ amount }: BRLProps) => {
-  return <>{BRL(amount).format()}</>;
+  const amountStr = currency(amount).format({
+    symbol: 'R$ ',
+    precision: 2,
+    decimal: ',',
+    separator: '.',
+  });
+  console.log('🚀 ~ amountStr ~ amountStr:', amountStr, amount);
+
+  return <>{amountStr}</>;
 };
 
 export default AmountBRL;

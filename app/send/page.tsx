@@ -12,12 +12,11 @@ import QRCodeScanner from '@/components/QRCodeScanner';
 import SendPixForm from '@/components/SendPixForm';
 import SendPixPreview from '@/components/SendPixPreview';
 import { useSendPixContext } from '@/context/SendPixContext';
-import { BRL, USDT } from '@/lib/currency';
 
 export default function Send() {
   const [openQrScanner, setOpenQrScanner] = useState(false);
   const [openPreview, setOpenPreview] = useState(false);
-  const { sendPixState, setSendPixState } = useSendPixContext();
+  const { sendPixState, setSendPixState, resetSendPixState } = useSendPixContext();
 
   // QRCodeScanner helpers
   const handleQrScan = useCallback(
@@ -34,11 +33,12 @@ export default function Send() {
 
           let amountRateObj = {};
           if (pixKeyData.amount) {
-            const swapRates = await getSwapRate(pixKeyData.amount);
+            const swapRates = await getSwapRate(pixKeyData.amount); // TODO: Validate and format the amount from KP
             console.log('🚀 ~ swapRates:', swapRates);
+
             amountRateObj = {
-              amountBrl: BRL(pixKeyData.amount).value,
-              amountUsdt: USDT(swapRates.amountUsdt).value,
+              amountBrl: pixKeyData.amount,
+              amountUsdt: swapRates.amountUsdt,
               rateUsdtBrl: swapRates.rateUsdtBrl,
               // timeout: swapRates.timeout,
             };
@@ -85,8 +85,16 @@ export default function Send() {
         const pixKeyData = await fetchPixKeyData(sendPixState.pixKey);
         console.log('🚀 ~ handleFormSubmit ~ pixKeyData:', pixKeyData);
 
-        const swapRates = await getSwapRate(sendPixState.amountBrl);
-        console.log('🚀 ~ swapRates:', swapRates, sendPixState.amountBrl);
+        const amountSafe = sendPixState.amountBrl
+          ?.toString()
+          .replace(',', '.') as string;
+        const swapRates = await getSwapRate(parseFloat(amountSafe)); // TODO: check types
+        console.log(
+          '🚀 ~ swapRates:',
+          swapRates,
+          sendPixState.amountBrl,
+          amountSafe
+        );
 
         // TODO: remove test delay
         await rangeDelay(1000, 5000);
@@ -96,7 +104,8 @@ export default function Send() {
           ...{
             name: pixKeyData.name,
             reformatedPixKey: pixKeyData.reformatedPixKey,
-            amountUsdt: USDT(swapRates.amountUsdt).toString(),
+            amountBrl: swapRates.amountBrl,
+            amountUsdt: swapRates.amountUsdt,
             rateUsdtBrl: swapRates.rateUsdtBrl,
             loading: false,
           },
