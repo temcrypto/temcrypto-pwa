@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useCallback, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import { LuQrCode } from 'react-icons/lu';
 import { rangeDelay } from 'delay';
@@ -61,7 +61,7 @@ export default function Send() {
           }
         }
       } catch (err) {
-        console.log('🚀 ~ handleQrScan ~ err:', err);
+        console.error('handleQrScan ~ err:', err);
         toast.error("Can't fetch the Pix Key data. Plase try again."); // TODO: Improve UI error messages
       } finally {
         setOpenQrScanner(false);
@@ -115,7 +115,7 @@ export default function Send() {
 
         setOpenPreview(true);
       } catch (err) {
-        console.log('🚀 ~ Send ~ handleFormSubmit error:', err);
+        console.error('handleFormSubmit error:', err);
         toast.error("Can't submit the form. Please try again.");
       } finally {
         setSendPixState((prevState) => ({ ...prevState, loading: false }));
@@ -123,10 +123,6 @@ export default function Send() {
     },
     [setSendPixState, sendPixState.amountBrl, sendPixState.pixKey]
   );
-
-  useEffect(() => {
-    console.log('🚀 ~ openQrScanner changed:', openQrScanner);
-  }, [openQrScanner]);
 
   return (
     <PageWrapper>
@@ -159,7 +155,6 @@ export default function Send() {
           onScan={handleQrScan}
           onError={handleQrError}
           onClose={() => {
-            console.log('🚀 ~ Send ~ QRCodeScanner onClose');
             setOpenQrScanner(false);
           }}
         />
@@ -167,13 +162,11 @@ export default function Send() {
         <SendPixPreview
           isOpen={openPreview}
           sheetRootId="layout-app"
-          onSubmit={(data) => {
-            console.log('🚀 ~ Send ~ SendPixPreview onSubmit:', data);
+          onSubmit={() => {
             resetSendPixState();
             setOpenPreview(false);
           }}
           onClose={() => {
-            console.log('🚀 ~ Send ~ SendPixPreview onClose');
             setOpenPreview(false);
           }}
         />

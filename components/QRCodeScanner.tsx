@@ -23,7 +23,6 @@ const QRCodeScanner = ({
   // Component events handlers
   const handleClose = useCallback(() => {
     if (onClose) {
-      console.log('🚀 ~ handleClose ~ onClose:', onClose);
       onClose();
     }
   }, [onClose]);
