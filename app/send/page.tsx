@@ -151,7 +151,7 @@ export default function Send() {
         {/* Bottom Sheets */}
         <QRCodeScanner
           isOpen={openQrScanner}
-          sheetRootId="layout-app"
+          // sheetRootId="layout-app"
           onScan={handleQrScan}
           onError={handleQrError}
           onClose={() => {
@@ -161,7 +161,7 @@ export default function Send() {
 
         <SendPixPreview
           isOpen={openPreview}
-          sheetRootId="layout-app"
+          // sheetRootId="layout-app"
           onSubmit={() => {
             resetSendPixState();
             setOpenPreview(false);
