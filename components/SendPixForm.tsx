@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, useCallback, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 
 import { useSendPixContext } from '@/context/SendPixContext';
 
@@ -23,12 +23,13 @@ const amountRegex =
   /^(?:[5-9]|[1-9]\d|[1-4]\d{2})(?:[.,]\d{1,2})?$|^(500)(?:[.,]0{1,2})?$/;
 
 interface SendPixFormProps {
-  onSubmit: (data: any) => void; // Consider defining a more specific type for the data.
+  onSubmit: (data: any) => void; // TODO: Consider defining a more specific type for the data.
 }
 
 const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
   const [amountAutoFocus, setAmountAutoFocus] = useState(false);
   const [canSubmit, setCanSubmit] = useState(false);
+  const [formattedAmount, setFormattedAmount] = useState('');
   const { sendPixState, setSendPixState } = useSendPixContext();
 
   // Update PixKey in context
@@ -54,11 +55,24 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
     (e: ChangeEvent<HTMLInputElement>) => {
       const inputValue = e.target.value;
       const isValid = amountRegex.test(inputValue);
-      setSendPixState((prevState) => ({ ...prevState, amountBrl: inputValue }));
+      const amountWithPeriod = inputValue.replace(',', '.');
+      const amountSafe = parseFloat(amountWithPeriod);
+
+      setFormattedAmount(inputValue); // Update the formatted amount state
+      setSendPixState((prevState) => ({
+        ...prevState,
+        amountBrl: isNaN(amountSafe) ? 0 : amountSafe,
+      }));
       setCanSubmit(isValid);
     },
     [setSendPixState]
   );
+
+  useEffect(() => {
+    if (!sendPixState.amountBrl) {
+      setFormattedAmount('');
+    }
+  }, [sendPixState.amountBrl]);
 
   return (
     <form onSubmit={onSubmit} className="mt-20">
@@ -77,9 +91,9 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
       <AmountInput
         id="amount"
         name="amount"
-        aria-label="Enter the transaction amount between 5.00 and 500.00"
-        placeholder="5.00 - 500.00"
-        value={sendPixState.amountBrl}
+        aria-label="Enter the transaction amount between 5,00 and 500,00"
+        placeholder="5,00 - 500,00"
+        value={formattedAmount}
         onChange={handleAmountChange}
         required={true}
         pattern={amountRegex.source}

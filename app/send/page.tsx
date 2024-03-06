@@ -16,7 +16,8 @@ import { useSendPixContext } from '@/context/SendPixContext';
 export default function Send() {
   const [openQrScanner, setOpenQrScanner] = useState(false);
   const [openPreview, setOpenPreview] = useState(false);
-  const { sendPixState, setSendPixState, resetSendPixState } = useSendPixContext();
+  const { sendPixState, setSendPixState, resetSendPixState } =
+    useSendPixContext();
 
   // QRCodeScanner helpers
   const handleQrScan = useCallback(
@@ -61,7 +62,7 @@ export default function Send() {
         }
       } catch (err) {
         console.log('🚀 ~ handleQrScan ~ err:', err);
-        toast.error("Can't fetch the Pix Key data. Try again please."); // TODO: Improve UI error messages
+        toast.error("Can't fetch the Pix Key data. Plase try again."); // TODO: Improve UI error messages
       } finally {
         setOpenQrScanner(false);
         console.log('🚀 ~ setOpenQrScanner: finally', openQrScanner);
@@ -71,29 +72,30 @@ export default function Send() {
   );
 
   const handleQrError = useCallback(() => {
-    toast.error("Can't opening the camera. Check permissions.");
+    toast.error("Can't open the camera. Check permissions.");
   }, []);
 
   // Form helpers
   const handleFormSubmit = useCallback(
     async (e: FormEvent) => {
-      console.log('🚀 ~ Send ~ handleFormSubmit:', e);
       try {
         e.preventDefault(); // Prevent default form submission
         setSendPixState((prevState) => ({ ...prevState, loading: true }));
 
-        const pixKeyData = await fetchPixKeyData(sendPixState.pixKey);
-        console.log('🚀 ~ handleFormSubmit ~ pixKeyData:', pixKeyData);
+        if (!sendPixState.pixKey || !sendPixState.amountBrl) {
+          throw new Error('Invalid pixKey or amountBrl');
+        }
 
-        const amountSafe = sendPixState.amountBrl
-          ?.toString()
-          .replace(',', '.') as string;
-        const swapRates = await getSwapRate(parseFloat(amountSafe)); // TODO: check types
+        const [pixKeyData, swapRates] = await Promise.all([
+          fetchPixKeyData(sendPixState.pixKey),
+          getSwapRate(sendPixState.amountBrl),
+        ]);
+
+        console.log('🚀 ~ handleFormSubmit ~ pixKeyData:', pixKeyData);
         console.log(
-          '🚀 ~ swapRates:',
+          '🚀 ~ handleFormSubmit ~ swapRates:',
           swapRates,
-          sendPixState.amountBrl,
-          amountSafe
+          sendPixState.amountBrl
         );
 
         // TODO: remove test delay
@@ -114,6 +116,7 @@ export default function Send() {
         setOpenPreview(true);
       } catch (err) {
         console.log('🚀 ~ Send ~ handleFormSubmit error:', err);
+        toast.error("Can't submit the form. Please try again.");
       } finally {
         setSendPixState((prevState) => ({ ...prevState, loading: false }));
       }
@@ -135,7 +138,8 @@ export default function Send() {
 
         <button
           type="button"
-          className="flex items-center justify-center w-full bg-pink-500 hover:bg-pink-600 active:bg-pink-700 rounded-2xl p-4 text-center text-white text-xl mt-8 cursor-pointer"
+          className="flex items-center justify-center transition ease-in-out w-full rounded-2xl p-4 mt-8 text-xl text-white bg-pink-500 ring ring-pink-500 active:bg-pink-700 active:ring-pink-700 hover:bg-pink-600 hover:ring-pink-600 disabled:text-slate-400 disabled:bg-slate-300 disabled:ring-slate-300 cursor-pointer disabled:cursor-not-allowed"
+          disabled={sendPixState.loading || sendPixState.sending}
           onClick={() => {
             setOpenQrScanner(true);
           }}
@@ -155,7 +159,7 @@ export default function Send() {
           onScan={handleQrScan}
           onError={handleQrError}
           onClose={() => {
-            console.log('🚀 ~ Send ~ QRCodeScanner onClose:');
+            console.log('🚀 ~ Send ~ QRCodeScanner onClose');
             setOpenQrScanner(false);
           }}
         />
@@ -163,8 +167,13 @@ export default function Send() {
         <SendPixPreview
           isOpen={openPreview}
           sheetRootId="layout-app"
+          onSubmit={(data) => {
+            console.log('🚀 ~ Send ~ SendPixPreview onSubmit:', data);
+            resetSendPixState();
+            setOpenPreview(false);
+          }}
           onClose={() => {
-            console.log('🚀 ~ Send ~ SendPixPreview onClose:');
+            console.log('🚀 ~ Send ~ SendPixPreview onClose');
             setOpenPreview(false);
           }}
         />

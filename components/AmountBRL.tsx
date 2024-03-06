@@ -5,15 +5,17 @@ interface BRLProps {
 }
 
 const AmountBRL = ({ amount }: BRLProps) => {
-  const amountStr = currency(amount).format({
-    symbol: 'R$ ',
-    precision: 2,
-    decimal: ',',
-    separator: '.',
-  });
-  console.log('🚀 ~ amountStr ~ amountStr:', amountStr, amount);
-
-  return <>{amountStr}</>;
+  return (
+    <>
+      {currency(amount).format({
+        symbol: 'R$ ',
+        precision: 2,
+        pattern: `! #`,
+        decimal: ',',
+        separator: '.',
+      })}
+    </>
+  );
 };
 
 export default AmountBRL;

@@ -10,42 +10,47 @@ import AmountBRL from './AmountBRL';
 interface SendPixPreviewProps {
   isOpen: boolean;
   sheetRootId?: string;
+  onSubmit: (data: any) => void; // TODO: Consider defining a more specific type for the data.
   onClose?: () => void;
 }
 
 const SendPixPreview = ({
   isOpen = false,
   sheetRootId,
+  onSubmit,
   onClose,
 }: SendPixPreviewProps) => {
-  const { sendPixState, setSendPixState, resetSendPixState } =
-    useSendPixContext();
+  const { sendPixState, setSendPixState } = useSendPixContext();
+
+  const handleSubmit = useCallback(
+    (data: any) => {
+      if (onSubmit) {
+        onSubmit(data);
+      }
+    },
+    [onSubmit]
+  );
 
   const handleClose = useCallback(() => {
-    console.log('🚀 ~ SendPixPreview handleClose ~ handleClose:');
     if (onClose) {
       onClose();
     }
   }, [onClose]);
 
   const handleSumbit = useCallback(async () => {
-    try {
-      console.log('🚀 ~ handleSumbit ~ handleSumbit:');
-      setSendPixState((prevState) => ({ ...prevState, sending: true }));
-      await rangeDelay(1000, 5000);
-      toast.success('Send successfully!');
-      handleClose();
-    } catch (err) {
-      console.log('🚀 ~ handleSumbit ~ err:', err);
-    } finally {
-      // setSendPixState((prevState) => ({ ...prevState, sending: false }));
-      resetSendPixState();
-    }
-  }, [setSendPixState, handleClose, resetSendPixState]);
+    setSendPixState((prevState) => ({ ...prevState, sending: true }));
+
+    // Here should handle the send payment action
+
+    await rangeDelay(1000, 5000); // TODO: remove test delay
+    toast.success('Send successfully!'); // TODO: retirect to success page/modal
+    handleSubmit({ status: 'ok' });
+  }, [setSendPixState, handleSubmit]);
 
   return (
     <Sheet
       isOpen={sendPixState.sending || isOpen}
+      disableDrag={sendPixState.sending}
       onClose={handleClose}
       detent="content-height"
       rootId={sheetRootId}
@@ -96,32 +101,6 @@ const SendPixPreview = ({
                 <AmountBRL amount={sendPixState.rateUsdtBrl as number} />
               </p>
             </div>
-
-            {/* <div className="flex space-x-4">
-              <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
-                <div className="text-sm text-slate-400 font-light uppercase">
-                  Amount
-                </div>
-                <p className="dark:text-white break-words">
-                  <span>
-                    <AmountBRL amount={sendPixState.amountBrl} />
-                  </span>
-                  <span className="pl-1 text-sm text-slate-300">
-                    (<AmountUSDT amount={sendPixState.amountUsdt} />)
-                  </span>
-                </p>
-              </div>
-
-              <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
-                <div className="text-sm text-slate-400 font-light uppercase">
-                  Rate
-                </div>
-                <p className="dark:text-white break-words">
-                  <AmountUSDT amount="1" /> ={' '}
-                  <AmountBRL amount={sendPixState.rateUsdtBrl} />
-                </p>
-              </div>
-            </div> */}
           </Sheet.Scroller>
 
           <button
@@ -135,7 +114,7 @@ const SendPixPreview = ({
           </button>
           <button
             type="button"
-            className="flex items-center justify-center w-full p-4 mt-4 text-center cursor-pointer"
+            className="flex items-center justify-center w-full p-4 mt-4 text-center cursor-pointer disabled:cursor-not-allowed"
             onClick={handleClose}
             disabled={sendPixState.sending}
           >
