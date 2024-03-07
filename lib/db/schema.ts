@@ -1,4 +1,4 @@
-import { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, sql } from 'drizzle-orm';
 import {
   index,
   numeric,
@@ -18,7 +18,7 @@ export const users = pgTable('users', {
 });
 
 // Enums
-export const statusEnum = pgEnum('status', [
+export const txStatusEnum = pgEnum('tx_status', [
   // INFO: Replicate KP statuses
   'mined',
   'dropped',
@@ -26,7 +26,7 @@ export const statusEnum = pgEnum('status', [
   'done',
   'failed',
 ]);
-export const typeEnum = pgEnum('type', ['pay', 'charge']);
+export const txTypeEnum = pgEnum('tx_type', ['pay', 'charge']);
 
 export const transactions = pgTable(
   'transactions',
@@ -35,12 +35,12 @@ export const transactions = pgTable(
     userId: uuid('user_id')
       .notNull()
       .references(() => users.id),
-    status: statusEnum('status').notNull(),
-    type: typeEnum('type').notNull(),
+    status: txStatusEnum('status').notNull(),
+    type: txTypeEnum('type').notNull(),
     amount: numeric('amount').notNull(),
     pixName: text('pix_name').notNull(),
     pixKey: text('pix_key').notNull(),
-    pixKeyReformated: text('pix_key_reformated').notNull(),
+    pixKeyParsed: text('pix_key_parsed').notNull(),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at').notNull().defaultNow(),
   },

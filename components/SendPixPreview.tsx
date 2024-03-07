@@ -76,7 +76,7 @@ const SendPixPreview = ({
                 Chave Pix
               </div>
               <p className="dark:text-white break-words">
-                {sendPixState.reformatedPixKey}
+                {sendPixState.pixKeyParsed}
               </p>
             </div>
 

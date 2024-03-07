@@ -11,7 +11,7 @@ import PageWrapper from '@/components/PageWrapper';
 import QRCodeScanner from '@/components/QRCodeScanner';
 import SendPixForm from '@/components/SendPixForm';
 import SendPixPreview from '@/components/SendPixPreview';
-import { useSendPixContext } from '@/context/SendPixContext';
+import { SendPixState, useSendPixContext } from '@/context/SendPixContext';
 
 export default function Send() {
   const [openQrScanner, setOpenQrScanner] = useState(false);
@@ -47,16 +47,16 @@ export default function Send() {
 
           setSendPixState((prevState) => ({
             ...prevState,
-            ...{
+            ...({
               name: pixKeyData.name,
               pixKey: pixKeyData.pixKey,
-              reformatedPixKey: pixKeyData.reformatedPixKey,
-            },
-            ...amountRateObj,
+              pixKeyParsed: pixKeyData.pixKeyParsed,
+            } as SendPixState),
+            ...(amountRateObj as SendPixState),
           }));
 
           // Open preview sheet if we have all the necessary info
-          if (!!(pixKeyData.amount && pixKeyData.reformatedPixKey)) {
+          if (!!(pixKeyData.amount && pixKeyData.pixKeyParsed)) {
             setOpenPreview(true);
           }
         }
@@ -103,14 +103,14 @@ export default function Send() {
 
         setSendPixState((prevState) => ({
           ...prevState,
-          ...{
+          ...({
             name: pixKeyData.name,
-            reformatedPixKey: pixKeyData.reformatedPixKey,
+            pixKeyParsed: pixKeyData.pixKeyParsed,
             amountBrl: swapRates.amountBrl,
             amountUsdt: swapRates.amountUsdt,
             rateUsdtBrl: swapRates.rateUsdtBrl,
             loading: false,
-          },
+          } as SendPixState),
         }));
 
         setOpenPreview(true);

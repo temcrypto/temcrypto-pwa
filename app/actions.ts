@@ -31,7 +31,7 @@ export async function submitPixPayment(formData: any) {
 type PixKeyData = {
   name: string;
   pixKey: string;
-  reformatedPixKey: string;
+  pixKeyParsed: string;
   amount?: number;
 };
 
@@ -57,7 +57,7 @@ export async function fetchPixKeyData(pixKey: string): Promise<PixKeyData> {
     return {
       name: pixData.name,
       pixKey: pixKey,
-      reformatedPixKey: pixData.reformated_key,
+      pixKeyParsed: pixData.reformated_key,
       amount: Math.random() * (500 - 5) + 5,
     };
   } catch (err) {

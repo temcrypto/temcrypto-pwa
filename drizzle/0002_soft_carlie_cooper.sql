@@ -10,5 +10,5 @@ EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
-ALTER TABLE "transactions" ALTER COLUMN "status" SET DATA TYPE status;--> statement-breakpoint
+ALTER TABLE "transactions" ALTER COLUMN "status" TYPE status USING status::text::status;--> statement-breakpoint
 ALTER TABLE "transactions" ADD COLUMN "type" "type" NOT NULL;

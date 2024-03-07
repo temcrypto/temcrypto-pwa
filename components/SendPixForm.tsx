@@ -81,7 +81,7 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
         name="pixKey"
         aria-label="Enter Chave Pix such as CPF, CNPJ, phone number, or email"
         placeholder="CPF, phone number, email..."
-        value={sendPixState.reformatedPixKey || sendPixState.pixKey}
+        value={sendPixState.pixKeyParsed || sendPixState.pixKey}
         onChange={handlePixKeyChange}
         required={true}
         onClickPaste={handlePixKeyPaste}

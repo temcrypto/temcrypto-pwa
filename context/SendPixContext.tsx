@@ -10,10 +10,10 @@ import {
 } from 'react';
 
 // Define a type for the state and another for the context which includes both the state and the functions to update it.
-type SendPixState = {
+export type SendPixState = {
   name: string;
   pixKey: string;
-  reformatedPixKey: string;
+  pixKeyParsed: string;
   amountBrl?: number;
   amountUsdt?: number;
   rateUsdtBrl?: number;
@@ -42,7 +42,7 @@ export function SendPixProvider({ children }: { children: ReactNode }) {
     () => ({
       name: '',
       pixKey: '',
-      reformatedPixKey: '',
+      pixKeyParsed: '',
       amountBrl: undefined,
       amountUsdt: undefined,
       rateUsdtBrl: undefined,
