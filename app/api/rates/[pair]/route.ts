@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { db } from '@/lib/db';
+import db from '@/lib/db';
 import { users } from '@/lib/db/schema';
 import getRate from '@/lib/kp/getRate';
 import { type kpRatePair } from '@/lib/kp/types';
