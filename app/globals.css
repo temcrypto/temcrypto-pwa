@@ -22,7 +22,11 @@ html {
 }
 
 body {
-  @apply bg-white text-slate-800 dark:bg-slate-800 dark:text-white antialiased;
+  @apply bg-white text-slate-800 dark:bg-slate-800 dark:text-white antialiased select-none;
+  /* user-select: none;
+  -webkit-user-select: none; */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
 
 /* React Bottom Sheet */
