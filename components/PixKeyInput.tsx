@@ -18,7 +18,7 @@ const PixKeyInput = ({ onClickPaste, disabled, ...rest }: PixKeyInputProps) => {
       <div className="absolute inset-y-0 right-0 flex items-center pr-4">
         <button
           type="button"
-          className="text-pink-500 hover:text-pink-700 disabled:text-slate-400 text-base uppercase"
+          className="text-pink-500 hover:text-pink-700 disabled:text-slate-400 text-base uppercase z-50"
           onClick={onClickPaste}
           disabled={disabled}
         >
