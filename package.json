@@ -9,6 +9,8 @@
     "lint": "next lint",
     "db:generate": "drizzle-kit generate:pg",
     "db:push": "drizzle-kit push:pg",
+    "db:seed": "npx tsx lib/db/scripts/seed",
+    "db:migrate": "npx tsx lib/db/scripts/migrate",
     "db:studio": "drizzle-kit studio --port 3010 --verbose"
   },
   "dependencies": {

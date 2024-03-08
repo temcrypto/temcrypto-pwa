@@ -12,7 +12,7 @@ import {
 // Schemas
 export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
-  username: text('username').notNull(),
+  username: text('username').unique().notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });
@@ -38,6 +38,9 @@ export const transactions = pgTable(
     status: txStatusEnum('status').notNull(),
     type: txTypeEnum('type').notNull(),
     amount: numeric('amount').notNull(),
+    amountUsdt: numeric('amount_usdt').notNull(),
+    amountRate: numeric('amount_rate').notNull(),
+    currency: text('currency').notNull(),
     pixName: text('pix_name').notNull(),
     pixKey: text('pix_key').notNull(),
     pixKeyParsed: text('pix_key_parsed').notNull(),
