@@ -142,8 +142,8 @@ export default function Send() {
         amountRate: sendPixState.rateUsdtBrl!,
       };
 
-      toast.success('Payment sent successfully!'); // TODO: retirect to success page/modal
       await createPayment(newPayment);
+      toast.success('Payment sent successfully!'); // TODO: retirect to success page/modal
     } catch (err) {
       console.error('🚀 ~ handleConfirm ~ err:', err); // TODO: Improve logging
       toast.error('Falied to create payment. Please try again.');
