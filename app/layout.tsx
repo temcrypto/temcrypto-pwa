@@ -21,8 +21,7 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
   themeColor: [
     { media: '(prefers-color-scheme: dark)', color: '#1e293b' }, // INFO: tailwindcss color slate-800
-    // { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: light)', color: '#1e293b' },
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
   ],
 };
 
@@ -38,17 +37,16 @@ export const metadata: Metadata = {
     capable: true,
     title: SITE_NAME,
     statusBarStyle: 'black-translucent',
+    // statusBarStyle: 'default',
   },
   openGraph: {
     siteName: SITE_NAME,
-    // locale: 'en_US',
     type: 'website',
     url: APP_URL,
   },
   twitter: {
     card: 'summary',
-    // card: 'summary_large_image',
-    creator: '@temcrypto',
+    creator: '@TemCryptoApp',
   },
 };
 
