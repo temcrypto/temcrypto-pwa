@@ -1,5 +1,5 @@
 {
-  "id": "bc722021-69ee-46f4-8232-1c0f25ac85ee",
+  "id": "d3595bff-3436-43e2-b1f2-e79fdd842275",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -23,6 +23,36 @@
         },
         "status": {
           "name": "status",
+          "type": "tx_status",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "tx_type",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "amount": {
+          "name": "amount",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pix_name": {
+          "name": "pix_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pix_key": {
+          "name": "pix_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pix_key_parsed": {
+          "name": "pix_key_parsed",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -42,7 +72,15 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "user_id_idx": {
+          "name": "user_id_idx",
+          "columns": [
+            "user_id"
+          ],
+          "isUnique": false
+        }
+      },
       "foreignKeys": {
         "transactions_user_id_users_id_fk": {
           "name": "transactions_user_id_users_id_fk",
@@ -76,7 +114,7 @@
           "name": "username",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -99,7 +137,25 @@
       "uniqueConstraints": {}
     }
   },
-  "enums": {},
+  "enums": {
+    "tx_status": {
+      "name": "tx_status",
+      "values": {
+        "mined": "mined",
+        "dropped": "dropped",
+        "processing": "processing",
+        "done": "done",
+        "failed": "failed"
+      }
+    },
+    "tx_type": {
+      "name": "tx_type",
+      "values": {
+        "pay": "pay",
+        "charge": "charge"
+      }
+    }
+  },
   "schemas": {},
   "_meta": {
     "columns": {},

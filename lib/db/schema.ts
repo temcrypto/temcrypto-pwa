@@ -1,4 +1,4 @@
-import { InferInsertModel, InferSelectModel, sql } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import {
   index,
   numeric,

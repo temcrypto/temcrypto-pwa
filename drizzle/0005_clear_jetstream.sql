@@ -1,1 +1,0 @@
-ALTER TABLE "transactions" RENAME COLUMN "pix_key_reformated" TO "pix_key_parsed";

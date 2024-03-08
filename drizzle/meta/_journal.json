@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1709822930856,
-      "tag": "0000_confused_thing",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1709828785177,
-      "tag": "0001_cynical_dark_phoenix",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1709847852764,
-      "tag": "0002_soft_carlie_cooper",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1709852773573,
-      "tag": "0003_last_thundra",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1709853866400,
-      "tag": "0004_milky_ben_parker",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1709855050731,
-      "tag": "0005_clear_jetstream",
+      "when": 1709856649899,
+      "tag": "0000_magical_killmonger",
       "breakpoints": true
     }
   ]
