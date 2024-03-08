@@ -1,10 +1,20 @@
 import '@/lib/config';
 
-import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import { db } from '@/lib/db';
+import { type NewUser, users } from '../schema';
 
 async function main() {
-  await migrate(db, { migrationsFolder: './drizzle' });
+  const newUsers: NewUser[] = [
+    {
+      username: 'demo',
+    },
+    {
+      username: 'demox',
+    },
+  ];
+
+  await db.insert(users).values(newUsers).returning();
+  process.exit();
 }
 
 main();
