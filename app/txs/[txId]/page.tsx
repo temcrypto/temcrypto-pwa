@@ -39,18 +39,48 @@ export default function Txs({
           'No data available'
         ) : (
           <>
-            <p>TX ID: {txId}</p>
-            <p>TX Status: {txData.status}</p>
-            <p>TX To: {txData.pixName}</p>
-            <p>
-              TX Amount BRL: <AmountBRL amount={txData.amount} />
-            </p>
-            <p>
-              TX Amount USDT: <AmountUSDT amount={txData.amountUsdt} />
-            </p>
-            <p>
-              TX Rate: <AmountBRL amount={txData.amountRate} />
-            </p>
+            <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+              <div className="text-sm text-slate-400 font-light uppercase">
+                To
+              </div>
+              <p className="dark:text-white break-words">{txData.pixName}</p>
+
+              <div className="text-sm text-slate-400 font-light uppercase mt-4">
+                Chave Pix
+              </div>
+              <p className="dark:text-white break-words">
+                {txData.pixKeyParsed}
+              </p>
+            </div>
+
+            <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+              <div className="text-sm text-slate-400 font-light uppercase">
+                Amount
+              </div>
+              <p className="dark:text-white break-words">
+                <span>
+                  <AmountBRL amount={txData.amount as number} />
+                </span>
+                <span className="pl-1 text-sm text-slate-300">
+                  (<AmountUSDT amount={txData.amountUsdt as number} />)
+                </span>
+              </p>
+
+              <div className="text-sm text-slate-400 font-light uppercase mt-4">
+                Rate
+              </div>
+              <p className="dark:text-white break-words">
+                <AmountUSDT amount={1} /> ={' '}
+                <AmountBRL amount={txData.amountRate as number} />
+              </p>
+            </div>
+
+            <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+              <div className="text-sm text-slate-400 font-light uppercase">
+                TX ID
+              </div>
+              <p className="dark:text-white break-words">{txId}</p>
+            </div>
           </>
         )}
       </section>
