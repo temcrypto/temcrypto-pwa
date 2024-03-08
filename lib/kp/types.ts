@@ -1,6 +1,14 @@
 // API
 type kpResponseCode = 200 | 400 | 401 | 500;
 
+// Webhooks Payment Statuses
+export type kpPaymentStatus =
+  | 'mined'
+  | 'dropped'
+  | 'processing'
+  | 'done'
+  | 'failed';
+
 // Auth
 export type kpGetTokenResponse = {
   access_token: string;
