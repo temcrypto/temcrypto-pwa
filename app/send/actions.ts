@@ -1,5 +1,6 @@
 'use server';
 
+import { redirect } from 'next/navigation';
 import currency from 'currency.js';
 import { eq } from 'drizzle-orm';
 
@@ -39,7 +40,7 @@ export async function fetchPixKeyData(pixKey: string): Promise<PixKeyData> {
       amount: Math.random() * (500 - 5) + 5, // TODO: Get amount from dynamic Pix Key Data or return null.
     };
   } catch (err) {
-    console.log('🚀 ~ fetchPixKeyData ~ err:', err); // TODO: Improve logging
+    console.error('🚀 ~ fetchPixKeyData ~ err:', err); // TODO: Improve logging
     // Provides a more useful error handling for the consumers of the function.
     throw new Error('Failed to fetch Pix key data');
   }
@@ -64,7 +65,7 @@ export async function getSwapRateBrl(amountBrl: number): Promise<SwapRateBrl> {
       timeout: data.timeout,
     };
   } catch (err) {
-    console.log('🚀 ~ getSwapRateBrl ~ err:', err); // TODO: Improve logging
+    console.error('🚀 ~ getSwapRateBrl ~ err:', err); // TODO: Improve logging
     // Provides a more useful error handling for the consumers of the function.
     throw new Error('Failed to get the swap rate for BRL');
   }
@@ -78,6 +79,8 @@ export type NewPayment = Pick<
 >;
 
 export async function createPayment(data: NewPayment) {
+  let txData = undefined;
+
   try {
     // TODO: Validate data
 
@@ -106,12 +109,28 @@ export async function createPayment(data: NewPayment) {
     const txResponse = await db
       .insert(transactions)
       .values(newTransaction)
-      .returning();
+      .returning({ id: transactions.id });
 
-    return txResponse;
+    txData = txResponse[0];
   } catch (err) {
     console.error('🚀 ~ createPayment ~ err:', err); // TODO: Improve logging
     // Provides a more useful error handling for the consumers of the function.
     throw new Error('Failed to create payment');
   }
+
+  redirect(`/txs/${txData.id}`);
+}
+
+// Transactions
+export async function fetchTxById(txId: string) {
+  // TODO: Validate input
+  const txData = await db.query.transactions.findFirst({
+    where: eq(transactions.id, txId),
+  });
+
+  if (!txData) {
+    throw new Error('Transaction not found');
+  }
+
+  return txData;
 }

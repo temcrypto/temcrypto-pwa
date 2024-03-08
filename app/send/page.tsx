@@ -141,19 +141,16 @@ export default function Send() {
         amountUsdt: sendPixState.amountUsdt!,
         amountRate: sendPixState.rateUsdtBrl!,
       };
-      const payment = await createPayment(newPayment);
-      console.log('🚀 ~ handleConfirm ~ payment:', payment); // TODO: Cleanup
 
-      resetSendPixState();
       toast.success('Payment sent successfully!'); // TODO: retirect to success page/modal
+      await createPayment(newPayment);
     } catch (err) {
       console.error('🚀 ~ handleConfirm ~ err:', err); // TODO: Improve logging
       toast.error('Falied to create payment. Please try again.');
-    } finally {
-      setOpenPreview(false);
       setSendPixState((prevState) => ({ ...prevState, sending: false }));
+      // setOpenPreview(false);
     }
-  }, [resetSendPixState, sendPixState, setSendPixState]);
+  }, [sendPixState, setSendPixState]);
 
   return (
     <PageWrapper>
