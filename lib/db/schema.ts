@@ -27,6 +27,7 @@ export const txStatusEnum = pgEnum('tx_status', [
   'failed',
 ]);
 export const txTypeEnum = pgEnum('tx_type', ['pay', 'charge']);
+export const txCurrencyEnum = pgEnum('tx_currency', ['BRL', 'USDT']);
 
 export const transactions = pgTable(
   'transactions',
@@ -37,10 +38,10 @@ export const transactions = pgTable(
       .references(() => users.id),
     status: txStatusEnum('status').notNull(),
     type: txTypeEnum('type').notNull(),
-    amount: numeric('amount').notNull(),
-    amountUsdt: numeric('amount_usdt').notNull(),
-    amountRate: numeric('amount_rate').notNull(),
-    currency: text('currency').notNull(),
+    amount: numeric('amount').notNull().$type<number>(),
+    amountUsdt: numeric('amount_usdt').notNull().$type<number>(),
+    amountRate: numeric('amount_rate').notNull().$type<number>(),
+    currency: txCurrencyEnum('currency').notNull(),
     pixName: text('pix_name').notNull(),
     pixKey: text('pix_key').notNull(),
     pixKeyParsed: text('pix_key_parsed').notNull(),

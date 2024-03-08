@@ -1,7 +1,5 @@
 import { useCallback } from 'react';
 import Sheet from 'react-modal-sheet';
-import toast from 'react-hot-toast';
-import { rangeDelay } from 'delay';
 
 import { useSendPixContext } from '@/context/SendPixContext';
 import AmountUSDT from './AmountUSDT';
@@ -10,42 +8,30 @@ import AmountBRL from './AmountBRL';
 interface SendPixPreviewProps {
   isOpen: boolean;
   sheetRootId?: string;
-  onSubmit: (data: any) => void; // TODO: Consider defining a more specific type for the data.
+  onConfirm: () => void;
   onClose?: () => void;
 }
 
 const SendPixPreview = ({
   isOpen = false,
   sheetRootId,
-  onSubmit,
+  onConfirm,
   onClose,
 }: SendPixPreviewProps) => {
   const { sendPixState, setSendPixState } = useSendPixContext();
 
-  const handleSubmit = useCallback(
-    (data: any) => {
-      if (onSubmit) {
-        onSubmit(data);
-      }
-    },
-    [onSubmit]
-  );
+  const handleConfirm = useCallback(() => {
+    if (onConfirm) {
+      setSendPixState((prevState) => ({ ...prevState, sending: true }));
+      onConfirm();
+    }
+  }, [onConfirm, setSendPixState]);
 
   const handleClose = useCallback(() => {
     if (onClose) {
       onClose();
     }
   }, [onClose]);
-
-  const handleSumbit = useCallback(async () => {
-    setSendPixState((prevState) => ({ ...prevState, sending: true }));
-
-    // Here should handle the send payment action
-
-    await rangeDelay(1000, 5000); // TODO: remove test delay
-    toast.success('Send successfully!'); // TODO: retirect to success page/modal
-    handleSubmit({ status: 'ok' });
-  }, [setSendPixState, handleSubmit]);
 
   return (
     <Sheet
@@ -107,10 +93,10 @@ const SendPixPreview = ({
             className={`transition ease-in-out w-full rounded-2xl p-4 mt-8 text-center text-xl text-white bg-pink-500 ring ring-pink-500 active:bg-pink-700 active:ring-pink-700 hover:bg-pink-600 hover:ring-pink-600 disabled:text-slate-400 disabled:bg-slate-300 disabled:ring-slate-300 cursor-pointer disabled:cursor-not-allowed ${
               sendPixState.sending ? 'animate-pulse' : ''
             }`}
-            onClick={handleSumbit}
+            onClick={handleConfirm}
             disabled={sendPixState.sending}
           >
-            Confirm and send
+            Confirm and Send
           </button>
           <button
             type="button"

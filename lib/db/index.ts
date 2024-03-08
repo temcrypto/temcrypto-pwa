@@ -8,3 +8,4 @@ const client = postgres(String(process.env.POSTGRES_URL), { prepare: false });
 
 // Init DB instance
 export const db = drizzle(client, { schema, logger: true });
+export default db;

@@ -1,6 +1,6 @@
 import '@/lib/config';
 
-import { db } from '@/lib/db';
+import db from '@/lib/db';
 import { type NewUser, users } from '../schema';
 
 async function main() {

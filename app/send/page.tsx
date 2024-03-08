@@ -5,7 +5,12 @@ import toast from 'react-hot-toast';
 import { LuQrCode } from 'react-icons/lu';
 import { rangeDelay } from 'delay';
 
-import { fetchPixKeyData, getSwapRate } from '@/app/actions';
+import {
+  type NewPayment,
+  fetchPixKeyData,
+  getSwapRateBrl,
+  createPayment,
+} from '@/app/send/actions';
 import PageHeader from '@/components/PageHeader';
 import PageWrapper from '@/components/PageWrapper';
 import QRCodeScanner from '@/components/QRCodeScanner';
@@ -34,7 +39,7 @@ export default function Send() {
 
           let amountRateObj = {};
           if (pixKeyData.amount) {
-            const swapRates = await getSwapRate(pixKeyData.amount); // TODO: Validate and format the amount from KP
+            const swapRates = await getSwapRateBrl(pixKeyData.amount); // TODO: Validate and format the amount from KP
             console.log('🚀 ~ swapRates:', swapRates);
 
             amountRateObj = {
@@ -88,7 +93,7 @@ export default function Send() {
 
         const [pixKeyData, swapRates] = await Promise.all([
           fetchPixKeyData(sendPixState.pixKey),
-          getSwapRate(sendPixState.amountBrl),
+          getSwapRateBrl(sendPixState.amountBrl),
         ]);
 
         console.log('🚀 ~ handleFormSubmit ~ pixKeyData:', pixKeyData);
@@ -123,6 +128,32 @@ export default function Send() {
     },
     [setSendPixState, sendPixState.amountBrl, sendPixState.pixKey]
   );
+
+  // Payment confirmation helper
+  const handleConfirm = useCallback(async () => {
+    try {
+      // Here should handle the send payment action
+      const newPayment: NewPayment = {
+        pixName: sendPixState.name,
+        pixKey: sendPixState.pixKey,
+        pixKeyParsed: sendPixState.pixKeyParsed,
+        amount: sendPixState.amountBrl!,
+        amountUsdt: sendPixState.amountUsdt!,
+        amountRate: sendPixState.rateUsdtBrl!,
+      };
+      const payment = await createPayment(newPayment);
+      console.log('🚀 ~ handleConfirm ~ payment:', payment); // TODO: Cleanup
+
+      resetSendPixState();
+      toast.success('Payment sent successfully!'); // TODO: retirect to success page/modal
+    } catch (err) {
+      console.error('🚀 ~ handleConfirm ~ err:', err); // TODO: Improve logging
+      toast.error('Falied to create payment. Please try again.');
+    } finally {
+      setOpenPreview(false);
+      setSendPixState((prevState) => ({ ...prevState, sending: false }));
+    }
+  }, [resetSendPixState, sendPixState, setSendPixState]);
 
   return (
     <PageWrapper>
@@ -162,10 +193,7 @@ export default function Send() {
         <SendPixPreview
           isOpen={openPreview}
           // sheetRootId="layout-app"
-          onSubmit={() => {
-            resetSendPixState();
-            setOpenPreview(false);
-          }}
+          onConfirm={handleConfirm}
           onClose={() => {
             setOpenPreview(false);
           }}
