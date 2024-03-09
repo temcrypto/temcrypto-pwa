@@ -26,15 +26,7 @@ const PixKeyInput = ({
   }, []);
 
   useEffect(() => {
-    console.log(
-      "🚀 ~ useEffect ~ inputRef.current && clipboardText && clipboardText !== '':",
-      inputRef.current && clipboardText && clipboardText !== '',
-      inputRef.current,
-      clipboardText,
-      clipboardText !== ''
-    );
     if (inputRef.current && clipboardText && clipboardText !== '') {
-      console.log('🚀 ~ useEffect ~ clipboardText:', clipboardText);
       inputRef.current.value = clipboardText;
       // setClipboardText('');
       onPasteSuccess?.();
@@ -42,14 +34,8 @@ const PixKeyInput = ({
   }, [clipboardText, onPasteSuccess]);
 
   const handlePaste = useCallback(async () => {
-    console.log('🚀 ~ handlePaste ~ handlePaste');
-
+    alert(`handlePaste ~ ${isClipboardAPISupported}`);
     if (isClipboardAPISupported) {
-      console.log(
-        '🚀 ~ handlePaste ~ isClipboardAPISupported:',
-        isClipboardAPISupported
-      );
-
       try {
         const text = await navigator.clipboard.readText();
         setClipboardText(text);
@@ -57,10 +43,8 @@ const PixKeyInput = ({
         console.error('Failed to read clipboard contents: ', err);
       }
     } else {
-      console.log('🚀 ~ handlePaste ~ inputRef.current:', inputRef.current);
       if (inputRef.current) {
         inputRef.current.focus();
-        console.log('🚀 ~ handlePaste ~ inputRef.current.focus - paste');
         document.execCommand('paste');
       }
     }
