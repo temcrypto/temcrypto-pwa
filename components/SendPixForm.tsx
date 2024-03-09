@@ -1,6 +1,12 @@
 'use client';
 
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import React, {
+  type ChangeEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { useSendPixContext } from '@/context/SendPixContext';
 
@@ -27,28 +33,25 @@ interface SendPixFormProps {
 }
 
 const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
-  const [amountAutoFocus, setAmountAutoFocus] = useState(false);
   const [canSubmit, setCanSubmit] = useState(false);
   const [formattedAmount, setFormattedAmount] = useState('');
   const { sendPixState, setSendPixState } = useSendPixContext();
+  const amountInputRef = useRef<HTMLInputElement>(null);
 
   // Update PixKey in context
   const handlePixKeyChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const textTrim = e.target.value.trim();
+      console.log(
+        '🚀 ~ SendPixForm ~ handlePixKeyChange - textTrim:',
+        textTrim
+      );
       if (textTrim !== sendPixState.pixKey) {
         setSendPixState((prevState) => ({ ...prevState, pixKey: textTrim }));
       }
     },
     [sendPixState.pixKey, setSendPixState]
   );
-
-  const handlePixKeyPaste = useCallback(async () => {
-    // Ensure to prompt the user before accessing clipboard
-    const text = await navigator.clipboard.readText();
-    setSendPixState((prevState) => ({ ...prevState, pixKey: text.trim() }));
-    setAmountAutoFocus(true);
-  }, [setSendPixState]);
 
   // Validate and update amount
   const handleAmountChange = useCallback(
@@ -58,7 +61,7 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
       const amountWithPeriod = inputValue.replace(',', '.');
       const amountSafe = parseFloat(amountWithPeriod);
 
-      setFormattedAmount(inputValue); // Update the formatted amount state
+      setFormattedAmount(inputValue);
       setSendPixState((prevState) => ({
         ...prevState,
         amountBrl: isNaN(amountSafe) ? 0 : amountSafe,
@@ -67,6 +70,41 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
     },
     [setSendPixState]
   );
+  // const handleAmountChange = useCallback(
+  //   (e: ChangeEvent<HTMLInputElement>) => {
+  //     const inputValue = e.target.value;
+  //     const isValid = amountRegex.test(inputValue);
+  //     const amountWithPeriod = inputValue.replace(',', '.');
+  //     const amountSafe = parseFloat(amountWithPeriod);
+
+  //     setFormattedAmount(inputValue); // Update the formatted amount state to show in the UI
+  //     setSendPixState((prevState) => ({
+  //       ...prevState,
+  //       amountBrl: isNaN(amountSafe) ? 0 : amountSafe,
+  //     }));
+  //     setCanSubmit(isValid);
+  //   },
+  //   [setSendPixState]
+  // );
+
+  // const handlePixKeyPaste = useCallback(async () => {
+  //   console.log('🚀 ~ handlePixKeyPaste ~ handlePixKeyPaste');
+  //   // Ensure to prompt the user before accessing clipboard
+  //   // const text = await navigator.clipboard.readText();
+  //   // setSendPixState((prevState) => ({ ...prevState, pixKey: text.trim() }));
+  //   setAmountAutoFocus(true);
+  //   // }, [setSendPixState]);
+  // }, []);
+
+  const handlePasteSuccess = useCallback(() => {
+    console.log(
+      '🚀 ~ handlePasteSuccess ~ handlePasteSuccess:',
+      handlePasteSuccess
+    );
+    setTimeout(() => {
+      amountInputRef.current?.focus();
+    }, 0);
+  }, []);
 
   useEffect(() => {
     if (!sendPixState.amountBrl) {
@@ -84,7 +122,7 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
         value={sendPixState.pixKeyParsed || sendPixState.pixKey}
         onChange={handlePixKeyChange}
         required={true}
-        onClickPaste={handlePixKeyPaste}
+        onPasteSuccess={handlePasteSuccess}
         disabled={sendPixState.loading}
       />
 
@@ -97,9 +135,10 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
         onChange={handleAmountChange}
         required={true}
         pattern={amountRegex.source}
-        autoFocus={amountAutoFocus}
         readOnly={sendPixState.pixKey === ''}
         disabled={sendPixState.loading}
+        ref={amountInputRef}
+        onFocus={() => console.log('AmountInput focused')}
       />
 
       <button
