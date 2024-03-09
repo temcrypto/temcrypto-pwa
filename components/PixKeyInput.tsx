@@ -26,7 +26,15 @@ const PixKeyInput = ({
   }, []);
 
   useEffect(() => {
-    if (inputRef.current && clipboardText) {
+    console.log(
+      "🚀 ~ useEffect ~ inputRef.current && clipboardText && clipboardText !== '':",
+      inputRef.current && clipboardText && clipboardText !== '',
+      inputRef.current,
+      clipboardText,
+      clipboardText !== ''
+    );
+    if (inputRef.current && clipboardText && clipboardText !== '') {
+      console.log("🚀 ~ useEffect ~ clipboardText:", clipboardText)
       inputRef.current.value = clipboardText;
       // setClipboardText('');
       onPasteSuccess?.();
@@ -34,7 +42,14 @@ const PixKeyInput = ({
   }, [clipboardText, onPasteSuccess]);
 
   const handlePaste = useCallback(async () => {
+    console.log('🚀 ~ handlePaste ~ handlePaste');
+
     if (isClipboardAPISupported) {
+      console.log(
+        '🚀 ~ handlePaste ~ isClipboardAPISupported:',
+        isClipboardAPISupported
+      );
+
       try {
         const text = await navigator.clipboard.readText();
         setClipboardText(text);
@@ -42,8 +57,10 @@ const PixKeyInput = ({
         console.error('Failed to read clipboard contents: ', err);
       }
     } else {
+      console.log('🚀 ~ handlePaste ~ inputRef.current:', inputRef.current);
       if (inputRef.current) {
         inputRef.current.focus();
+        console.log('🚀 ~ handlePaste ~ inputRef.current.focus - paste');
         document.execCommand('paste');
       }
     }
@@ -60,15 +77,15 @@ const PixKeyInput = ({
         {...rest}
       />
       <div className="absolute inset-y-0 right-0 flex items-center pr-4 z-50">
-        <button
-          type="button"
+        <div
+          // type="button"
           className="text-pink-500 hover:text-pink-700 disabled:text-slate-400 text-base uppercase"
           onClick={handlePaste}
-          disabled={disabled}
+          // disabled={disabled}
           aria-label="Paste button"
         >
           Paste
-        </button>
+        </div>
       </div>
     </div>
   );

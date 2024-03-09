@@ -156,7 +156,7 @@ export async function createPayment(data: NewPayment) {
  * @returns {Promise<NewTransaction>} The transaction data.
  * @throws {Error} Throws an error if the transaction ID is invalid or the transaction is not found.
  */
-export async function fetchTxById(txId: string) {
+export async function fetchTxById(txId: string): Promise<NewTransaction> {
   // TODO: Validate input
   const txData = await db.query.transactions.findFirst({
     where: eq(transactions.id, txId),

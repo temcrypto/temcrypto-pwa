@@ -99,7 +99,7 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
   const handlePasteSuccess = useCallback(() => {
     console.log(
       '🚀 ~ handlePasteSuccess ~ handlePasteSuccess:',
-      handlePasteSuccess
+      amountInputRef.current
     );
     setTimeout(() => {
       amountInputRef.current?.focus();
