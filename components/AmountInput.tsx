@@ -1,26 +1,21 @@
 'use client';
 
 import {
-  forwardRef,
+  // forwardRef,
   useCallback,
   useEffect,
-  useImperativeHandle,
+  // useImperativeHandle,
   useRef,
 } from 'react';
 
-interface AmountInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  onFocus?: () => void;
-}
+// interface AmountInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+//   onFocus?: () => void;
+// }
 
-const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
-  ({ value, readOnly, disabled, onFocus, ...rest }, ref) => {
+// const AmountInput = ({ value, readOnly, disabled, onFocus, ...rest }) => {
     const amountRef = useRef<HTMLInputElement>(null);
 
-    useImperativeHandle(
-      ref,
-      () => amountRef.current!,
-      []
-    );
+    // useImperativeHandle(ref, () => amountRef.current!, []);
 
     const focusInput = useCallback(() => {
       if (amountRef.current && !readOnly) {
@@ -63,9 +58,9 @@ const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
   }
 );
 
-AmountInput.displayName = 'AmountInput';
+// AmountInput.displayName = 'AmountInput';
 
-export default AmountInput;
+// export default AmountInput;
 
 // const AmountInput = forwardRef<HTMLInputElement, AmountInputRefProps>(
 //   ({ value, readOnly, disabled, onFocus, ...rest }, ref) => {

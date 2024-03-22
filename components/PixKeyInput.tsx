@@ -7,48 +7,89 @@ import {
   useRef,
   useState,
 } from 'react';
+import toast from 'react-hot-toast';
+
+// Function to check and request clipboard read permissions
+async function checkAndRequestClipboardReadPermissions(): Promise<boolean> {
+  try {
+    // Check if the Clipboard API is available
+    if (!navigator.clipboard) {
+      console.error('Clipboard API is not available.');
+      return false;
+    }
+
+    // Query for the "clipboard-read" permission
+    const permissionStatus = await navigator.permissions.query({
+      name: 'clipboard-read' as PermissionName,
+    });
+
+    // If the permission is 'prompt', it means we can request it directly
+    if (permissionStatus.state === 'prompt') {
+      // Request permission by trying to read from the clipboard
+      try {
+        await navigator.clipboard.readText(); // This prompts the user
+        return true; // Assuming permission is granted after prompting
+      } catch (error) {
+        console.error('Clipboard read permission denied or failed:', error);
+        return false;
+      }
+    }
+
+    // Return true if permission is already granted, false otherwise
+    return permissionStatus.state === 'granted';
+  } catch (error) {
+    console.error(
+      'Error checking or requesting clipboard read permissions:',
+      error
+    );
+    return false;
+  }
+}
 
 interface PixKeyInputProps extends InputHTMLAttributes<HTMLInputElement> {
   onPasteSuccess?: () => void;
 }
 
 const PixKeyInput = ({
-  onPasteSuccess,
   disabled,
+  onPasteSuccess,
   ...rest
 }: PixKeyInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [isClipboardAPISupported, setIsClipboardAPISupported] = useState(false);
   const [clipboardText, setClipboardText] = useState('');
 
   useEffect(() => {
-    setIsClipboardAPISupported(!!navigator.clipboard);
-  }, []);
-
-  useEffect(() => {
+    console.log(
+      "🚀 ~ useEffect ~ inputRef.current && clipboardText && clipboardText !== '':",
+      inputRef.current,
+      clipboardText,
+      clipboardText !== ''
+    );
     if (inputRef.current && clipboardText && clipboardText !== '') {
       inputRef.current.value = clipboardText;
-      // setClipboardText('');
-      onPasteSuccess?.();
     }
-  }, [clipboardText, onPasteSuccess]);
+  }, [clipboardText]);
 
-  const handlePaste = useCallback(async () => {
-    alert(`handlePaste ~ ${isClipboardAPISupported}`);
-    if (isClipboardAPISupported) {
+  const handlePaste = useCallback(() => {
+    setTimeout(async () => {
+      console.log('🚀 ~ setTimeout ~ setTimeout:');
       try {
-        const text = await navigator.clipboard.readText();
-        setClipboardText(text);
-      } catch (err) {
-        console.error('Failed to read clipboard contents: ', err);
+        // Check and request clipboard read permissions
+        const hasPermission = await checkAndRequestClipboardReadPermissions();
+        if (hasPermission) {
+          const text = await navigator.clipboard.readText();
+          setClipboardText(text);
+          onPasteSuccess?.(); // Llamar a la función onPasteSuccess si existe
+          console.log('Text read from clipboard:', text);
+        } else {
+          toast.error('No permission to read from clipboard.');
+        }
+      } catch (error) {
+        console.error('Failed to read text from clipboard:', error);
+        toast.error('Failed to read text from clipboard.');
       }
-    } else {
-      if (inputRef.current) {
-        inputRef.current.focus();
-        document.execCommand('paste');
-      }
-    }
-  }, [isClipboardAPISupported]);
+    }, 150);
+  }, [onPasteSuccess]);
 
   return (
     <div className="relative rounded-2xl shadow-sm text-xl">
@@ -64,10 +105,7 @@ const PixKeyInput = ({
         <button
           type="button"
           className="text-pink-500 hover:text-pink-700 disabled:text-slate-400 text-base uppercase"
-          onClick={(e) => {
-            e.preventDefault();
-            handlePaste();
-          }}
+          onClick={handlePaste}
           disabled={disabled}
           aria-label="Paste button"
         >

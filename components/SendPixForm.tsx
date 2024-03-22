@@ -10,7 +10,7 @@ import React, {
 
 import { useSendPixContext } from '@/context/SendPixContext';
 
-import AmountInput from './AmountInput';
+// import AmountInput from './AmountInput';
 import PixKeyInput from './PixKeyInput';
 
 // Regular Expression to Validate Currency Inputs from 5.00 up to 500.00
@@ -33,12 +33,13 @@ interface SendPixFormProps {
 }
 
 const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
+  const [amountInputReadOnly, setAmountInputReadOnly] = useState(true);
   const [canSubmit, setCanSubmit] = useState(false);
   const [formattedAmount, setFormattedAmount] = useState('');
   const { sendPixState, setSendPixState } = useSendPixContext();
   const amountInputRef = useRef<HTMLInputElement>(null);
 
-  // Update PixKey in context
+  // Update PixKey in context when the input changes
   const handlePixKeyChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const textTrim = e.target.value.trim();
@@ -46,12 +47,31 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
         '🚀 ~ SendPixForm ~ handlePixKeyChange - textTrim:',
         textTrim
       );
-      if (textTrim !== sendPixState.pixKey) {
-        setSendPixState((prevState) => ({ ...prevState, pixKey: textTrim }));
-      }
+      // if (textTrim !== sendPixState.pixKey) {
+      setAmountInputReadOnly(textTrim === ''); // Set amountInputReadOnly based on the presence of textTrim
+      setSendPixState((prevState) => ({ ...prevState, pixKey: textTrim }));
+      // }
     },
-    [sendPixState.pixKey, setSendPixState]
+    [setSendPixState]
   );
+
+  // Update the input focus when a valid pixKey is pasted successfully
+  // const handlePasteSuccess = useCallback(() => {
+  //   console.log(
+  //     '🚀 ~ handlePasteSuccess ~ handlePasteSuccess:',
+  //     amountInputRef.current,
+  //     sendPixState.loading,
+  //     `--${sendPixState.pixKey}--`
+  //   );
+  //   setAmountInputReadOnly(false); // Update the readOnly state first
+  //   setTimeout(() => {
+  //     amountInputRef.current?.focus();
+  //     console.log(
+  //       '🚀 ~ setTimeout ~ amountInputRef.current:',
+  //       amountInputRef.current
+  //     );
+  //   }, 150);
+  // }, [sendPixState.pixKey, sendPixState.loading]);
 
   // Validate and update amount
   const handleAmountChange = useCallback(
@@ -61,7 +81,12 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
       const amountWithPeriod = inputValue.replace(',', '.');
       const amountSafe = parseFloat(amountWithPeriod);
 
-      setFormattedAmount(inputValue);
+      setFormattedAmount(inputValue); // Update the formatted amount state to show in the UI
+      console.log(
+        '🚀 ~ SendPixForm ~ setFormattedAmount:',
+        inputValue,
+        amountSafe
+      );
       setSendPixState((prevState) => ({
         ...prevState,
         amountBrl: isNaN(amountSafe) ? 0 : amountSafe,
@@ -70,40 +95,13 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
     },
     [setSendPixState]
   );
-  // const handleAmountChange = useCallback(
-  //   (e: ChangeEvent<HTMLInputElement>) => {
-  //     const inputValue = e.target.value;
-  //     const isValid = amountRegex.test(inputValue);
-  //     const amountWithPeriod = inputValue.replace(',', '.');
-  //     const amountSafe = parseFloat(amountWithPeriod);
-
-  //     setFormattedAmount(inputValue); // Update the formatted amount state to show in the UI
-  //     setSendPixState((prevState) => ({
-  //       ...prevState,
-  //       amountBrl: isNaN(amountSafe) ? 0 : amountSafe,
-  //     }));
-  //     setCanSubmit(isValid);
-  //   },
-  //   [setSendPixState]
-  // );
-
-  // const handlePixKeyPaste = useCallback(async () => {
-  //   console.log('🚀 ~ handlePixKeyPaste ~ handlePixKeyPaste');
-  //   // Ensure to prompt the user before accessing clipboard
-  //   // const text = await navigator.clipboard.readText();
-  //   // setSendPixState((prevState) => ({ ...prevState, pixKey: text.trim() }));
-  //   setAmountAutoFocus(true);
-  //   // }, [setSendPixState]);
-  // }, []);
 
   const handlePasteSuccess = useCallback(() => {
-    console.log(
-      '🚀 ~ handlePasteSuccess ~ handlePasteSuccess:',
-      amountInputRef.current
-    );
+    console.log('🚀 ~ handlePasteSuccess ~ handlePasteSuccess:');
+    setAmountInputReadOnly(false);
     setTimeout(() => {
       amountInputRef.current?.focus();
-    }, 0);
+    }, 150);
   }, []);
 
   useEffect(() => {
@@ -122,24 +120,39 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
         value={sendPixState.pixKeyParsed || sendPixState.pixKey}
         onChange={handlePixKeyChange}
         required={true}
-        onPasteSuccess={handlePasteSuccess}
         disabled={sendPixState.loading}
+        onPasteSuccess={handlePasteSuccess}
       />
 
-      <AmountInput
-        id="amount"
-        name="amount"
-        aria-label="Enter the transaction amount between 5,00 and 500,00"
-        placeholder="5,00 - 500,00"
-        value={formattedAmount}
-        onChange={handleAmountChange}
-        required={true}
-        pattern={amountRegex.source}
-        readOnly={sendPixState.pixKey === ''}
-        disabled={sendPixState.loading}
-        ref={amountInputRef}
-        onFocus={() => console.log('AmountInput focused')}
-      />
+      <div className="relative mt-8 rounded-2xl shadow-sm text-xl">
+        <input
+          type="text"
+          inputMode="decimal"
+          ref={amountInputRef}
+          className="transition ease-in-out block w-full rounded-2xl border-0 py-4 pl-12 pr-4 text-slate-800 placeholder:text-slate-400 ring ring-slate-200 focus:ring-pink-500 focus:outline-none appearance-none read-only:ring-slate-300 read-only:focus:ring-slate-300 read-only:bg-slate-300 read-only:text-slate-400 invalid:focus:ring-red-500 invalid:focus:text-red-500 invalid:focus:bg-red-100 peer"
+          id="amount"
+          name="amount"
+          aria-label="Enter the transaction amount between 5,00 and 500,00"
+          placeholder="5,00 - 500,00"
+          value={formattedAmount}
+          readOnly={
+            amountInputReadOnly ||
+            sendPixState.pixKey === '' ||
+            sendPixState.loading
+          }
+          disabled={sendPixState.loading}
+          pattern={amountRegex.source}
+          required={true}
+          onChange={handleAmountChange}
+        />
+        <div
+          className={
+            'transition ease-in-out pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-800  peer-invalid:text-slate-400 peer-invalid:peer-focus:text-red-500 peer-read-only:text-slate-400'
+          }
+        >
+          R$
+        </div>
+      </div>
 
       <button
         type="submit"
