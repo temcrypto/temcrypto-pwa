@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import Sheet from 'react-modal-sheet';
 
-import { useSendPixContext } from '@/context/SendPixContext';
+import { usePixPaymentContext } from '@/context/PixPaymentContext';
 import AmountUSDT from './AmountUSDT';
 import AmountBRL from './AmountBRL';
 
@@ -18,14 +18,14 @@ const SendPixPreview = ({
   onConfirm,
   onClose,
 }: SendPixPreviewProps) => {
-  const { sendPixState, setSendPixState } = useSendPixContext();
+  const { pixPaymentState, setPixPaymentState } = usePixPaymentContext();
 
   const handleConfirm = useCallback(() => {
     if (onConfirm) {
-      setSendPixState((prevState) => ({ ...prevState, sending: true }));
+      setPixPaymentState((prevState) => ({ ...prevState, sending: true }));
       onConfirm();
     }
-  }, [onConfirm, setSendPixState]);
+  }, [onConfirm, setPixPaymentState]);
 
   const handleClose = useCallback(() => {
     if (onClose) {
@@ -35,8 +35,8 @@ const SendPixPreview = ({
 
   return (
     <Sheet
-      isOpen={sendPixState.sending || isOpen}
-      disableDrag={sendPixState.sending}
+      isOpen={pixPaymentState.sending || isOpen}
+      disableDrag={pixPaymentState.sending}
       onClose={handleClose}
       detent="content-height"
       rootId={sheetRootId}
@@ -56,13 +56,15 @@ const SendPixPreview = ({
               <div className="text-sm text-slate-400 font-light uppercase">
                 To
               </div>
-              <p className="dark:text-white break-words">{sendPixState.name}</p>
+              <p className="dark:text-white break-words">
+                {pixPaymentState.name}
+              </p>
 
               <div className="text-sm text-slate-400 font-light uppercase mt-4">
                 Chave Pix
               </div>
               <p className="dark:text-white break-words">
-                {sendPixState.pixKeyParsed}
+                {pixPaymentState.pixKeyParsed}
               </p>
             </div>
 
@@ -72,10 +74,10 @@ const SendPixPreview = ({
               </div>
               <p className="dark:text-white break-words">
                 <span>
-                  <AmountBRL amount={sendPixState.amountBrl as number} />
+                  <AmountBRL amount={pixPaymentState.amountBrl as number} />
                 </span>
                 <span className="pl-1 text-sm text-slate-300">
-                  (<AmountUSDT amount={sendPixState.amountUsdt as number} />)
+                  (<AmountUSDT amount={pixPaymentState.amountUsdt as number} />)
                 </span>
               </p>
 
@@ -84,17 +86,17 @@ const SendPixPreview = ({
               </div>
               <p className="dark:text-white break-words">
                 <AmountUSDT amount={1} /> ={' '}
-                <AmountBRL amount={sendPixState.rateUsdtBrl as number} />
+                <AmountBRL amount={pixPaymentState.rateUsdtBrl as number} />
               </p>
             </div>
           </Sheet.Scroller>
 
           <button
             className={`transition ease-in-out w-full rounded-2xl p-4 mt-8 text-center text-xl text-white bg-pink-500 ring ring-pink-500 active:bg-pink-700 active:ring-pink-700 hover:bg-pink-600 hover:ring-pink-600 disabled:text-slate-400 disabled:bg-slate-300 disabled:ring-slate-300 cursor-pointer disabled:cursor-not-allowed ${
-              sendPixState.sending ? 'animate-pulse' : ''
+              pixPaymentState.sending ? 'animate-pulse' : ''
             }`}
             onClick={handleConfirm}
-            disabled={sendPixState.sending}
+            disabled={pixPaymentState.sending}
           >
             Confirm and Send
           </button>
@@ -102,7 +104,7 @@ const SendPixPreview = ({
             type="button"
             className="flex items-center justify-center w-full p-4 mt-4 text-center cursor-pointer disabled:cursor-not-allowed"
             onClick={handleClose}
-            disabled={sendPixState.sending}
+            disabled={pixPaymentState.sending}
           >
             Cancel
           </button>
