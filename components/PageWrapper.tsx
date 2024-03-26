@@ -31,7 +31,15 @@ const variants = {
 //   },
 // };
 
-const PageWrapper = ({ children }: { children: React.ReactNode }) => {
+const PageWrapper = ({
+  id,
+  children,
+  className = '',
+}: {
+  id?: string;
+  children: React.ReactNode;
+  className?: string;
+}) => {
   const pathname = usePathname();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -50,7 +58,9 @@ const PageWrapper = ({ children }: { children: React.ReactNode }) => {
     >
       {isMounted && (
         <>
-          <motion.div
+          <motion.section
+            id={id}
+            className={className}
             key={pathname}
             variants={variants}
             // initial="enter"
@@ -66,7 +76,7 @@ const PageWrapper = ({ children }: { children: React.ReactNode }) => {
             }}
           >
             {children}
-          </motion.div>
+          </motion.section>
         </>
       )}
     </AnimatePresence>

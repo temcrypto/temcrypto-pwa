@@ -56,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark scrollbar-hide">
+    <html lang="en" className="dark">
       <head>
         <link
           rel="apple-touch-startup-image"
@@ -229,18 +229,23 @@ export default function RootLayout({
           href="splash_screens/8.3__iPad_Mini_portrait.png"
         />
       </head>
-      <body className={`${nunito.className} scrollbar-hide`}>
+      <body className={`${nunito.className}`}>
         <section
           id="layout-app"
-          className="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0 scrollbar-hide"
+          // className="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0"
+          className="flex flex-col"
         >
-          <div className="flex h-screen flex-col justify-between">
-            <Header />
-            <main className="mb-auto py-8">
-              <PixPaymentProvider>{children}</PixPaymentProvider>
-            </main>
-            <Toaster />
-          </div>
+          <Header />
+
+          {/* <main className="mb-auto py-8"> */}
+          <main className="py-4 px-6">
+            <PixPaymentProvider>{children}</PixPaymentProvider>
+          </main>
+
+          <Toaster />
+
+          {/* <div className="flex h-screen flex-col justify-between">
+          </div> */}
         </section>
       </body>
     </html>

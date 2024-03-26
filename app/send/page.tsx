@@ -24,8 +24,7 @@ import {
 export default function Send() {
   const [openQrScanner, setOpenQrScanner] = useState(false);
   const [openPreview, setOpenPreview] = useState(false);
-  const { pixPaymentState, setPixPaymentState, resetPixPaymentState } =
-    usePixPaymentContext();
+  const { pixPaymentState, setPixPaymentState } = usePixPaymentContext();
 
   // QRCodeScanner helpers
   const handleQrScan = useCallback(
@@ -156,49 +155,49 @@ export default function Send() {
   }, [setPixPaymentState, pixPaymentState]);
 
   return (
-    <PageWrapper>
-      <section id="page-send" className="pb-6">
-        <PageHeader
-          title="Send"
-          subtitle="Scan a QR code or enter a Chave Pix: CPF, CNPJ, phone number, or email."
-        />
+    <PageWrapper id="page-send">
+      {/* <section id="page-send" className="pb-6"> */}
+      <PageHeader
+        title="Send Pix"
+        subtitle="Scan a QR code or enter a Chave Pix: CPF, CNPJ, phone number, or email."
+      />
 
-        <button
-          type="button"
-          className="flex items-center justify-center transition ease-in-out w-full rounded-2xl p-4 mt-8 text-xl text-white bg-pink-500 ring ring-pink-500 active:bg-pink-700 active:ring-pink-700 hover:bg-pink-600 hover:ring-pink-600 disabled:text-slate-400 disabled:bg-slate-300 disabled:ring-slate-300 cursor-pointer disabled:cursor-not-allowed"
-          disabled={pixPaymentState.loading || pixPaymentState.sending}
-          onClick={() => {
-            setOpenQrScanner(true);
-          }}
-        >
-          <span className="mr-2">
-            <LuQrCode />
-          </span>
-          Scan
-        </button>
+      <button
+        type="button"
+        className="flex items-center justify-center transition ease-in-out w-full rounded-2xl p-4 mt-8 text-xl text-white bg-pink-500 ring ring-pink-500 active:bg-pink-700 active:ring-pink-700 hover:bg-pink-600 hover:ring-pink-600 disabled:text-slate-400 disabled:bg-slate-300 disabled:ring-slate-300 cursor-pointer disabled:cursor-not-allowed"
+        disabled={pixPaymentState.loading || pixPaymentState.sending}
+        onClick={() => {
+          setOpenQrScanner(true);
+        }}
+      >
+        <span className="mr-2">
+          <LuQrCode />
+        </span>
+        Scan
+      </button>
 
-        <SendPixForm onSubmit={handleFormSubmit} />
+      <SendPixForm onSubmit={handleFormSubmit} />
 
-        {/* Bottom Sheets */}
-        <QRCodeScanner
-          isOpen={openQrScanner}
-          // sheetRootId="layout-app"
-          onScan={handleQrScan}
-          onError={handleQrError}
-          onClose={() => {
-            setOpenQrScanner(false);
-          }}
-        />
+      {/* Bottom Sheets */}
+      <QRCodeScanner
+        isOpen={openQrScanner}
+        // sheetRootId="layout-app"
+        onScan={handleQrScan}
+        onError={handleQrError}
+        onClose={() => {
+          setOpenQrScanner(false);
+        }}
+      />
 
-        <SendPixPreview
-          isOpen={openPreview}
-          // sheetRootId="layout-app"
-          onConfirm={handleConfirm}
-          onClose={() => {
-            setOpenPreview(false);
-          }}
-        />
-      </section>
+      <SendPixPreview
+        isOpen={openPreview}
+        // sheetRootId="layout-app"
+        onConfirm={handleConfirm}
+        onClose={() => {
+          setOpenPreview(false);
+        }}
+      />
+      {/* </section> */}
     </PageWrapper>
   );
 }

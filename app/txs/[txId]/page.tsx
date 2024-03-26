@@ -29,61 +29,54 @@ export default function Txs({
   }, [txId]);
 
   return (
-    <PageWrapper>
-      <section id="page-tx" className="pb-6">
-        <PageHeader
-          title="Transaction details"
-          subtitle="Check you TX status"
-        />
-        {!txData ? (
-          'No data available'
-        ) : (
-          <>
-            <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
-              <div className="text-sm text-slate-400 font-light uppercase">
-                To
-              </div>
-              <p className="dark:text-white break-words">{txData.pixName}</p>
-
-              <div className="text-sm text-slate-400 font-light uppercase mt-4">
-                Chave Pix
-              </div>
-              <p className="dark:text-white break-words">
-                {txData.pixKeyParsed}
-              </p>
+    <PageWrapper id="page-tx">
+      <PageHeader title="Transaction details" subtitle="Check you TX status" />
+      {!txData ? (
+        'No data available'
+      ) : (
+        <>
+          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+            <div className="text-sm text-slate-400 font-light uppercase">
+              To
             </div>
+            <p className="dark:text-white break-words">{txData.pixName}</p>
 
-            <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
-              <div className="text-sm text-slate-400 font-light uppercase">
-                Amount
-              </div>
-              <p className="dark:text-white break-words">
-                <span>
-                  <AmountBRL amount={txData.amount as number} />
-                </span>
-                <span className="pl-1 text-sm text-slate-300">
-                  (<AmountUSDT amount={txData.amountUsdt as number} />)
-                </span>
-              </p>
-
-              <div className="text-sm text-slate-400 font-light uppercase mt-4">
-                Rate
-              </div>
-              <p className="dark:text-white break-words">
-                <AmountUSDT amount={1} /> ={' '}
-                <AmountBRL amount={txData.amountRate as number} />
-              </p>
+            <div className="text-sm text-slate-400 font-light uppercase mt-4">
+              Chave Pix
             </div>
+            <p className="dark:text-white break-words">{txData.pixKeyParsed}</p>
+          </div>
 
-            <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
-              <div className="text-sm text-slate-400 font-light uppercase">
-                TX ID
-              </div>
-              <p className="dark:text-white break-words">{txId}</p>
+          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+            <div className="text-sm text-slate-400 font-light uppercase">
+              Amount
             </div>
-          </>
-        )}
-      </section>
+            <p className="dark:text-white break-words">
+              <span>
+                <AmountBRL amount={txData.amount as number} />
+              </span>
+              <span className="pl-1 text-sm text-slate-300">
+                (<AmountUSDT amount={txData.amountUsdt as number} />)
+              </span>
+            </p>
+
+            <div className="text-sm text-slate-400 font-light uppercase mt-4">
+              Rate
+            </div>
+            <p className="dark:text-white break-words">
+              <AmountUSDT amount={1} /> ={' '}
+              <AmountBRL amount={txData.amountRate as number} />
+            </p>
+          </div>
+
+          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+            <div className="text-sm text-slate-400 font-light uppercase">
+              TX ID
+            </div>
+            <p className="dark:text-white break-words">{txId}</p>
+          </div>
+        </>
+      )}
     </PageWrapper>
   );
 }

@@ -6,11 +6,8 @@ import PageWrapper from '@/components/PageWrapper';
 
 export default function App() {
   return (
-    <PageWrapper>
-      <section
-        id="page-app"
-        className="flex flex-col space-y-8 justify-between items-center sm:flex-row sm:space-y-0 sm:space-x-8"
-      >
+    <PageWrapper id="page-app">
+      <section className="flex flex-col space-y-8 justify-between items-center sm:flex-row sm:space-y-0 sm:space-x-8">
         <div className="w-full p-8 shadow-xl rounded-2xl bg-slate-700 text-gray-400">
           <div className="mb-8 flex items-center">
             <div className="flex rounded-2xl w-16 h-16 bg-white items-center justify-center text-3xl text-[#009393]">
