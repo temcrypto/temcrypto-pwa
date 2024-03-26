@@ -3,7 +3,7 @@ import { Nunito } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 
 import Header from '@/components/Header';
-import { SendPixProvider } from '@/context/SendPixContext';
+import { PixPaymentProvider } from '@/context/PixPaymentContext';
 
 import './globals.css';
 
@@ -237,7 +237,7 @@ export default function RootLayout({
           <div className="flex h-screen flex-col justify-between">
             <Header />
             <main className="mb-auto py-8">
-              <SendPixProvider>{children}</SendPixProvider>
+              <PixPaymentProvider>{children}</PixPaymentProvider>
             </main>
             <Toaster />
           </div>

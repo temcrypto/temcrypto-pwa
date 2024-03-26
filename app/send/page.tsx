@@ -16,13 +16,16 @@ import PageWrapper from '@/components/PageWrapper';
 import QRCodeScanner from '@/components/QRCodeScanner';
 import SendPixForm from '@/components/SendPixForm';
 import SendPixPreview from '@/components/SendPixPreview';
-import { SendPixState, useSendPixContext } from '@/context/SendPixContext';
+import {
+  type PixPaymentState,
+  usePixPaymentContext,
+} from '@/context/PixPaymentContext';
 
 export default function Send() {
   const [openQrScanner, setOpenQrScanner] = useState(false);
   const [openPreview, setOpenPreview] = useState(false);
-  const { sendPixState, setSendPixState, resetSendPixState } =
-    useSendPixContext();
+  const { pixPaymentState, setPixPaymentState, resetPixPaymentState } =
+    usePixPaymentContext();
 
   // QRCodeScanner helpers
   const handleQrScan = useCallback(
@@ -50,14 +53,14 @@ export default function Send() {
             };
           }
 
-          setSendPixState((prevState) => ({
+          setPixPaymentState((prevState) => ({
             ...prevState,
             ...({
               name: pixKeyData.name,
               pixKey: pixKeyData.pixKey,
               pixKeyParsed: pixKeyData.pixKeyParsed,
-            } as SendPixState),
-            ...(amountRateObj as SendPixState),
+            } as PixPaymentState),
+            ...(amountRateObj as PixPaymentState),
           }));
 
           // Open preview sheet if we have all the necessary info
@@ -73,7 +76,7 @@ export default function Send() {
         console.log('🚀 ~ setOpenQrScanner: finally', openQrScanner);
       }
     },
-    [setSendPixState, openQrScanner]
+    [setPixPaymentState, openQrScanner]
   );
 
   const handleQrError = useCallback(() => {
@@ -85,28 +88,28 @@ export default function Send() {
     async (e: FormEvent) => {
       try {
         e.preventDefault(); // Prevent default form submission
-        setSendPixState((prevState) => ({ ...prevState, loading: true }));
+        setPixPaymentState((prevState) => ({ ...prevState, loading: true }));
 
-        if (!sendPixState.pixKey || !sendPixState.amountBrl) {
+        if (!pixPaymentState.pixKey || !pixPaymentState.amountBrl) {
           throw new Error('Invalid pixKey or amountBrl');
         }
 
         const [pixKeyData, swapRates] = await Promise.all([
-          fetchPixKeyData(sendPixState.pixKey),
-          getSwapRateBrl(sendPixState.amountBrl),
+          fetchPixKeyData(pixPaymentState.pixKey),
+          getSwapRateBrl(pixPaymentState.amountBrl),
         ]);
 
         console.log('🚀 ~ handleFormSubmit ~ pixKeyData:', pixKeyData);
         console.log(
           '🚀 ~ handleFormSubmit ~ swapRates:',
           swapRates,
-          sendPixState.amountBrl
+          pixPaymentState.amountBrl
         );
 
         // TODO: remove test delay
         await rangeDelay(1000, 5000);
 
-        setSendPixState((prevState) => ({
+        setPixPaymentState((prevState) => ({
           ...prevState,
           ...({
             name: pixKeyData.name,
@@ -115,7 +118,7 @@ export default function Send() {
             amountUsdt: swapRates.amountUsdt,
             rateUsdtBrl: swapRates.rateUsdtBrl,
             loading: false,
-          } as SendPixState),
+          } as PixPaymentState),
         }));
 
         setOpenPreview(true);
@@ -123,10 +126,10 @@ export default function Send() {
         console.error('handleFormSubmit error:', err);
         toast.error("Can't submit the form. Please try again.");
       } finally {
-        setSendPixState((prevState) => ({ ...prevState, loading: false }));
+        setPixPaymentState((prevState) => ({ ...prevState, loading: false }));
       }
     },
-    [setSendPixState, sendPixState.amountBrl, sendPixState.pixKey]
+    [setPixPaymentState, pixPaymentState.amountBrl, pixPaymentState.pixKey]
   );
 
   // Payment confirmation helper
@@ -134,12 +137,12 @@ export default function Send() {
     try {
       // Here should handle the send payment action
       const newPayment: NewPayment = {
-        pixName: sendPixState.name,
-        pixKey: sendPixState.pixKey,
-        pixKeyParsed: sendPixState.pixKeyParsed,
-        amount: sendPixState.amountBrl!,
-        amountUsdt: sendPixState.amountUsdt!,
-        amountRate: sendPixState.rateUsdtBrl!,
+        pixName: pixPaymentState.name,
+        pixKey: pixPaymentState.pixKey,
+        pixKeyParsed: pixPaymentState.pixKeyParsed,
+        amount: pixPaymentState.amountBrl!,
+        amountUsdt: pixPaymentState.amountUsdt!,
+        amountRate: pixPaymentState.rateUsdtBrl!,
       };
 
       await createPayment(newPayment);
@@ -147,10 +150,10 @@ export default function Send() {
     } catch (err) {
       console.error('🚀 ~ handleConfirm ~ err:', err); // TODO: Improve logging
       toast.error('Falied to create payment. Please try again.');
-      setSendPixState((prevState) => ({ ...prevState, sending: false }));
+      setPixPaymentState((prevState) => ({ ...prevState, sending: false }));
       // setOpenPreview(false);
     }
-  }, [sendPixState, setSendPixState]);
+  }, [setPixPaymentState, pixPaymentState]);
 
   return (
     <PageWrapper>
@@ -163,7 +166,7 @@ export default function Send() {
         <button
           type="button"
           className="flex items-center justify-center transition ease-in-out w-full rounded-2xl p-4 mt-8 text-xl text-white bg-pink-500 ring ring-pink-500 active:bg-pink-700 active:ring-pink-700 hover:bg-pink-600 hover:ring-pink-600 disabled:text-slate-400 disabled:bg-slate-300 disabled:ring-slate-300 cursor-pointer disabled:cursor-not-allowed"
-          disabled={sendPixState.loading || sendPixState.sending}
+          disabled={pixPaymentState.loading || pixPaymentState.sending}
           onClick={() => {
             setOpenQrScanner(true);
           }}

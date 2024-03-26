@@ -8,7 +8,7 @@ import React, {
   useState,
 } from 'react';
 
-import { useSendPixContext } from '@/context/SendPixContext';
+import { usePixPaymentContext } from '@/context/PixPaymentContext';
 
 // import AmountInput from './AmountInput';
 import PixKeyInput from './PixKeyInput';
@@ -36,7 +36,7 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
   const [amountInputReadOnly, setAmountInputReadOnly] = useState(true);
   const [canSubmit, setCanSubmit] = useState(false);
   const [formattedAmount, setFormattedAmount] = useState('');
-  const { sendPixState, setSendPixState } = useSendPixContext();
+  const { pixPaymentState, setPixPaymentState } = usePixPaymentContext();
   const amountInputRef = useRef<HTMLInputElement>(null);
 
   // Update PixKey in context when the input changes
@@ -47,12 +47,12 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
         '🚀 ~ SendPixForm ~ handlePixKeyChange - textTrim:',
         textTrim
       );
-      // if (textTrim !== sendPixState.pixKey) {
+      // if (textTrim !== pixPaymentState.pixKey) {
       setAmountInputReadOnly(textTrim === ''); // Set amountInputReadOnly based on the presence of textTrim
-      setSendPixState((prevState) => ({ ...prevState, pixKey: textTrim }));
+      setPixPaymentState((prevState) => ({ ...prevState, pixKey: textTrim }));
       // }
     },
-    [setSendPixState]
+    [setPixPaymentState]
   );
 
   // Update the input focus when a valid pixKey is pasted successfully
@@ -60,8 +60,8 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
   //   console.log(
   //     '🚀 ~ handlePasteSuccess ~ handlePasteSuccess:',
   //     amountInputRef.current,
-  //     sendPixState.loading,
-  //     `--${sendPixState.pixKey}--`
+  //     pixPaymentState.loading,
+  //     `--${pixPaymentState.pixKey}--`
   //   );
   //   setAmountInputReadOnly(false); // Update the readOnly state first
   //   setTimeout(() => {
@@ -71,7 +71,7 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
   //       amountInputRef.current
   //     );
   //   }, 150);
-  // }, [sendPixState.pixKey, sendPixState.loading]);
+  // }, [pixPaymentState.pixKey, pixPaymentState.loading]);
 
   // Validate and update amount
   const handleAmountChange = useCallback(
@@ -87,13 +87,13 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
         inputValue,
         amountSafe
       );
-      setSendPixState((prevState) => ({
+      setPixPaymentState((prevState) => ({
         ...prevState,
         amountBrl: isNaN(amountSafe) ? 0 : amountSafe,
       }));
       setCanSubmit(isValid);
     },
-    [setSendPixState]
+    [setPixPaymentState]
   );
 
   const handlePasteSuccess = useCallback(() => {
@@ -105,10 +105,10 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
   }, []);
 
   useEffect(() => {
-    if (!sendPixState.amountBrl) {
+    if (!pixPaymentState.amountBrl) {
       setFormattedAmount('');
     }
-  }, [sendPixState.amountBrl]);
+  }, [pixPaymentState.amountBrl]);
 
   return (
     <form onSubmit={onSubmit} className="mt-20">
@@ -117,10 +117,10 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
         name="pixKey"
         aria-label="Enter Chave Pix such as CPF, CNPJ, phone number, or email"
         placeholder="CPF, phone number, email..."
-        value={sendPixState.pixKeyParsed || sendPixState.pixKey}
+        value={pixPaymentState.pixKeyParsed || pixPaymentState.pixKey}
         onChange={handlePixKeyChange}
         required={true}
-        disabled={sendPixState.loading}
+        disabled={pixPaymentState.loading}
         onPasteSuccess={handlePasteSuccess}
       />
 
@@ -137,10 +137,10 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
           value={formattedAmount}
           readOnly={
             amountInputReadOnly ||
-            sendPixState.pixKey === '' ||
-            sendPixState.loading
+            pixPaymentState.pixKey === '' ||
+            pixPaymentState.loading
           }
-          disabled={sendPixState.loading}
+          disabled={pixPaymentState.loading}
           pattern={amountRegex.source}
           required={true}
           onChange={handleAmountChange}
@@ -157,11 +157,11 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
       <button
         type="submit"
         className={`transition ease-in-out w-full rounded-2xl p-4 mt-8 text-center text-xl text-white bg-pink-500 ring ring-pink-500 active:bg-pink-700 active:ring-pink-700 hover:bg-pink-600 hover:ring-pink-600 disabled:text-slate-400 disabled:bg-slate-300 disabled:ring-slate-300 cursor-pointer disabled:cursor-not-allowed ${
-          sendPixState.loading ? 'animate-pulse' : ''
+          pixPaymentState.loading ? 'animate-pulse' : ''
         }`}
-        disabled={!canSubmit || sendPixState.loading}
+        disabled={!canSubmit || pixPaymentState.loading}
       >
-        {sendPixState.loading ? 'Loading...' : 'Continue'}
+        {pixPaymentState.loading ? 'Loading...' : 'Continue'}
       </button>
     </form>
   );
