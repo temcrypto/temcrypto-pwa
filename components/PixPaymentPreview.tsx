@@ -5,19 +5,19 @@ import { usePixPaymentContext } from '@/context/PixPaymentContext';
 import AmountUSDT from './AmountUSDT';
 import AmountBRL from './AmountBRL';
 
-interface SendPixPreviewProps {
+interface PixPaymentPreviewProps {
   isOpen: boolean;
   sheetRootId?: string;
   onConfirm: () => void;
   onClose?: () => void;
 }
 
-const SendPixPreview = ({
+const PixPaymentPreview = ({
   isOpen = false,
   sheetRootId,
   onConfirm,
   onClose,
-}: SendPixPreviewProps) => {
+}: PixPaymentPreviewProps) => {
   const { pixPaymentState, setPixPaymentState } = usePixPaymentContext();
 
   const handleConfirm = useCallback(() => {
@@ -115,4 +115,4 @@ const SendPixPreview = ({
   );
 };
 
-export default SendPixPreview;
+export default PixPaymentPreview;

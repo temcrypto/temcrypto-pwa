@@ -2,7 +2,6 @@
 
 import { FormEvent, useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
-import { LuQrCode } from 'react-icons/lu';
 import { rangeDelay } from 'delay';
 
 import {
@@ -11,11 +10,13 @@ import {
   getSwapRateBrl,
   createPayment,
 } from '@/app/send/actions';
+
 import PageHeader from '@/components/PageHeader';
 import PageWrapper from '@/components/PageWrapper';
 import QRCodeScanner from '@/components/QRCodeScanner';
-import SendPixForm from '@/components/SendPixForm';
-import SendPixPreview from '@/components/SendPixPreview';
+import PixPaymentForm from '@/components/PixPaymentForm';
+import PixPaymentPreview from '@/components/PixPaymentPreview';
+
 import {
   type PixPaymentState,
   usePixPaymentContext,
@@ -156,27 +157,15 @@ export default function Send() {
 
   return (
     <PageWrapper id="page-send">
-      {/* <section id="page-send" className="pb-6"> */}
       <PageHeader
         title="Send Pix"
         subtitle="Scan a QR code or enter a Chave Pix: CPF, CNPJ, phone number, or email."
       />
 
-      <button
-        type="button"
-        className="flex items-center justify-center transition ease-in-out w-full rounded-2xl p-4 mt-8 text-xl text-white bg-pink-500 ring ring-pink-500 active:bg-pink-700 active:ring-pink-700 hover:bg-pink-600 hover:ring-pink-600 disabled:text-slate-400 disabled:bg-slate-300 disabled:ring-slate-300 cursor-pointer disabled:cursor-not-allowed"
-        disabled={pixPaymentState.loading || pixPaymentState.sending}
-        onClick={() => {
-          setOpenQrScanner(true);
-        }}
-      >
-        <span className="mr-2">
-          <LuQrCode />
-        </span>
-        Scan
-      </button>
-
-      <SendPixForm onSubmit={handleFormSubmit} />
+      <PixPaymentForm
+        onScanQR={() => setOpenQrScanner(true)}
+        onSubmit={handleFormSubmit}
+      />
 
       {/* Bottom Sheets */}
       <QRCodeScanner
@@ -184,12 +173,10 @@ export default function Send() {
         // sheetRootId="layout-app"
         onScan={handleQrScan}
         onError={handleQrError}
-        onClose={() => {
-          setOpenQrScanner(false);
-        }}
+        onClose={() => setOpenQrScanner(false)}
       />
 
-      <SendPixPreview
+      <PixPaymentPreview
         isOpen={openPreview}
         // sheetRootId="layout-app"
         onConfirm={handleConfirm}
@@ -197,7 +184,6 @@ export default function Send() {
           setOpenPreview(false);
         }}
       />
-      {/* </section> */}
     </PageWrapper>
   );
 }

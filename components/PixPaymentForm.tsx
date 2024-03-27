@@ -7,11 +7,9 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { LuQrCode } from 'react-icons/lu';
 
 import { usePixPaymentContext } from '@/context/PixPaymentContext';
-
-// import AmountInput from './AmountInput';
-import PixKeyInput from './PixKeyInput';
 
 // Regular Expression to Validate Currency Inputs from 5.00 up to 500.00
 
@@ -28,23 +26,24 @@ Explanation:
 const amountRegex =
   /^(?:[5-9]|[1-9]\d|[1-4]\d{2})(?:[.,]\d{1,2})?$|^(500)(?:[.,]0{1,2})?$/;
 
-interface SendPixFormProps {
+interface PixPaymentFormProps {
+  onScanQR: () => void;
   onSubmit: (data: any) => void; // TODO: Consider defining a more specific type for the data.
 }
 
-const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
+const PixPaymentForm = ({ onScanQR, onSubmit }: PixPaymentFormProps) => {
   const [amountInputReadOnly, setAmountInputReadOnly] = useState(true);
   const [canSubmit, setCanSubmit] = useState(false);
   const [formattedAmount, setFormattedAmount] = useState('');
   const { pixPaymentState, setPixPaymentState } = usePixPaymentContext();
-  const amountInputRef = useRef<HTMLInputElement>(null);
+  // const amountInputRef = useRef<HTMLInputElement>(null);
 
   // Update PixKey in context when the input changes
   const handlePixKeyChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const textTrim = e.target.value.trim();
       console.log(
-        '🚀 ~ SendPixForm ~ handlePixKeyChange - textTrim:',
+        '🚀 ~ PixPaymentForm ~ handlePixKeyChange - textTrim:',
         textTrim
       );
       // if (textTrim !== pixPaymentState.pixKey) {
@@ -54,24 +53,6 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
     },
     [setPixPaymentState]
   );
-
-  // Update the input focus when a valid pixKey is pasted successfully
-  // const handlePasteSuccess = useCallback(() => {
-  //   console.log(
-  //     '🚀 ~ handlePasteSuccess ~ handlePasteSuccess:',
-  //     amountInputRef.current,
-  //     pixPaymentState.loading,
-  //     `--${pixPaymentState.pixKey}--`
-  //   );
-  //   setAmountInputReadOnly(false); // Update the readOnly state first
-  //   setTimeout(() => {
-  //     amountInputRef.current?.focus();
-  //     console.log(
-  //       '🚀 ~ setTimeout ~ amountInputRef.current:',
-  //       amountInputRef.current
-  //     );
-  //   }, 150);
-  // }, [pixPaymentState.pixKey, pixPaymentState.loading]);
 
   // Validate and update amount
   const handleAmountChange = useCallback(
@@ -83,7 +64,7 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
 
       setFormattedAmount(inputValue); // Update the formatted amount state to show in the UI
       console.log(
-        '🚀 ~ SendPixForm ~ setFormattedAmount:',
+        '🚀 ~ PixPaymentForm ~ setFormattedAmount:',
         inputValue,
         amountSafe
       );
@@ -96,14 +77,6 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
     [setPixPaymentState]
   );
 
-  const handlePasteSuccess = useCallback(() => {
-    console.log('🚀 ~ handlePasteSuccess ~ handlePasteSuccess:');
-    setAmountInputReadOnly(false);
-    setTimeout(() => {
-      amountInputRef.current?.focus();
-    }, 150);
-  }, []);
-
   useEffect(() => {
     if (!pixPaymentState.amountBrl) {
       setFormattedAmount('');
@@ -111,24 +84,42 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
   }, [pixPaymentState.amountBrl]);
 
   return (
-    <form onSubmit={onSubmit} className="mt-20">
-      <PixKeyInput
-        id="pixKey"
-        name="pixKey"
-        aria-label="Enter Chave Pix such as CPF, CNPJ, phone number, or email"
-        placeholder="CPF, phone number, email..."
-        value={pixPaymentState.pixKeyParsed || pixPaymentState.pixKey}
-        onChange={handlePixKeyChange}
-        required={true}
-        disabled={pixPaymentState.loading}
-        onPasteSuccess={handlePasteSuccess}
-      />
+    <form onSubmit={onSubmit} className="mt-12">
+      <div className="relative rounded-2xl shadow-sm text-xl">
+        <input
+          id="pixKey"
+          name="pixKey"
+          type="text"
+          className="transition ease-in-out block w-full rounded-2xl border-0 p-4 pr-20 text-slate-800 placeholder:text-slate-400 ring ring-slate-200 focus:ring-pink-500 focus:outline-none read-only:bg-slate-300 read-only:text-slate-400 read-only:ring-slate-300 appearance-none"
+          aria-label="Enter Chave Pix such as CPF, CNPJ, phone number, or email"
+          placeholder="CPF, phone number, email..."
+          value={pixPaymentState.pixKeyParsed || pixPaymentState.pixKey}
+          onChange={handlePixKeyChange}
+          required={true}
+          readOnly={pixPaymentState.loading}
+        />
+        {/* <div aria-label="Paste input" /> */}
+        <div className="absolute inset-y-0 right-0 flex items-center pr-4">
+          <button
+            type="button"
+            className="text-pink-500 hover:text-pink-700 disabled:text-slate-400 text-base uppercase"
+            onClick={onScanQR}
+            disabled={pixPaymentState.loading}
+            aria-label="Scan QR button"
+          >
+            <span className="mr-2">
+              <LuQrCode />
+            </span>
+            Scan
+          </button>
+        </div>
+      </div>
 
       <div className="relative mt-8 rounded-2xl shadow-sm text-xl">
         <input
           type="text"
           inputMode="decimal"
-          ref={amountInputRef}
+          // ref={amountInputRef}
           className="transition ease-in-out block w-full rounded-2xl border-0 py-4 pl-12 pr-4 text-slate-800 placeholder:text-slate-400 ring ring-slate-200 focus:ring-pink-500 focus:outline-none appearance-none read-only:ring-slate-300 read-only:focus:ring-slate-300 read-only:bg-slate-300 read-only:text-slate-400 invalid:focus:ring-red-500 invalid:focus:text-red-500 invalid:focus:bg-red-100 peer"
           id="amount"
           name="amount"
@@ -167,4 +158,4 @@ const SendPixForm = ({ onSubmit }: SendPixFormProps) => {
   );
 };
 
-export default SendPixForm;
+export default PixPaymentForm;
