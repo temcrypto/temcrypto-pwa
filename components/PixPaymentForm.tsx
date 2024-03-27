@@ -90,7 +90,7 @@ const PixPaymentForm = ({ onScanQR, onSubmit }: PixPaymentFormProps) => {
           id="pixKey"
           name="pixKey"
           type="text"
-          className="transition ease-in-out block w-full rounded-2xl border-0 p-4 pr-20 text-slate-800 placeholder:text-slate-400 ring ring-slate-200 focus:ring-pink-500 focus:outline-none read-only:bg-slate-300 read-only:text-slate-400 read-only:ring-slate-300 appearance-none"
+          className="transition ease-in-out block w-full rounded-2xl border-0 p-4 pr-24 text-slate-800 placeholder:text-slate-400 ring ring-slate-200 focus:ring-pink-500 focus:outline-none read-only:bg-slate-300 read-only:text-slate-400 read-only:ring-slate-300 appearance-none"
           aria-label="Enter Chave Pix such as CPF, CNPJ, phone number, or email"
           placeholder="CPF, phone number, email..."
           value={pixPaymentState.pixKeyParsed || pixPaymentState.pixKey}
@@ -99,15 +99,15 @@ const PixPaymentForm = ({ onScanQR, onSubmit }: PixPaymentFormProps) => {
           readOnly={pixPaymentState.loading}
         />
         {/* <div aria-label="Paste input" /> */}
-        <div className="absolute inset-y-0 right-0 flex items-center pr-4">
+        <div className="absolute inset-y-0 right-0 pr-4 flex">
           <button
             type="button"
-            className="text-pink-500 hover:text-pink-700 disabled:text-slate-400 text-base uppercase"
+            className="text-pink-500 hover:text-pink-700 disabled:text-slate-400 text-base uppercase flex items-center"
             onClick={onScanQR}
             disabled={pixPaymentState.loading}
             aria-label="Scan QR button"
           >
-            <span className="mr-2">
+            <span className="mr-1 text-lg">
               <LuQrCode />
             </span>
             Scan
