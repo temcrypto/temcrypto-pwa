@@ -36,7 +36,6 @@ const PixPaymentForm = ({ onScanQR, onSubmit }: PixPaymentFormProps) => {
   const [canSubmit, setCanSubmit] = useState(false);
   const [formattedAmount, setFormattedAmount] = useState('');
   const { pixPaymentState, setPixPaymentState } = usePixPaymentContext();
-  // const amountInputRef = useRef<HTMLInputElement>(null);
 
   // Update PixKey in context when the input changes
   const handlePixKeyChange = useCallback(
@@ -98,7 +97,6 @@ const PixPaymentForm = ({ onScanQR, onSubmit }: PixPaymentFormProps) => {
           required={true}
           readOnly={pixPaymentState.loading}
         />
-        {/* <div aria-label="Paste input" /> */}
         <div className="absolute inset-y-0 right-0 pr-4 flex">
           <button
             type="button"
@@ -119,22 +117,20 @@ const PixPaymentForm = ({ onScanQR, onSubmit }: PixPaymentFormProps) => {
         <input
           type="text"
           inputMode="decimal"
-          // ref={amountInputRef}
-          className="transition ease-in-out block w-full rounded-2xl border-0 py-4 pl-12 pr-4 text-slate-800 placeholder:text-slate-400 ring ring-slate-200 focus:ring-pink-500 focus:outline-none appearance-none read-only:ring-slate-300 read-only:focus:ring-slate-300 read-only:bg-slate-300 read-only:text-slate-400 invalid:focus:ring-red-500 invalid:focus:text-red-500 invalid:focus:bg-red-100 peer"
+          className="transition ease-in-out block w-full rounded-2xl border-0 p-4 pl-12 text-slate-800 placeholder:text-slate-400 ring ring-slate-200 focus:ring-pink-500 focus:outline-none read-only:bg-slate-300 read-only:text-slate-400 read-only:ring-slate-300 read-only:focus:ring-slate-300 invalid:focus:ring-red-500 invalid:focus:text-red-500 invalid:focus:bg-red-100 peer appearance-none"
           id="amount"
           name="amount"
           aria-label="Enter the transaction amount between 5,00 and 500,00"
           placeholder="5,00 - 500,00"
           value={formattedAmount}
+          pattern={amountRegex.source}
+          onChange={handleAmountChange}
+          required={true}
           readOnly={
             amountInputReadOnly ||
             pixPaymentState.pixKey === '' ||
             pixPaymentState.loading
           }
-          disabled={pixPaymentState.loading}
-          pattern={amountRegex.source}
-          required={true}
-          onChange={handleAmountChange}
         />
         <div
           className={
