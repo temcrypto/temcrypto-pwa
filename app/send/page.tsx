@@ -180,9 +180,7 @@ export default function Send() {
         isOpen={openPreview}
         // sheetRootId="layout-app"
         onConfirm={handleConfirm}
-        onClose={() => {
-          setOpenPreview(false);
-        }}
+        onClose={() => setOpenPreview(false)}
       />
     </PageWrapper>
   );
