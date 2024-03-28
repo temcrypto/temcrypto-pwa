@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { FaCheck, FaPix } from 'react-icons/fa6';
-// import { LuDownload, LuUpload } from 'react-icons/lu';
 import { SiTether } from 'react-icons/si';
 import PageWrapper from '@/components/PageWrapper';
 
@@ -11,18 +10,12 @@ export default function App() {
         <div className="w-full p-8 shadow-xl rounded-2xl bg-slate-700 text-gray-400">
           <div className="mb-8 flex items-center">
             <div className="flex rounded-2xl w-16 h-16 bg-white items-center justify-center text-3xl text-[#009393]">
-              {/* <LuUpload /> */}
               <SiTether />
             </div>
             <div className="ml-5">
               <span className="block text-3xl font-semibold text-white">
                 Send
               </span>
-              {/* <span>
-              <span className="font-medium text-xl align-top">$&thinsp;</span>
-              <span className="text-3xl font-bold text-white">24 </span>
-            </span>
-            <span className="font-medium">/ user</span> */}
             </div>
           </div>
           <ul className="mb-8 font-medium">
@@ -58,20 +51,12 @@ export default function App() {
         <div className="w-full p-8 bg-white shadow-xl rounded-2xl">
           <div className="mb-8 flex items-center">
             <div className="flex rounded-2xl w-16 h-16 bg-white items-center justify-center text-3xl text-[#32BCAD] border border-[#32BCAD]">
-              {/* <LuDownload /> */}
               <FaPix />
             </div>
             <div className="ml-5">
               <span className="block text-3xl font-semibold dark:text-slate-800">
                 Receive
               </span>
-              {/* <span>
-              <span className="font-medium text-gray-500 text-xl align-top">
-                $&thinsp;
-              </span>
-              <span className="text-3xl font-bold">10 </span>
-            </span>
-            <span className="text-gray-500 font-medium">/ user</span> */}
             </div>
           </div>
           <ul className="mb-8 font-medium text-gray-500">
