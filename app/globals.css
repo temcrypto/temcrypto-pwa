@@ -29,9 +29,13 @@ body {
   -webkit-touch-callout: none;
 }
 
+main {
+  margin-top: env(titlebar-area-height);
+}
+
 .header {
   top: env(titlebar-area-y);
-  padding: env(safe-area-inset-top) 0 0 env(safe-area-inset-left);
+  /* padding: env(safe-area-inset-top) 0 0 env(safe-area-inset-left); */
 }
 
 /* React Bottom Sheet */
