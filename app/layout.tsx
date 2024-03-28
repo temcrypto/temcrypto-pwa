@@ -36,8 +36,9 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: SITE_NAME,
-    statusBarStyle: 'black-translucent',
-    // statusBarStyle: 'default',
+    // statusBarStyle: 'black-translucent',
+    statusBarStyle: 'default',
+    // statusBarColor: '#1e293b',
   },
   openGraph: {
     siteName: SITE_NAME,
@@ -110,15 +111,12 @@ export default function RootLayout({
         />
       </head>
       <body className={`${nunito.className}`}>
-        <Header />
+        <main id="layout-app" className="min-h-screen h-auto max-h-screen">
+          <Header />
 
-        <main
-          id="layout-app"
-          // className="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0"
-          // className="flex flex-col min-h-screen"
-          className="safe-top safe-left safe-right safe-bottom m-6"
-        >
-          <PixPaymentProvider>{children}</PixPaymentProvider>
+          <div className="safe-top safe-left safe-right safe-bottom m-6">
+            <PixPaymentProvider>{children}</PixPaymentProvider>
+          </div>
         </main>
 
         <Toaster position="bottom-center" />

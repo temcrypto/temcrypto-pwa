@@ -58,7 +58,7 @@ const PageWrapper = ({
     >
       {isMounted && (
         <>
-          <motion.section
+          <motion.div
             id={id}
             className={className}
             key={pathname}
@@ -76,7 +76,7 @@ const PageWrapper = ({
             }}
           >
             {children}
-          </motion.section>
+          </motion.div>
         </>
       )}
     </AnimatePresence>
