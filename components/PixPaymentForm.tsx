@@ -23,7 +23,7 @@ Explanation:
   - ^(500)(?:[.,]0{1,2})?$: Specifically matches "500", with or without up to two trailing zeros after the decimal point, ensuring that values above 500.00, like "500.01", are not considered valid.
 - This ensures precise validation of currency amounts from 5.00 to exactly 500.00, accommodating standard currency formats and correctly handling the upper limit.
 */
-const amountRegex =
+const AMOUNT_REGEX =
   /^(?:[5-9]|[1-9]\d|[1-4]\d{2})(?:[.,]\d{1,2})?$|^(500)(?:[.,]0{1,2})?$/;
 
 interface PixPaymentFormProps {
@@ -57,13 +57,13 @@ const PixPaymentForm = ({ onScanQR, onSubmit }: PixPaymentFormProps) => {
   const handleAmountChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const inputValue = e.target.value;
-      const isValid = amountRegex.test(inputValue);
+      const isValid = AMOUNT_REGEX.test(inputValue);
       const amountWithPeriod = inputValue.replace(',', '.');
       const amountSafe = parseFloat(amountWithPeriod);
 
       setFormattedAmount(inputValue); // Update the formatted amount state to show in the UI
       console.log(
-        '🚀 ~ PixPaymentForm ~ setFormattedAmount:',
+        '🚀 ~ PixPaymentForm ~ handleAmountChange - setFormattedAmount:',
         inputValue,
         amountSafe
       );
@@ -123,7 +123,7 @@ const PixPaymentForm = ({ onScanQR, onSubmit }: PixPaymentFormProps) => {
           aria-label="Enter the transaction amount between 5,00 and 500,00"
           placeholder="5,00 - 500,00"
           value={formattedAmount}
-          pattern={amountRegex.source}
+          pattern={AMOUNT_REGEX.source}
           onChange={handleAmountChange}
           required={true}
           readOnly={
