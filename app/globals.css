@@ -29,6 +29,11 @@ body {
   -webkit-touch-callout: none;
 }
 
+.header {
+  top: env(titlebar-area-y);
+  padding: env(safe-area-inset-top) 0 0 env(safe-area-inset-left);
+}
+
 /* React Bottom Sheet */
 .react-modal-sheet-container {
   @apply bg-white text-slate-800 dark:bg-slate-800 dark:text-white rounded-t-2xl !important;

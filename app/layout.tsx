@@ -122,9 +122,6 @@ export default function RootLayout({
           </main>
 
           <Toaster position="bottom-center" />
-
-          {/* <div className="flex h-screen flex-col justify-between">
-          </div> */}
         </section>
       </body>
     </html>
