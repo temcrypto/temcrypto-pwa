@@ -110,19 +110,18 @@ export default function RootLayout({
         />
       </head>
       <body className={`${nunito.className}`}>
-        <section
+        <Header />
+
+        <main
           id="layout-app"
           // className="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0"
-          className="flex flex-col min-h-screen"
+          // className="flex flex-col min-h-screen"
+          className="safe-top safe-left safe-right safe-bottom m-6"
         >
-          <Header />
+          <PixPaymentProvider>{children}</PixPaymentProvider>
+        </main>
 
-          <main className="py-4 px-6">
-            <PixPaymentProvider>{children}</PixPaymentProvider>
-          </main>
-
-          <Toaster position="bottom-center" />
-        </section>
+        <Toaster position="bottom-center" />
       </body>
     </html>
   );

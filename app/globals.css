@@ -12,6 +12,21 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  /* Safe area (https://css-tricks.com/custom-tailwind-css/#aa-envsafe-area-inset-bottom) */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
 
 /* PWA */
@@ -33,10 +48,10 @@ main {
   margin-top: env(titlebar-area-height);
 }
 
-.header {
-  top: env(titlebar-area-y);
-  /* padding: env(safe-area-inset-top) 0 0 env(safe-area-inset-left); */
-}
+/* .header { */
+/* top: env(titlebar-area-y); */
+/* padding: env(safe-area-inset-top) 0 0 env(safe-area-inset-left); */
+/* } */
 
 /* React Bottom Sheet */
 .react-modal-sheet-container {
