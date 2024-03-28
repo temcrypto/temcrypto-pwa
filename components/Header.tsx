@@ -15,7 +15,7 @@ const headerNavLinks = [
 
 const Header = () => {
   return (
-    <header className="flex items-center justify-center sm:justify-between py-6">
+    <header className="sticky top-0 z-40 w-full backdrop-blur flex items-center justify-center sm:justify-between transition-colors duration-500 lg:z-50 border-b border-slate-900/10 dark:border-slate-50/[0.06] supports-backdrop-blur:bg-white/95 dark:bg-slate-900/75 shadow-md px-8 py-6">
       <div>
         <Link href="/" aria-label={siteMetadata.headerTitle}>
           <div className="flex items-center justify-between">

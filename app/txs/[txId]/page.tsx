@@ -75,6 +75,41 @@ export default function Txs({
             </div>
             <p className="dark:text-white break-words">{txId}</p>
           </div>
+
+          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+            <div className="text-sm text-slate-400 font-light uppercase">
+              TX ID
+            </div>
+            <p className="dark:text-white break-words">{txId}</p>
+          </div>
+
+          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+            <div className="text-sm text-slate-400 font-light uppercase">
+              TX ID
+            </div>
+            <p className="dark:text-white break-words">{txId}</p>
+          </div>
+
+          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+            <div className="text-sm text-slate-400 font-light uppercase">
+              TX ID
+            </div>
+            <p className="dark:text-white break-words">{txId}</p>
+          </div>
+
+          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+            <div className="text-sm text-slate-400 font-light uppercase">
+              TX ID
+            </div>
+            <p className="dark:text-white break-words">{txId}</p>
+          </div>
+
+          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
+            <div className="text-sm text-slate-400 font-light uppercase">
+              TX ID
+            </div>
+            <p className="dark:text-white break-words">{txId}</p>
+          </div>
         </>
       )}
     </PageWrapper>
