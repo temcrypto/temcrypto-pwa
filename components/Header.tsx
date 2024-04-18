@@ -2,15 +2,12 @@
 
 import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
-// import { signOut, useSession } from 'next-auth/react';
 import { IoArrowBackOutline } from 'react-icons/io5';
 
 import {
   DynamicConnectButton,
   useDynamicContext,
   useIsLoggedIn,
-  // DynamicWidget,
-  useUserWallets,
 } from '@/lib/dynamicxyz';
 import Link from './Link';
 
@@ -53,17 +50,9 @@ function Logo() {
 }
 
 const Header = () => {
-  // const userWallets = useUserWallets();
   const isLoggedIn = useIsLoggedIn();
   const { handleLogOut } = useDynamicContext();
   const pathname = usePathname();
-  // const session = {};
-  // const status = 'loading';
-  // const status = 'unauthenticated';
-
-  // console.log('Header ~ ', userWallets, isLoggedIn);
-
-  // const { data: session, status } = useSession();
 
   return (
     <header className="w-full flex animate-background bg-[length:_400%_400%] [animation-duration:_10s] bg-gradient-to-r from-pink-500 dark:from-pink-500/55 via-purple-300 dark:via-purple-300/55 to-cyan-300 dark:to-cyan-300/55 pb-0.5">
@@ -129,10 +118,9 @@ const Header = () => {
           ) : (
             <>
               <DynamicConnectButton>
-                {/* <div className="font-medium text-slate-800 dark:text-white sm:block uppercase hover:text-pink-500"> */}
-                {/* Signin */}
-                {/* </div> */}
-                <div data-testid="exampleChild">Connect a new wallet!</div>
+                <div className="font-medium text-slate-800 dark:text-white sm:block uppercase hover:text-pink-500">
+                  Signin
+                </div>
               </DynamicConnectButton>
             </>
           )}
