@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  /* Safe area (https://css-tricks.com/custom-tailwind-css/#aa-envsafe-area-inset-bottom) */
+  .safe-p-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-p-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  .safe-p-right {
+    padding-right: env(safe-area-inset-right);
+  }
+  .safe-p-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-m-top {
+    margin-top: env(safe-area-inset-top);
+  }
+  .safe-m-left {
+    margin-left: env(safe-area-inset-left);
+  }
+  .safe-m-right {
+    margin-right: env(safe-area-inset-right);
+  }
+  .safe-m-bottom {
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-m-bottom--0 {
+    margin-bottom: cal(env(safe-area-inset-bottom) - 0px);
+  }
+}
+
+/* PWA */
+/* html { */
+/* max-height: calc(100% - env(safe-area-inset-bottom)); */
+/* padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+} */
+
+body {
+  @apply bg-white text-slate-800 dark:bg-slate-800 dark:text-white antialiased select-none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+/* React Bottom Sheet */
+.react-modal-sheet-backdrop {
+  -webkit-backdrop-filter: var(--dynamic-modal-backdrop-filter);
+  backdrop-filter: var(--dynamic-modal-backdrop-filter);
+  background: var(--dynamic-modal-backdrop-background);
+}
+
+.react-modal-sheet-container {
+  @apply bg-white text-slate-800 dark:bg-slate-800 dark:text-white rounded-t-2xl !important;
+}
+
+.react-modal-sheet-content {
+  @apply p-6 pt-0 !important;
+}
+
+/* Dynamic Custom Styles */
+.dynamic-shadow-dom {
+  --dynamic-connect-button-background: #000;
+  --dynamic-connect-button-color: #fff;
+  --dynamic-text-primary: @apply text-slate-800;
+  --dynamic-text-size-button-primary: 16px;
+  /* --dynamic-font-family-primary: '__Nunito_978e4c', "Roboto", sans-serif; */
+}

@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1709857824781,
+      "tag": "0000_first_marauders",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1709864676399,
+      "tag": "0001_ambiguous_iron_lad",
+      "breakpoints": true
+    }
+  ]
+}
