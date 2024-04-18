@@ -53,7 +53,7 @@ function Logo() {
 }
 
 const Header = () => {
-  const userWallets = useUserWallets();
+  // const userWallets = useUserWallets();
   const isLoggedIn = useIsLoggedIn();
   const { handleLogOut } = useDynamicContext();
   const pathname = usePathname();
@@ -61,7 +61,7 @@ const Header = () => {
   // const status = 'loading';
   // const status = 'unauthenticated';
 
-  console.log('Header ~ ', userWallets, isLoggedIn);
+  // console.log('Header ~ ', userWallets, isLoggedIn);
 
   // const { data: session, status } = useSession();
 
