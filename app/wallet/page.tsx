@@ -6,14 +6,17 @@ import {
   useDynamicContext,
   // useSendBalance,
 } from '@/lib/dynamicxyz';
+import { useSession } from 'next-auth/react';
 // import { getEnsAvatar, normalize } from 'viem/ens';
 
 const Wallet = () => {
+  const session = useSession();
   const { primaryWallet, user, setShowDynamicUserProfile, handleLogOut } =
     useDynamicContext();
 
   console.log('primaryWallet', primaryWallet);
   console.log('user', user);
+  console.log('session', session);
 
   return (
     <PageWrapper id="page-wallet">
