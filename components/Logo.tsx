@@ -1,0 +1,12 @@
+const Logo = () => {
+  return (
+    <div className="flex items-center justify-between">
+      <div className="flex h-6 items-center text-3xl font-semibold">
+        <span className="text-pink-500">TEM</span>
+        <span className="text-slate-800 dark:text-white">CRYPTO</span>
+      </div>
+    </div>
+  );
+};
+
+export default Logo;

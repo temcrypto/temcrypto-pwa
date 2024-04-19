@@ -4,12 +4,9 @@ import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { IoArrowBackOutline } from 'react-icons/io5';
 
-import {
-  DynamicConnectButton,
-  useDynamicContext,
-  useIsLoggedIn,
-} from '@/lib/dynamicxyz';
+import { DynamicConnectButton, useIsLoggedIn } from '@/lib/dynamicxyz';
 import Link from './Link';
+import Logo from './Logo';
 
 interface HeaderNavLink {
   href: string;
@@ -29,29 +26,8 @@ const variants = {
   exit: { opacity: 0, x: 0, y: -10 },
 };
 
-function Logo() {
-  return (
-    <>
-      <div className="flex items-center justify-between">
-        <div className="flex h-6 items-center text-3xl font-semibold">
-          <span className="text-pink-500">TEM</span>
-          <span className="text-slate-800 dark:text-white">CRYPTO</span>
-        </div>
-      </div>
-    </>
-  );
-}
-
-{
-  /* <>
-  <Logo />
-  <div className="h-6 w-20 bg-slate-200 dark:bg-slate-600 rounded-md animate-pulse"></div>
-</> */
-}
-
 const Header = () => {
   const isLoggedIn = useIsLoggedIn();
-  const { handleLogOut } = useDynamicContext();
   const pathname = usePathname();
 
   return (
@@ -69,7 +45,7 @@ const Header = () => {
             opacity: { duration: 0.15 },
           }}
         >
-          {pathname === '/' ? (
+          {['/', '/signin'].includes(pathname) ? (
             <>
               <Logo />
             </>
@@ -107,21 +83,14 @@ const Header = () => {
                     {link.title}
                   </Link>
                 ))}
-
-              <button
-                className="font-medium text-slate-800 dark:text-white sm:block uppercase hover:text-pink-500"
-                onClick={() => handleLogOut()}
-              >
-                Signout
-              </button>
             </>
           ) : (
             <>
-              <DynamicConnectButton>
-                <div className="font-medium text-slate-800 dark:text-white sm:block uppercase hover:text-pink-500">
+              {pathname !== '/signin' && (
+                <DynamicConnectButton buttonClassName="font-medium text-slate-800 dark:text-white sm:block uppercase hover:text-pink-500">
                   Signin
-                </div>
-              </DynamicConnectButton>
+                </DynamicConnectButton>
+              )}
             </>
           )}
         </div>
