@@ -4,11 +4,11 @@ import PageWrapper from '@/components/PageWrapper';
 import {
   DynamicUserProfile,
   useDynamicContext,
-  useSendBalance,
+  // useSendBalance,
 } from '@/lib/dynamicxyz';
 // import { getEnsAvatar, normalize } from 'viem/ens';
 
-export default function Wallet() {
+const Wallet = () => {
   const { primaryWallet, user, setShowDynamicUserProfile, handleLogOut } =
     useDynamicContext();
 
@@ -53,4 +53,6 @@ export default function Wallet() {
       </div>
     </PageWrapper>
   );
-}
+};
+
+export default Wallet;

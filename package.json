@@ -14,8 +14,8 @@
     "db:studio": "drizzle-kit studio --port 3010 --verbose"
   },
   "dependencies": {
-    "@dynamic-labs/ethereum": "^2.0.0",
-    "@dynamic-labs/sdk-react-core": "^2.0.0",
+    "@dynamic-labs/ethereum": "^2.0.2",
+    "@dynamic-labs/sdk-react-core": "^2.0.2",
     "@wagmi/core": "^2.6.17",
     "currency.js": "^2.0.4",
     "delay": "^6.0.0",

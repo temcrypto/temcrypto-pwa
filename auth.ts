@@ -38,8 +38,8 @@ export const {
   ...authConfig,
   providers: [
     Credentials({
-      name: 'Credentials',
-      credentials: { token: { label: 'Token', type: 'text' } },
+      name: 'dynamic',
+      credentials: { token: { label: 'Token', type: 'password' } },
       async authorize(
         credentials: Partial<Record<'token', unknown>>
       ): Promise<User | null> {
@@ -50,6 +50,7 @@ export const {
         }
 
         const jwtPayload = await validateJWT(token);
+        console.log('jwPayload', jwtPayload);
 
         if (jwtPayload) {
           // Transform the JWT payload into your user object
