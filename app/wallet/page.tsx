@@ -1,6 +1,5 @@
 'use client';
 
-import AmountUSDT from '@/components/AmountUSDT';
 import PageWrapper from '@/components/PageWrapper';
 import {
   DynamicUserProfile,
@@ -9,15 +8,10 @@ import {
 } from '@/lib/dynamicxyz';
 // import { getEnsAvatar, normalize } from 'viem/ens';
 
-const MySendButton = () => {
-  const { open } = useSendBalance();
-
-  return <button onClick={() => open()}>Send</button>;
-};
-
 export default function Wallet() {
-  const { primaryWallet, user, setShowDynamicUserProfile } =
+  const { primaryWallet, user, setShowDynamicUserProfile, handleLogOut } =
     useDynamicContext();
+
   console.log('primaryWallet', primaryWallet);
   console.log('user', user);
 
@@ -25,41 +19,37 @@ export default function Wallet() {
     <PageWrapper id="page-wallet">
       <div className="text-left">
         <div className="text-md text-slate-400 font-light uppercase mb-3">
-          My Balance
+          Wallet
         </div>
-        <p className="text-3xl dark:text-white break-words">
-          <AmountUSDT amount={420.69} />
-        </p>
-
-        <div className="border-y border-gray-200 p-2">
-          <MySendButton />
+        <div className="dark:text-white break-words">
+          {primaryWallet?.address}
         </div>
 
-        <div className="border-y border-gray-200 p-2">avatar</div>
-
-        <div className="border-y border-gray-200 p-2">
+        <div className="border-y border-gray-200 p-2 my-6">
           <button onClick={() => setShowDynamicUserProfile(true)}>
             Click to open DynamicUserProfile!
           </button>
           <DynamicUserProfile />
         </div>
 
-        <div className="text-md text-slate-400 font-light uppercase mb-3">
-          User
+        <div className="text-md text-slate-400 font-light uppercase mb-3 mt-6">
+          Connected with
         </div>
-        <p className="text-3xl dark:text-white break-words">
-          Connected with{' '}
-          {user?.ens
-            ? user.ens.name
-            : user?.verifiedCredentials[1]?.publicIdentifier}
-        </p>
+        <div className="dark:text-white break-words">
+          {user?.ens ? user.ens.name : user?.email}
+        </div>
 
-        <div className="text-md text-slate-400 font-light uppercase mb-3">
-          Wallet
+        <div className="text-md text-slate-400 font-light uppercase mb-3 mt-6">
+          Session
         </div>
-        <p className="text-3xl dark:text-white break-words">
-          {/* {primaryWallet} */}
-        </p>
+        <div className="dark:text-white break-words">
+          <button
+            className="text-red-500 dark:text-white uppercase hover:text-pink-500"
+            onClick={() => handleLogOut()}
+          >
+            Signout
+          </button>
+        </div>
       </div>
     </PageWrapper>
   );
