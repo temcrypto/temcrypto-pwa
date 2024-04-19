@@ -1,4 +1,5 @@
 import { type ReactNode, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   DynamicContextProvider,
@@ -6,17 +7,24 @@ import {
 } from '@/lib/dynamicxyz';
 
 const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
+  const router = useRouter();
+
   // Memoize the handleAuthSuccess function
   const handleAuthSuccess = useCallback(
     async (event: { authToken: string }) => {
       console.log('handleAuthSuccess ~ event', event);
+      router.push('/');
     },
-    []
+    [router]
   );
 
-  const handleOnLogout = useCallback((args: any) => {
-    console.log('onLogout was called', args);
-  }, []);
+  const handleOnLogout = useCallback(
+    (args: any) => {
+      console.log('onLogout was called', args);
+      router.push('/signin');
+    },
+    [router]
+  );
 
   return (
     <DynamicContextProvider
