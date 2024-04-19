@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import {
   DynamicContextProvider,
   EthereumWalletConnectors,
+  UserProfile,
 } from '@/lib/dynamicxyz';
 
 const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
@@ -11,7 +12,10 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
 
   // Memoize the handleAuthSuccess function
   const handleAuthSuccess = useCallback(
-    async (event: { authToken: string }) => {
+    async (event: { authToken: string; user: UserProfile }) => {
+      if (event.user.newUser) {
+        console.log('This is a new user');
+      }
       console.log('handleAuthSuccess ~ event', event);
       router.push('/');
     },
