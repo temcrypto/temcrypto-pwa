@@ -52,26 +52,21 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
     [router]
   );
 
-  const handleOnLogout = useCallback(
-    async (args: any) => {
-      console.log('onLogout was called', args);
-      // signOut({ callbackUrl: '/signin' });
-      const data = await signOut({ redirect: false, callbackUrl: '/signin' });
-      router.push(data.url);
-    },
-    [router]
-    // []
-  );
+  const handleOnLogout = useCallback(async () => {
+    const data = await signOut({ redirect: false, callbackUrl: '/signin' });
+    router.push(data.url);
+  }, [router]);
 
   return (
     <DynamicContextProvider
       settings={{
         environmentId: process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID!,
         walletConnectors: [EthereumWalletConnectors],
-        eventsCallbacks: {
+        events: {
           onAuthSuccess: handleAuthSuccess,
           onLogout: handleOnLogout,
         },
+        // hideEmbeddedWalletTransactionUIs: false,
         logLevel: 'DEBUG',
         shadowDOMEnabled: true,
       }}

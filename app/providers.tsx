@@ -1,13 +1,15 @@
 'use client';
 
 import { type ReactNode } from 'react';
-import { SessionProvider } from 'next-auth/react';
+import { SessionProvider, useSession } from 'next-auth/react';
 
 import DynamicProviderWrapper from '@/components/DynamicWrapper';
 
 const Providers = ({ children }: { children: ReactNode }) => {
+  const { data: session } = useSession();
+
   return (
-    <SessionProvider>
+    <SessionProvider session={session}>
       <DynamicProviderWrapper>{children}</DynamicProviderWrapper>
     </SessionProvider>
   );

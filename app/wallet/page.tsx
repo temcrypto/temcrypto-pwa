@@ -10,13 +10,15 @@ import truncateEthAddress from '@/utils/truncateEthAddress';
 import toast from 'react-hot-toast';
 
 const Wallet = () => {
-  const session = useSession({ required: true });
+  const { data: session, status } = useSession({ required: true });
   const { primaryWallet, user, handleLogOut } = useDynamicContext();
   const [copiedText, copyToClipboard] = useCopyToClipboard();
 
   console.log('Wallet ~ session', session);
   console.log('Wallet ~ primaryWallet', primaryWallet);
   console.log('Wallet ~ user', user);
+
+  if ('loading' === status) return null;
 
   const userWallet = primaryWallet?.address ?? '';
   const userAuthenticatedWith =
