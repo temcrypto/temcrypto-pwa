@@ -5,6 +5,8 @@ import { validateJWT } from './lib/authHelpers';
 type User = {
   id: string;
   email: string;
+  ens?: any;
+  wallet?: any;
 };
 
 export const authConfig = {
@@ -25,6 +27,14 @@ export const authConfig = {
 
       return true;
     },
+    // jwt(jwtData) {
+    //   console.log('jwt ~ jwtData', jwtData);
+    //   return jwtData.token;
+    // },
+    // session(sessionData) {
+    //   console.log('session ~ sessionData', sessionData);
+    //   return sessionData.session;
+    // },
   },
   providers: [],
 } satisfies NextAuthConfig;
@@ -57,7 +67,11 @@ export const {
           const user: User = {
             id: jwtPayload.sub!, // Assuming 'sub' is the user ID
             email: jwtPayload.email || '', // Replace with actual field from JWT payload
+            wallet:
+              jwtPayload.verified_credentials[0].address ??
+              jwtPayload.verified_credentials[0].wallet_name,
           };
+          console.log('auth ~ user', user);
           return user;
         } else {
           return null;

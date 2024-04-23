@@ -41,10 +41,6 @@ const PixPaymentForm = ({ onScanQR, onSubmit }: PixPaymentFormProps) => {
   const handlePixKeyChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const textTrim = e.target.value.trim();
-      console.log(
-        '🚀 ~ PixPaymentForm ~ handlePixKeyChange - textTrim:',
-        textTrim
-      );
       setAmountInputReadOnly(textTrim === ''); // Set amountInputReadOnly based on the presence of textTrim
       setPixPaymentState((prevState) => ({ ...prevState, pixKey: textTrim }));
     },
@@ -60,11 +56,6 @@ const PixPaymentForm = ({ onScanQR, onSubmit }: PixPaymentFormProps) => {
       const amountSafe = parseFloat(amountWithPeriod);
 
       setFormattedAmount(inputValue); // Update the formatted amount state to show in the UI
-      console.log(
-        '🚀 ~ PixPaymentForm ~ handleAmountChange - setFormattedAmount:',
-        inputValue,
-        amountSafe
-      );
       setPixPaymentState((prevState) => ({
         ...prevState,
         amountBrl: isNaN(amountSafe) ? 0 : amountSafe,

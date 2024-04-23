@@ -1,3 +1,5 @@
+'use client';
+
 import { type ReactNode, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -6,7 +8,7 @@ import {
   EthereumWalletConnectors,
   type UserProfile,
 } from '@/lib/dynamicxyz';
-import { getCsrfToken } from 'next-auth/react';
+import { getCsrfToken, signOut } from 'next-auth/react';
 
 const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
@@ -42,17 +44,23 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
         .catch((error) => {
           // Handle any exceptions
           console.error('Error logging in', error);
+        })
+        .finally(() => {
+          console.log('Finally');
         });
     },
     [router]
   );
 
   const handleOnLogout = useCallback(
-    (args: any) => {
+    async (args: any) => {
       console.log('onLogout was called', args);
-      router.push('/signin');
+      // signOut({ callbackUrl: '/signin' });
+      const data = await signOut({ redirect: false, callbackUrl: '/signin' });
+      router.push(data.url);
     },
     [router]
+    // []
   );
 
   return (

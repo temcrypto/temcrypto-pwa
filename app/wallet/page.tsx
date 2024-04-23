@@ -1,22 +1,30 @@
 'use client';
 
-import PageWrapper from '@/components/PageWrapper';
-import {
-  DynamicUserProfile,
-  useDynamicContext,
-  // useSendBalance,
-} from '@/lib/dynamicxyz';
 import { useSession } from 'next-auth/react';
 // import { getEnsAvatar, normalize } from 'viem/ens';
 
+import PageWrapper from '@/components/PageWrapper';
+import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
+import { useDynamicContext } from '@/lib/dynamicxyz';
+import truncateEthAddress from '@/utils/truncateEthAddress';
+import toast from 'react-hot-toast';
+
 const Wallet = () => {
   const session = useSession();
-  const { primaryWallet, user, setShowDynamicUserProfile, handleLogOut } =
-    useDynamicContext();
+  const { primaryWallet, user, handleLogOut } = useDynamicContext();
+  const [copiedText, copyToClipboard] = useCopyToClipboard();
 
-  console.log('primaryWallet', primaryWallet);
-  console.log('user', user);
-  console.log('session', session);
+  console.log('Wallet ~ session', session);
+  console.log('Wallet ~ primaryWallet', primaryWallet);
+  console.log('Wallet ~ user', user);
+
+  const userWallet = primaryWallet?.address ?? '';
+  const userAuthenticatedWith =
+    (user?.isAuthenticatedWithAWallet
+      ? user.wallet
+      : user?.ens
+      ? user.ens.name
+      : user?.email) ?? '';
 
   return (
     <PageWrapper id="page-wallet">
@@ -25,21 +33,30 @@ const Wallet = () => {
           Wallet
         </div>
         <div className="dark:text-white break-words">
-          {primaryWallet?.address}
-        </div>
-
-        <div className="border-y border-gray-200 p-2 my-6">
-          <button onClick={() => setShowDynamicUserProfile(true)}>
-            Click to open DynamicUserProfile!
+          <button
+            onClick={() => {
+              copyToClipboard(userWallet);
+              toast.success('Copied!');
+            }}
+            className="transition active:text-slate-300 active:scale-95"
+          >
+            {truncateEthAddress(userWallet)}
           </button>
-          <DynamicUserProfile />
         </div>
 
         <div className="text-md text-slate-400 font-light uppercase mb-3 mt-6">
           Connected with
         </div>
         <div className="dark:text-white break-words">
-          {user?.ens ? user.ens.name : user?.email}
+          <button
+            onClick={() => {
+              copyToClipboard(userAuthenticatedWith);
+              toast.success('Copied!');
+            }}
+            className="transition active:text-slate-300 active:scale-95"
+          >
+            {userAuthenticatedWith}
+          </button>
         </div>
 
         <div className="text-md text-slate-400 font-light uppercase mb-3 mt-6">

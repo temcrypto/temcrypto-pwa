@@ -27,11 +27,10 @@ export const getKey = (
     .then((json) => {
       const publicKey = json.key.publicKey;
       const pemPublicKey = Buffer.from(publicKey, 'base64').toString('ascii');
-      console.log('getKey ~ pemPublicKey', pemPublicKey);
       callback(null, pemPublicKey); // Pass the public key to the callback
     })
     .catch((err) => {
-      console.error(err);
+      console.error('Error fetching public key', err);
       callback(err); // Pass the error to the callback
     });
 };
