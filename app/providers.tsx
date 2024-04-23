@@ -1,16 +1,13 @@
-'use server';
+'use client';
 
 import { type ReactNode } from 'react';
 import { SessionProvider } from 'next-auth/react';
 
 import DynamicProviderWrapper from '@/components/DynamicWrapper';
-import { auth } from '@/auth';
 
-const Providers = async ({ children }: { children: ReactNode }) => {
-  const session = await auth();
-
+const Providers = ({ children }: { children: ReactNode }) => {
   return (
-    <SessionProvider session={session}>
+    <SessionProvider>
       <DynamicProviderWrapper>{children}</DynamicProviderWrapper>
     </SessionProvider>
   );

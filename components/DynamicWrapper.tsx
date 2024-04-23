@@ -63,10 +63,10 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
       settings={{
         environmentId: process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID!,
         walletConnectors: [
-          // EthereumWalletConnectors,
-          // ZeroDevSmartWalletConnectors,
+          EthereumWalletConnectors,
+          ZeroDevSmartWalletConnectors,
         ],
-        events: {
+        eventsCallbacks: {
           onAuthSuccess: handleAuthSuccess,
           onLogout: handleOnLogout,
         },
@@ -74,6 +74,7 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
         logLevel: 'DEBUG',
         shadowDOMEnabled: true,
       }}
+      theme="auto"
     >
       {children}
     </DynamicContextProvider>
