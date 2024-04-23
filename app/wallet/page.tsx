@@ -10,7 +10,7 @@ import truncateEthAddress from '@/utils/truncateEthAddress';
 import toast from 'react-hot-toast';
 
 const Wallet = () => {
-  const session = useSession();
+  const session = useSession({ required: true });
   const { primaryWallet, user, handleLogOut } = useDynamicContext();
   const [copiedText, copyToClipboard] = useCopyToClipboard();
 
