@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import {
   DynamicContextProvider,
   EthereumWalletConnectors,
+  ZeroDevSmartWalletConnectors,
   type UserProfile,
 } from '@/lib/dynamicxyz';
 import { getCsrfToken, signOut } from 'next-auth/react';
@@ -61,7 +62,10 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
     <DynamicContextProvider
       settings={{
         environmentId: process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID!,
-        walletConnectors: [EthereumWalletConnectors],
+        walletConnectors: [
+          // EthereumWalletConnectors,
+          // ZeroDevSmartWalletConnectors,
+        ],
         events: {
           onAuthSuccess: handleAuthSuccess,
           onLogout: handleOnLogout,
