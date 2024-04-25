@@ -6,14 +6,14 @@ import { usePathname } from 'next/navigation';
 import { FaPix, FaPlus } from 'react-icons/fa6';
 import Sheet from 'react-modal-sheet';
 
-import { useIsLoggedIn } from '@/lib/dynamicxyz';
+// import { useIsLoggedIn } from '@/lib/dynamicxyz';
 
 import Link from './Link';
 
 const Footer = () => {
   const { data: session, status } = useSession({ required: false });
 
-  const isLoggedIn = useIsLoggedIn();
+  // const isLoggedIn = useIsLoggedIn();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const pathname = usePathname();
   const isHome = pathname === '/';
@@ -24,8 +24,8 @@ const Footer = () => {
     console.log('Footer ~ status', status);
   }, [session, status]);
 
-  if (!isLoggedIn) return null;
-  // if ('authenticated' !== status) return null;
+  // if (!isLoggedIn) return null;
+  if ('authenticated' !== status) return null;
 
   return (
     <>

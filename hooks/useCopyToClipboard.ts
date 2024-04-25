@@ -29,7 +29,10 @@ function oldSchoolCopy(text: string) {
   document.body.removeChild(tempTextArea);
 }
 
-export function useCopyToClipboard(): [string | null, (value: string) => void] {
+export default function useCopyToClipboard(): [
+  string | null,
+  (value: string) => void
+] {
   const [state, setState] = useState<string | null>(null);
 
   const copyToClipboard = useCallback((value: string) => {

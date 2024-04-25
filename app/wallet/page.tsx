@@ -1,12 +1,13 @@
 'use client';
 
+import Image from 'next/image';
 import { useSession } from 'next-auth/react';
+import toast from 'react-hot-toast';
 
 import PageWrapper from '@/components/PageWrapper';
-import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
+import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext } from '@/lib/dynamicxyz';
-import truncateEthAddress from '@/utils/truncateEthAddress';
-import toast from 'react-hot-toast';
+import shortenAddress from '@/utils/shortenAddress';
 
 const Wallet = () => {
   const { data: session, status } = useSession({ required: true });
@@ -41,14 +42,21 @@ const Wallet = () => {
             }}
             className="transition active:text-slate-300 active:scale-95"
           >
-            {truncateEthAddress(userWallet)}
+            {shortenAddress(userWallet)}
           </button>
         </div>
 
         <div className="text-md text-slate-400 font-light uppercase mb-3 mt-6">
           Connected with
         </div>
-        <div className="dark:text-white break-words">
+        <div className="flex dark:text-white break-words items-center">
+          <Image
+            src={`https://iconic.dynamic-static-assets.com/icons/sprite.svg#${userAuthenticatedWith}`}
+            alt={userAuthenticatedWith}
+            height={20}
+            width={20}
+            className="inline me-2"
+          />
           <button
             onClick={() => {
               copyToClipboard(userAuthenticatedWith);

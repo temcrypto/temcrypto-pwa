@@ -17,7 +17,7 @@ const Signin = () => {
             Explore the flexibility of crypto with the simplicity of real-world.
           </h2>
           <h3 className="text-sm text-transparent bg-clip-text bg-gradient-to-br from-amber-500 via-pink-400 to-blue-500 text-center uppercase">
-            <div className="mt-6">Gasless • Non-Custodial</div>
+            <div className="mt-6">Abstracted • Gasless • Non-Custodial</div>
           </h3>
         </div>
 

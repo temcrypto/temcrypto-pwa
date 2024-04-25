@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { IoArrowBackOutline } from 'react-icons/io5';
 
 import { useDynamicContext, useIsLoggedIn } from '@/lib/dynamicxyz';
+import shortenAddress from '@/utils/shortenAddress';
 import Link from './Link';
 import Logo from './Logo';
 
@@ -86,6 +87,10 @@ const Header = () => {
                     {link.title}
                   </Link>
                 ))}
+
+              {session.primaryWallet?.address && (
+                <span>{shortenAddress(session.primaryWallet.address, 3)}</span>
+              )}
             </>
           )}
         </div>

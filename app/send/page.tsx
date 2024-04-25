@@ -23,7 +23,7 @@ import {
 } from '@/context/PixPaymentContext';
 
 export default function Send() {
-  const { data: session, status } = useSession({ required: true });
+  const { status } = useSession({ required: true });
   const [openQrScanner, setOpenQrScanner] = useState(false);
   const [openPreview, setOpenPreview] = useState(false);
   const { pixPaymentState, setPixPaymentState, resetPixPaymentState } =
@@ -158,7 +158,7 @@ export default function Send() {
     }
   }, [pixPaymentState, setPixPaymentState, resetPixPaymentState]);
 
-  if (status !== 'authenticated') return null;
+  if ('authenticated' !== status) return null;
 
   return (
     <PageWrapper id="page-send">

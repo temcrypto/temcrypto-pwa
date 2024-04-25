@@ -1,5 +1,7 @@
-import PageHeader from '@/components/PageHeader';
+'use client';
+
 import PageWrapper from '@/components/PageWrapper';
+import { useSession } from 'next-auth/react';
 
 // Regular Expression to Validate Currency Inputs from 5.00 up to 500.00
 
@@ -17,6 +19,10 @@ const AMOUNT_REGEX =
   /^(?:[5-9]|[1-9]\d|[1-4]\d{2})(?:[.,]\d{1,2})?$|^(500)(?:[.,]0{1,2})?$/;
 
 export default function Receive() {
+  const { status } = useSession({ required: true });
+
+  if ('authenticated' !== status) return null;
+
   return (
     <PageWrapper id="page-receive">
       <div className="mb-8">
