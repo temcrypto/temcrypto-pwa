@@ -51,10 +51,7 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
   );
 
   const handleOnLogout = useCallback(async () => {
-    // const data = await signOut({ redirect: false, callbackUrl: '/signin' });
     await signOut();
-    // router.push(data.url);
-    // }, [router]);
   }, []);
 
   return (
