@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useCallback, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { rangeDelay } from 'delay';
 
@@ -11,7 +12,6 @@ import {
   createPayment,
 } from '@/app/send/actions';
 
-import PageHeader from '@/components/PageHeader';
 import PageWrapper from '@/components/PageWrapper';
 import QRCodeScanner from '@/components/QRCodeScanner';
 import PixPaymentForm from '@/components/PixPaymentForm';
@@ -23,6 +23,7 @@ import {
 } from '@/context/PixPaymentContext';
 
 export default function Send() {
+  const { data: session, status } = useSession({ required: true });
   const [openQrScanner, setOpenQrScanner] = useState(false);
   const [openPreview, setOpenPreview] = useState(false);
   const { pixPaymentState, setPixPaymentState, resetPixPaymentState } =
@@ -156,6 +157,8 @@ export default function Send() {
       // setOpenPreview(false);
     }
   }, [pixPaymentState, setPixPaymentState, resetPixPaymentState]);
+
+  if (status !== 'authenticated') return null;
 
   return (
     <PageWrapper id="page-send">
