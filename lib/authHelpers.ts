@@ -8,18 +8,15 @@ export const getKey = (
   _headers: any, // TODO: Check typings
   callback: (err: Error | null, key?: Secret) => void
 ): void => {
-  // Define the options for the fetch request
-  const options = {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_DYNAMIC_BEARER_TOKEN}`,
-    },
-  };
-
   // Perform the fetch request asynchronously
   fetch(
     `https://app.dynamicauth.com/api/v0/environments/${process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID}/keys`,
-    options
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_DYNAMIC_BEARER_TOKEN}`,
+      },
+    }
   )
     .then((response) => {
       return response.json();

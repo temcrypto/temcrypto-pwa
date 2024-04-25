@@ -1,7 +1,6 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-// import { getEnsAvatar, normalize } from 'viem/ens';
 
 import PageWrapper from '@/components/PageWrapper';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
@@ -10,15 +9,15 @@ import truncateEthAddress from '@/utils/truncateEthAddress';
 import toast from 'react-hot-toast';
 
 const Wallet = () => {
-  const { data: session, status } = useSession({ required: false });
+  const { data: session, status } = useSession({ required: true });
   const { primaryWallet, user, handleLogOut } = useDynamicContext();
   const [copiedText, copyToClipboard] = useCopyToClipboard();
 
-  console.log('Wallet ~ session', session);
+  console.log('Wallet ~ session', session, status);
   console.log('Wallet ~ primaryWallet', primaryWallet);
   console.log('Wallet ~ user', user);
 
-  if ('loading' === status) return null;
+  if ('authenticated' !== status) return null;
 
   const userWallet = primaryWallet?.address ?? '';
   const userAuthenticatedWith =

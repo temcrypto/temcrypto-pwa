@@ -9,23 +9,22 @@ type User = {
   wallet?: any;
 };
 
-// declare module 'next-auth' {
-//   /**
-//    * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
-//    */
-//   interface Session {
-//     user: {
-//       /** The user's postal address. */
-//       address: string;
-//       /**
-//        * By default, TypeScript merges new interface properties and overwrites existing ones.
-//        * In this case, the default session user properties will be overwritten,
-//        * with the new ones defined above. To keep the default session user properties,
-//        * you need to add them back into the newly declared interface.
-//        */
-//     } & DefaultSession['user'];
-//   }
-// }
+declare module 'next-auth' {
+  /**
+   * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
+   */
+  interface Session {
+    user: {
+      customAttribute: string;
+      /**
+       * By default, TypeScript merges new interface properties and overwrites existing ones.
+       * In this case, the default session user properties will be overwritten,
+       * with the new ones defined above. To keep the default session user properties,
+       * you need to add them back into the newly declared interface.
+       */
+    } & DefaultSession['user'];
+  }
+}
 
 export const authConfig = {
   pages: {
@@ -52,45 +51,54 @@ export const authConfig = {
       //   return Response.redirect(new URL('/', nextUrl));
       // }
     },
-    async redirect(redirectData) {
-      console.log('auth ~ callback ~ redirect ~ redirectData', redirectData);
-      return redirectData.baseUrl;
-    },
+    // async redirect(redirectData) {
+    //   console.log('auth ~ callback ~ redirect ~ redirectData', redirectData);
+    //   return redirectData.baseUrl;
+    // },
     async jwt(jwtData) {
-      console.log('auth ~ callback ~ jwt ~ jwtData', jwtData);
+      console.log('auth ~ callback ~ jwt ~ jwtData 1', jwtData);
+      if (jwtData.user) {
+        jwtData.token.customAttribute = '';
+      }
+      console.log('auth ~ callback ~ jwt ~ jwtData 2', jwtData);
       return jwtData.token;
     },
     async session(sessionData) {
-      console.log('auth ~ callback ~ session ~ sessionData', sessionData);
+      console.log('auth ~ callback ~ session ~ sessionData 1', sessionData);
+      if (sessionData.token) {
+        sessionData.session.user.customAttribute = sessionData.token
+          .customAttribute as string; // Transfer custom attributes to the session
+      }
+      console.log('auth ~ callback ~ session ~ sessionData 2', sessionData);
       return sessionData.session;
     },
   },
-  events: {
-    async signIn(message) {
-      /* on successful sign in */
-      console.log('auth ~ events ~ signIn ~ message', message);
-    },
-    async signOut(message) {
-      /* on signout */
-      console.log('auth ~ events ~ signOut ~ message', message);
-    },
-    async createUser(message) {
-      /* user created */
-      console.log('auth ~ events ~ createUser ~ message', message);
-    },
-    async updateUser(message) {
-      /* user updated - e.g. their email was verified */
-      console.log('auth ~ events ~ updateUser ~ message', message);
-    },
-    async linkAccount(message) {
-      /* account (e.g. Twitter) linked to a user */
-      console.log('auth ~ events ~ linkAccount ~ message', message);
-    },
-    async session(message) {
-      /* session is active */
-      console.log('auth ~ events ~ session ~ message', message);
-    },
-  },
+  // events: {
+  //   async signIn(message) {
+  //     /* on successful sign in */
+  //     console.log('auth ~ events ~ signIn ~ message', message);
+  //   },
+  //   async signOut(message) {
+  //     /* on signout */
+  //     console.log('auth ~ events ~ signOut ~ message', message);
+  //   },
+  //   async createUser(message) {
+  //     /* user created */
+  //     console.log('auth ~ events ~ createUser ~ message', message);
+  //   },
+  //   async updateUser(message) {
+  //     /* user updated - e.g. their email was verified */
+  //     console.log('auth ~ events ~ updateUser ~ message', message);
+  //   },
+  //   async linkAccount(message) {
+  //     /* account (e.g. Twitter) linked to a user */
+  //     console.log('auth ~ events ~ linkAccount ~ message', message);
+  //   },
+  //   async session(message) {
+  //     /* session is active */
+  //     console.log('auth ~ events ~ session ~ message', message);
+  //   },
+  // },
   providers: [],
   session: {
     strategy: 'jwt',
@@ -127,9 +135,6 @@ export const {
           const user: User = {
             id: jwtPayload.sub!, // Assuming 'sub' is the user ID
             email: jwtPayload.email || '', // Replace with actual field from JWT payload
-            wallet:
-              jwtPayload.verified_credentials[0].wallet_name ??
-              jwtPayload.verified_credentials[0].address,
           };
           console.log('auth ~ user', user);
           return user;

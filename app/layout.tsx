@@ -2,14 +2,14 @@ import { type Metadata, type Viewport } from 'next';
 import { Nunito } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 
+import { auth } from '@/auth';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
-import { PixPaymentProvider } from '@/context/PixPaymentContext';
 
 import Providers from './providers';
 import './globals.css';
 
-const nunito = Nunito({ weight: ['800', '900'], subsets: ['latin'] });
+const nunito = Nunito({ weight: ['800', '900', '700'], subsets: ['latin'] });
 
 // Set metadata
 const SITE_NAME = 'TEMCRYPTO';
@@ -51,11 +51,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html lang="en">
       <head>
@@ -230,15 +232,15 @@ export default function RootLayout({
           href="splash_screens/8.3__iPad_Mini_portrait.png"
         />
       </head>
-      <body className={`${nunito.className} overflow-hidden dark`}>
-        <Providers>
+      <body className={`${nunito.className} overflow-hidden`}>
+        <Providers session={session}>
           <div
             id="layout-app"
             className="flex flex-col min-h-svh h-svh max-h-svh overflow-hidden"
           >
             <Header />
 
-            <PixPaymentProvider>{children}</PixPaymentProvider>
+            {children}
 
             <Toaster position="bottom-center" />
 

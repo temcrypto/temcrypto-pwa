@@ -29,7 +29,7 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
         },
         body: new URLSearchParams({ csrfToken, token: args.authToken }),
       })
-        .then((res) => {
+        .then(async (res) => {
           if (res.ok) {
             console.log('LOGGED IN', res);
             if (args.user.newUser) {
@@ -45,18 +45,17 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
         .catch((error) => {
           // Handle any exceptions
           console.error('Error logging in', error);
-        })
-        .finally(() => {
-          console.log('Finally');
         });
     },
     [router]
   );
 
   const handleOnLogout = useCallback(async () => {
-    const data = await signOut({ redirect: false, callbackUrl: '/signin' });
-    router.push(data.url);
-  }, [router]);
+    // const data = await signOut({ redirect: false, callbackUrl: '/signin' });
+    await signOut();
+    // router.push(data.url);
+    // }, [router]);
+  }, []);
 
   return (
     <DynamicContextProvider
@@ -71,7 +70,7 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
           onLogout: handleOnLogout,
         },
         // hideEmbeddedWalletTransactionUIs: false,
-        logLevel: 'DEBUG',
+        // logLevel: 'DEBUG',
         shadowDOMEnabled: true,
       }}
       theme="auto"

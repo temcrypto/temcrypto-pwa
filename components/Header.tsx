@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { IoArrowBackOutline } from 'react-icons/io5';
 
-import { DynamicConnectButton, useIsLoggedIn } from '@/lib/dynamicxyz';
+import { useDynamicContext, useIsLoggedIn } from '@/lib/dynamicxyz';
 import Link from './Link';
 import Logo from './Logo';
 
@@ -28,7 +28,10 @@ const variants = {
 
 const Header = () => {
   const isLoggedIn = useIsLoggedIn();
+  const session = useDynamicContext();
   const pathname = usePathname();
+
+  console.log('Header ~ session', session);
 
   return (
     <header className="w-full flex animate-background bg-[length:_400%_400%] [animation-duration:_10s] bg-gradient-to-r from-pink-500 dark:from-pink-500/55 via-purple-300 dark:via-purple-300/55 to-cyan-300 dark:to-cyan-300/55 pb-0.5">
@@ -70,7 +73,7 @@ const Header = () => {
         </motion.div>
 
         <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
-          {isLoggedIn ? (
+          {isLoggedIn && (
             <>
               {headerNavLinks
                 .filter((link) => link.href !== '/')
@@ -83,14 +86,6 @@ const Header = () => {
                     {link.title}
                   </Link>
                 ))}
-            </>
-          ) : (
-            <>
-              {pathname !== '/signin' && (
-                <DynamicConnectButton buttonClassName="font-medium text-slate-800 dark:text-white sm:block uppercase hover:text-pink-500">
-                  Signin
-                </DynamicConnectButton>
-              )}
             </>
           )}
         </div>

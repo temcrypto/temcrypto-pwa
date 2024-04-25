@@ -55,7 +55,7 @@ body {
 }
 
 .react-modal-sheet-container {
-  @apply bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-white rounded-t-2xl !important;
+  @apply bg-white text-slate-800 dark:bg-slate-800 dark:text-white rounded-t-2xl !important;
 }
 
 .react-modal-sheet-content {
@@ -63,29 +63,44 @@ body {
 }
 
 /* Dynamic Custom Styles */
-:root {
+/* :root {
   --dynamic-font-family-primary: inherit;
-}
+} */
 
 .dynamic-shadow-dom {
+  /* --dynamic-header-background: #1e293b; */
+  /* --dynamic-footer-background: #1e293b; */
+
+  /* --dynamic-modal-backdrop-filter: blur(5px); */
+  /* --dynamic-modal-backdrop-background: rgba(0, 0, 0, 0.7); */
+
   /* --dynamic-font-family-primary: inherit; */
-  /* --dynamic-font-family-numbers: 'Roboto Mono', monospace, sans-serif;
-  --dynamic-base-1: #fff;
-  --dynamic-base-2: #fff;
-  --dynamic-base-3: #fff;
-  --dynamic-base-4: #fff;
-  --dynamic-base-5: #fff;
-  --dynamic-brand-hover-color: linear-gradient(
+  /* --dynamic-font-family-numbers: 'Roboto Mono', monospace, sans-serif; */
+  --dynamic-base-1: #1e293b;
+  --dynamic-base-2: #334155;
+  --dynamic-wallet-list-tile-background: #334155;
+  --dynamic-wallet-list-tile-background-hover: #475569;
+  --dynamic-button-primary-background: var(
+    --dynamic-wallet-list-tile-background
+  );
+  ---dynamic-button-primary-background-hover: var(
+    --dynamic-wallet-list-tile-background-hover
+  );
+
+  /* --dynamic-base-3: #334155; */
+  /* --dynamic-base-4: #fff; */
+  /* --dynamic-base-5: #fff; */
+  /* --dynamic-brand-hover-color: linear-gradient(
       0deg,
       rgba(0, 0, 0, 0.08),
       rgba(0, 0, 0, 0.08)
     ),
-    #4779ff;
-  --dynamic-brand-primary-color: #4779ff;
-  --dynamic-brand-secondary-color: rgba(71, 121, 255, 0.15);
-  --dynamic-connection-green: #41cc99;
-  --dynamic-border-radius: 12px;
-  --dynamic-hover: rgba(22, 37, 77, 0.03); */
+    #4779ff; */
+  /* --dynamic-brand-primary-color: #4779ff; */
+  /* --dynamic-brand-secondary-color: rgba(71, 121, 255, 0.15); */
+  /* --dynamic-connection-green: #41cc99; */
+  --dynamic-border-radius: 1rem;
+  /* --dynamic-hover: rgba(22, 37, 77, 0.03); */
 
   /* --dynamic-error-1: #ff4646;
   --dynamic-error-2: rgba(255, 70, 70, 0.1); */
@@ -125,7 +140,8 @@ body {
   --dynamic-badge-background: #000;
   --dynamic-badge-color: #fff;
   --dynamic-badge-dot-background: #fff;
-  --dynamic-badge-primary-background: #4779ff;
+  --dynamic-badge:var(--dynamic-wallet-list-tile-background);
+  ---dynamic-button-primary-background-hover:var(--dynamic-wallet-list-tile-background-hover);: #4779ff;
   --dynamic-badge-primary-color: #fff;
 
   --dynamic-search-bar-background: ;

@@ -58,7 +58,7 @@ const PageWrapper = ({
     >
       <main
         id="main"
-        className="flex-1 overflow-y-scroll scroll-smooth px-6 py-8"
+        className="flex-1 overflow-y-scroll scroll-smooth px-6 py-8 overflow-hidden"
       >
         {isMounted && (
           <motion.div
