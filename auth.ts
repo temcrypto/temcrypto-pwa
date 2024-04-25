@@ -5,8 +5,6 @@ import { validateJWT } from './lib/authHelpers';
 type User = {
   id: string;
   email: string;
-  ens?: any;
-  wallet?: any;
 };
 
 declare module 'next-auth' {
@@ -32,30 +30,24 @@ export const authConfig = {
   },
   secret: process.env.AUTH_SECRET,
   callbacks: {
-    async signIn({ user, account, profile }) {
-      if (user) {
-        return '/'; // Redirect to Dashboard after successful signIn
-      }
-      return true; // Return true to indicate successful sign-in without redirection
+    async signIn(signInData) {
+      console.log('auth ~ callback ~ signIn ~ signInData', signInData);
+      return true;
     },
-    // async signIn(signInData) {
-    //   console.log('auth ~ callback ~ signIn ~ signInData', signInData);
-    //   return true;
+    // authorized(authorizedData) {
+    //   console.log(
+    //     'auth ~ callback ~ authorized ~ authorizedData',
+    //     authorizedData
+    //   );
+
+    //   const isLoggedIn = !!authorizedData.auth?.user;
+    //   const isOnSigninPage =
+    //     authorizedData.request.nextUrl.pathname.startsWith('/signin');
+
+    //   if (isLoggedIn && isOnSigninPage) {
+    //     return Response.redirect(new URL('/', authorizedData.request.nextUrl));
+    //   }
     // },
-    authorized(authorizedData) {
-      console.log(
-        'auth ~ callback ~ authorized ~ authorizedData',
-        authorizedData
-      );
-
-      const isLoggedIn = !!authorizedData.auth?.user;
-      const isOnSigninPage =
-        authorizedData.request.nextUrl.pathname.startsWith('/signin');
-
-      if (isLoggedIn && isOnSigninPage) {
-        return Response.redirect(new URL('/', authorizedData.request.nextUrl));
-      }
-    },
     // authorized(authorizedData) {
     //   console.log(
     //     'auth ~ callback ~ authorized ~ authorizedData',
@@ -128,7 +120,7 @@ export const {
         }
 
         const jwtPayload = await validateJWT(token);
-        console.log('jwPayload', jwtPayload);
+        console.log('authorize ~ dynamic ~ jwtPayload', jwtPayload);
 
         if (jwtPayload) {
           // Transform the JWT payload into your user object
@@ -136,7 +128,7 @@ export const {
             id: jwtPayload.sub!, // Assuming 'sub' is the user ID
             email: jwtPayload.email || '', // Replace with actual field from JWT payload
           };
-          console.log('auth ~ user', user);
+          console.log('authorize ~ dynamic ~ user', user);
           return user;
         } else {
           return null;
