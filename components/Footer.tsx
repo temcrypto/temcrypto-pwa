@@ -8,7 +8,7 @@ import Sheet from 'react-modal-sheet';
 
 import Link from './Link';
 
-const Footer = () => {
+export default function Footer() {
   const { status } = useSession({ required: false });
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const pathname = usePathname();
@@ -121,6 +121,4 @@ const Footer = () => {
       </footer>
     </>
   );
-};
-
-export default Footer;
+}

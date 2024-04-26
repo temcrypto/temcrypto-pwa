@@ -20,12 +20,9 @@ export default function StartPage({
     useDynamicContext();
   const router = useRouter();
 
-  if (
-    'authenticated' === status &&
-    isAuthenticated &&
-    searchParams.callbackUrl
-  ) {
-    return router.push(searchParams.callbackUrl as string);
+  if ('authenticated' === status && isAuthenticated) {
+    const redirectTo = searchParams.callbackUrl || '/';
+    return router.push(redirectTo as string);
   }
 
   return (

@@ -83,7 +83,6 @@ export const {
         }
 
         const jwtPayload = await validateJWT(token);
-        console.log('authorize ~ dynamic ~ jwtPayload', jwtPayload);
 
         if (jwtPayload) {
           // Transform the JWT payload into your user object

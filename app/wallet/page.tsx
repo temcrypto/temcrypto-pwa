@@ -16,10 +16,10 @@ const Wallet = () => {
   const userWallet = primaryWallet?.address ?? '';
   const userAuthenticatedWith =
     (user?.isAuthenticatedWithAWallet
-      ? user.wallet
-      : user?.ens
-      ? user.ens.name
+      ? user?.ens?.name ?? user.wallet
       : user?.email) ?? '';
+
+  // if (userWallet === '' || userAuthenticatedWith === '') return null;
 
   return (
     <PageWrapper id="page-wallet" requireSession={true}>

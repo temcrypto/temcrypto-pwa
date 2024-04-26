@@ -34,6 +34,7 @@ const Header = () => {
   const isLoggedIn = useIsLoggedIn();
   const session = useDynamicContext();
   const pathname = usePathname();
+  const [copiedText, copyToClipboard] = useCopyToClipboard();
 
   return (
     <header className="w-full flex animate-background bg-[length:_400%_400%] [animation-duration:_10s] bg-gradient-to-r from-pink-500 dark:from-pink-500/55 via-purple-300 dark:via-purple-300/55 to-cyan-300 dark:to-cyan-300/55 pb-0.5">
@@ -97,7 +98,7 @@ const Header = () => {
               {session.primaryWallet?.address && (
                 <button
                   onClick={() => {
-                    // useCopyToClipboard(session.primaryWallet.address as string);
+                    copyToClipboard(session.primaryWallet!.address! as string);
                     toast.success('Copied!');
                   }}
                   className="transition active:text-slate-300 active:scale-95"
