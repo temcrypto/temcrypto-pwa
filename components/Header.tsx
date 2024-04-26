@@ -32,7 +32,7 @@ const variants = {
 
 const Header = () => {
   const isLoggedIn = useIsLoggedIn();
-  const session = useDynamicContext();
+  const { primaryWallet } = useDynamicContext();
   const pathname = usePathname();
   const [copiedText, copyToClipboard] = useCopyToClipboard();
 
@@ -95,15 +95,15 @@ const Header = () => {
                   </Link>
                 ))}
 
-              {session.primaryWallet?.address && (
+              {primaryWallet?.address && (
                 <button
                   onClick={() => {
-                    copyToClipboard(session.primaryWallet!.address! as string);
+                    copyToClipboard(primaryWallet.address);
                     toast.success('Copied!');
                   }}
                   className="transition active:text-slate-300 active:scale-95"
                 >
-                  {shortenAddress(session.primaryWallet.address, 3)}
+                  {shortenAddress(primaryWallet.address, 3)}
                 </button>
               )}
             </>

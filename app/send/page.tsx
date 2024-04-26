@@ -1,7 +1,6 @@
 'use client';
 
 import { FormEvent, useCallback, useState } from 'react';
-import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { rangeDelay } from 'delay';
 
@@ -23,7 +22,6 @@ import {
 } from '@/context/PixPaymentContext';
 
 export default function Send() {
-  const { status } = useSession({ required: true });
   const [openQrScanner, setOpenQrScanner] = useState(false);
   const [openPreview, setOpenPreview] = useState(false);
   const { pixPaymentState, setPixPaymentState, resetPixPaymentState } =
@@ -158,10 +156,8 @@ export default function Send() {
     }
   }, [pixPaymentState, setPixPaymentState, resetPixPaymentState]);
 
-  if ('authenticated' !== status) return null;
-
   return (
-    <PageWrapper id="page-send">
+    <PageWrapper id="page-send" requireSession={true}>
       <div className="mb-8">
         <p className="text-xl text-slate-500">
           Scan a QR code or enter a Chave Pix: CPF, CNPJ, phone number, or

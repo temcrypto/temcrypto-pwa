@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { SessionProvider, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import Loading from './Loading';
@@ -57,7 +57,14 @@ const PageWrapper = ({
     };
   }, [isAuthenticated]);
 
-  if (status === 'loading') return <Loading />;
+  if (status === 'loading')
+    return (
+      <div className="flex flex-col h-full items-center justify-center p-8">
+        {/* <div className="animate-bounce"> */}
+        <Loading />
+        {/* </div> */}
+      </div>
+    );
 
   return (
     <AnimatePresence
@@ -87,7 +94,7 @@ const PageWrapper = ({
               opacity: { duration: 0.25 },
             }}
           >
-            <SessionProvider session={session}>{children}</SessionProvider>
+            {children}
           </motion.div>
         )}
       </main>

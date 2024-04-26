@@ -42,7 +42,7 @@ export const authConfig = {
       if (jwtData.user) {
         jwtData.token.customAttribute = '';
       }
-      console.log('auth ~ callback ~ jwt ~ jwtData 2', jwtData);
+      // console.log('auth ~ callback ~ jwt ~ jwtData 2', jwtData);
       return jwtData.token;
     },
     async session(sessionData) {
@@ -50,7 +50,7 @@ export const authConfig = {
         sessionData.session.user.customAttribute = sessionData.token
           .customAttribute as string; // Transfer custom attributes to the session
       }
-      console.log('auth ~ callback ~ session ~ sessionData 2', sessionData);
+      // console.log('auth ~ callback ~ session ~ sessionData 2', sessionData);
       return sessionData.session;
     },
   },

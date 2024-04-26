@@ -1,7 +1,6 @@
 'use client';
 
 import { type ReactNode, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 
 import {
   DynamicContextProvider,
@@ -12,8 +11,6 @@ import {
 import { getCsrfToken, signOut } from 'next-auth/react';
 
 const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
-  const router = useRouter();
-
   // Memoize the handleAuthSuccess function
   const handleAuthSuccess = useCallback(
     async (args: { authToken: string; user: UserProfile }) => {
@@ -29,8 +26,7 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
       })
         .then(async (res) => {
           if (res.ok) {
-            window.location.reload();
-            router.push('/');
+            window.location.href = '/';
           } else {
             // Handle any errors - maybe show an error message to the user
             console.error('Failed to log in');
@@ -41,11 +37,11 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
           console.error('Error logging in', error);
         });
     },
-    [router]
+    []
   );
 
   const handleOnLogout = useCallback(async () => {
-    await signOut();
+    await signOut({ redirect: true, callbackUrl: '/start' });
   }, []);
 
   return (
