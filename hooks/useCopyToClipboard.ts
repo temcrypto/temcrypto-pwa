@@ -1,5 +1,5 @@
 // Inspired on https://github.com/uidotdev/usehooks/blob/main/index.js#L133:L164
-// Improved with Claude 3
+// Code assisted by Claude 3 (Anthropic AI)
 
 /**
  * A React hook for copying text to the clipboard.
@@ -20,6 +20,12 @@
 
 import { useCallback, useState } from 'react';
 
+/**
+ * Fallback function to copy text to the clipboard using a temporary textarea element.
+ * This is used when the modern `navigator.clipboard.writeText` API is not supported.
+ *
+ * @param text - The text to be copied to the clipboard.
+ */
 function oldSchoolCopy(text: string) {
   const tempTextArea = document.createElement('textarea');
   tempTextArea.value = text;
@@ -29,9 +35,19 @@ function oldSchoolCopy(text: string) {
   document.body.removeChild(tempTextArea);
 }
 
+/**
+ * A custom React hook for copying text to the clipboard.
+ *
+ * @returns An object containing the last copied value and a function for copying text to the clipboard.
+ */
 export default function useCopyToClipboard() {
   const [state, setState] = useState<string | null>(null);
 
+  /**
+   * A memoized function for copying text to the clipboard.
+   *
+   * @param value - The text to be copied to the clipboard.
+   */
   const copyToClipboard = useCallback((value: string) => {
     const handleCopy = async () => {
       try {

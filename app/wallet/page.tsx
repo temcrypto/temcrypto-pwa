@@ -15,7 +15,7 @@ export default function Wallet() {
 
   const userWallet = primaryWallet?.address ?? '';
   const userWalletType =
-    (user?.isAuthenticatedWithAWallet ? user.wallet : 'turnkey') ?? '';
+    (user?.isAuthenticatedWithAWallet ? user.wallet : 'signinwithemail') ?? '';
   const userAuthenticatedWith =
     (user?.isAuthenticatedWithAWallet
       ? user?.ens?.name ?? user.wallet
