@@ -37,24 +37,24 @@ const Header = () => {
   return (
     <header className="w-full flex animate-background bg-[length:_400%_400%] [animation-duration:_10s] bg-gradient-to-r from-pink-500 dark:from-pink-500/55 via-purple-300 dark:via-purple-300/55 to-cyan-300 dark:to-cyan-300/55 pb-0.5">
       <div className="h-full w-full flex justify-between bg-white dark:bg-slate-800 p-6">
-        <motion.div
-          id={pathname}
-          key={pathname}
-          variants={variants}
-          initial="hidden"
-          animate="enter"
-          exit="exit"
-          transition={{
-            y: { type: 'spring', stiffness: 300, damping: 20 },
-            opacity: { duration: 0.15 },
-          }}
-        >
-          {['/', '/start'].includes(pathname) ? (
-            <>
+        {!isLoggedIn ? (
+          <Logo />
+        ) : (
+          <motion.div
+            id={pathname}
+            key={pathname}
+            variants={variants}
+            initial="hidden"
+            animate="enter"
+            exit="exit"
+            transition={{
+              y: { type: 'spring', stiffness: 300, damping: 20 },
+              opacity: { duration: 0.15 },
+            }}
+          >
+            {['/', '/start'].includes(pathname) ? (
               <Logo />
-            </>
-          ) : (
-            <>
+            ) : (
               <div className="flex h-6 items-center">
                 <button
                   type="button"
@@ -69,9 +69,9 @@ const Header = () => {
                   {headerNavLinks.find((link) => link.href === pathname)?.title}
                 </span>
               </div>
-            </>
-          )}
-        </motion.div>
+            )}
+          </motion.div>
+        )}
 
         <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
           {isLoggedIn && (

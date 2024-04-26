@@ -1,4 +1,4 @@
-const Loading = () => {
+export default function Loading() {
   return (
     <div className="flex justify-center items-center py-4 px-4 text-xl text-slate-400 dark:text-slate-300">
       <svg
@@ -21,6 +21,4 @@ const Loading = () => {
       Loading...
     </div>
   );
-};
-
-export default Loading;
+}
