@@ -8,14 +8,14 @@
  * using the `navigator.clipboard.writeText` API. It falls back to a legacy method
  * using a temporary `<textarea>` element if the modern API is not supported.
  *
- * @returns A tuple containing the last copied value and a function for copying text to the clipboard.
+ * @returns An object containing the last copied value and a function for copying text to the clipboard.
  *
  * @example
- * const [copiedText, copyToClipboard] = useCopyToClipboard();
+ * const { state, copyToClipboard } = useCopyToClipboard();
  *
  * // Usage
  * copyToClipboard('Hello, World!');
- * console.log(copiedText); // Output: 'Hello, World!'
+ * console.log(state); // Output: 'Hello, World!'
  */
 
 import { useCallback, useState } from 'react';
@@ -29,10 +29,7 @@ function oldSchoolCopy(text: string) {
   document.body.removeChild(tempTextArea);
 }
 
-export default function useCopyToClipboard(): [
-  string | null,
-  (value: string) => void
-] {
+export default function useCopyToClipboard() {
   const [state, setState] = useState<string | null>(null);
 
   const copyToClipboard = useCallback((value: string) => {
@@ -56,5 +53,5 @@ export default function useCopyToClipboard(): [
     handleCopy();
   }, []);
 
-  return [state, copyToClipboard];
+  return { state, copyToClipboard };
 }

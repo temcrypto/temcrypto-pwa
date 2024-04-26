@@ -41,7 +41,7 @@ const Header = () => {
   const isLoggedIn = useIsLoggedIn();
   const { primaryWallet } = useDynamicContext();
   const pathname = usePathname();
-  const [copiedText, copyToClipboard] = useCopyToClipboard();
+  const { copyToClipboard } = useCopyToClipboard();
 
   return (
     <header className="w-full flex animate-background bg-[length:_400%_400%] [animation-duration:_10s] bg-gradient-to-r from-pink-500 dark:from-pink-500/55 via-purple-300 dark:via-purple-300/55 to-cyan-300 dark:to-cyan-300/55 pb-0.5">

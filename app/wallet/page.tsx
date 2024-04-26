@@ -11,7 +11,7 @@ import shortenAddress from '@/utils/shortenAddress';
 
 export default function Wallet() {
   const { primaryWallet, user, handleLogOut } = useDynamicContext();
-  const [copiedText, copyToClipboard] = useCopyToClipboard();
+  const { copyToClipboard } = useCopyToClipboard();
 
   const userWallet = primaryWallet?.address ?? '';
   const userWalletType =
