@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Lottie from 'lottie-react';
@@ -17,24 +17,25 @@ export default function StartPage({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const { status: authStatus, update: updateStatus } = useSession({
-    required: false,
-  });
+  const { status: authStatus } = useSession({ required: false });
   const { showAuthFlow, isAuthenticated, handleLogOut } = useDynamicContext();
+  const prevAuthenticated = useRef(isAuthenticated);
   const router = useRouter();
 
   useEffect(() => {
     if (isAuthenticated) {
-      updateStatus({ user: { email: 'info@test.com' } });
-      if ('authenticated' === authStatus) {
+      if (authStatus === 'authenticated') {
         const redirectTo = searchParams.callbackUrl || '/';
+        console.log('authenticated', redirectTo);
         return router.push(redirectTo as string);
-      } else {
-        console.log('not authenticated');
-        // handleLogOut();
+      }
+
+      if (authStatus === 'unauthenticated' && prevAuthenticated.current) {
+        console.log('unauthenticated');
+        handleLogOut();
       }
     }
-  }, [isAuthenticated, authStatus, searchParams]);
+  }, [isAuthenticated, authStatus]);
 
   return (
     <PageWrapper id="page-start" className="flex h-full">
