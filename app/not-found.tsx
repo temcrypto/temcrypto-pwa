@@ -1,7 +1,7 @@
 'use client';
 
-import Lottie from 'lottie-react';
 import Link from 'next/link';
+import Lottie from 'lottie-react';
 
 // Animation
 import Animation404 from '@/lottie/404.json';
@@ -16,7 +16,7 @@ export default function NotFound() {
       <p className="text-xl text-slate-400 text-center mt-4">
         Could not find the requested resource
       </p>
-      <Link href="/" className="mt-10">
+      <Link href="/" className="mt-10 text-pink-500">
         Return Home
       </Link>
     </div>

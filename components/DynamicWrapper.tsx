@@ -1,6 +1,7 @@
 'use client';
 
 import { type ReactNode, useCallback } from 'react';
+import { getCsrfToken, signOut } from 'next-auth/react';
 
 import {
   DynamicContextProvider,
@@ -8,7 +9,6 @@ import {
   ZeroDevSmartWalletConnectors,
   type UserProfile,
 } from '@/lib/dynamicxyz';
-import { getCsrfToken, signOut } from 'next-auth/react';
 
 const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
   // Memoize the handleAuthSuccess function
@@ -26,6 +26,7 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
       })
         .then(async (res) => {
           if (res.ok) {
+            // If the user is already authenticated, we can just redirect them to their dashboard.
             window.location.href = '/';
           } else {
             // Handle any errors - maybe show an error message to the user

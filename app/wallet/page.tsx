@@ -9,7 +9,7 @@ import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
 
-const Wallet = () => {
+export default function Wallet() {
   const { primaryWallet, user, handleLogOut } = useDynamicContext();
   const [copiedText, copyToClipboard] = useCopyToClipboard();
 
@@ -84,6 +84,4 @@ const Wallet = () => {
       )}
     </PageWrapper>
   );
-};
-
-export default Wallet;
+}

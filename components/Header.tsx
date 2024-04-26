@@ -16,6 +16,7 @@ interface HeaderNavLink {
   title: string;
 }
 
+// TODO: Update links to match the new routes.
 const headerNavLinks: HeaderNavLink[] = [
   { href: '/', title: 'Home' },
   { href: '/send', title: 'Send Pix' },
@@ -24,10 +25,16 @@ const headerNavLinks: HeaderNavLink[] = [
   { href: '/txs', title: 'Transaction Details' },
 ];
 
-const variants = {
+// Motion settings
+const motionVariants = {
   hidden: { opacity: 0, x: 0, y: 15 },
   enter: { opacity: 1, x: 0, y: 0 },
   exit: { opacity: 0, x: 0, y: -10 },
+};
+
+const motionTransition = {
+  y: { type: 'spring', stiffness: 300, damping: 20 },
+  opacity: { duration: 0.15 },
 };
 
 const Header = () => {
@@ -45,14 +52,11 @@ const Header = () => {
           <motion.div
             id={pathname}
             key={pathname}
-            variants={variants}
+            variants={motionVariants}
             initial="hidden"
             animate="enter"
             exit="exit"
-            transition={{
-              y: { type: 'spring', stiffness: 300, damping: 20 },
-              opacity: { duration: 0.15 },
-            }}
+            transition={motionTransition}
           >
             {['/', '/start'].includes(pathname) ? (
               <Logo />

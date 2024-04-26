@@ -9,14 +9,14 @@ import Sheet from 'react-modal-sheet';
 import Link from './Link';
 
 export default function Footer() {
-  const { status } = useSession({ required: false });
+  const { status: authStatus } = useSession({ required: false });
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const pathname = usePathname();
 
   const isHome = pathname === '/';
   const isWallet = pathname === '/wallet';
 
-  if ('authenticated' !== status) return null;
+  if ('authenticated' !== authStatus || '/start' === pathname) return null;
 
   return (
     <>

@@ -9,11 +9,11 @@ const Providers = async ({ children }: { children: ReactNode }) => {
   const session = await auth();
 
   return (
-    <DynamicProviderWrapper>
-      <SessionProvider session={session}>
+    <SessionProvider session={session}>
+      <DynamicProviderWrapper>
         <PixPaymentProvider>{children}</PixPaymentProvider>
-      </SessionProvider>
-    </DynamicProviderWrapper>
+      </DynamicProviderWrapper>
+    </SessionProvider>
   );
 };
 
