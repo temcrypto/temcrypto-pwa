@@ -20,17 +20,6 @@ export default function StartPage({
     useDynamicContext();
   const router = useRouter();
 
-  console.log('searchParams', searchParams);
-  console.log('status', status);
-  console.log('isAuthenticated', isAuthenticated);
-  console.log('user', user);
-
-  // useEffect(() => {
-  //   if ('unauthenticated' === status && isAuthenticated) {
-  //     handleLogOut();
-  //   }
-  // }, [status, isAuthenticated, handleLogOut]);
-
   if (
     'authenticated' === status &&
     isAuthenticated &&
@@ -44,7 +33,7 @@ export default function StartPage({
       <div className="flex flex-col w-full">
         <div className="flex grow items-center">
           <div className="w-full px-2">
-            <div className="flex justify-center">
+            <div className="flex justify-center items-center w-60">
               <Lottie animationData={StartAnimation} loop={true} />
             </div>
             <h1 className="text-5xl font-extrabold mt-10">
@@ -54,7 +43,7 @@ export default function StartPage({
               Explore the flexibility of crypto with the simplicity of
               real-world.
             </h2>
-            <h3 className="text-sm text-transparent bg-clip-text bg-gradient-to-br from-amber-500 via-pink-400 to-blue-500 text-center uppercase mt-16">
+            <h3 className="text-sm text-transparent bg-clip-text bg-gradient-to-br from-amber-500 via-pink-400 to-blue-500 text-center uppercase mt-16 mb-8">
               <div className="mt-6">Smart • Gasless • Non-Custodial</div>
             </h3>
           </div>

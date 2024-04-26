@@ -2,13 +2,14 @@
 
 import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
+import toast from 'react-hot-toast';
 import { IoArrowBackOutline } from 'react-icons/io5';
 
+import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext, useIsLoggedIn } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
 import Link from './Link';
 import Logo from './Logo';
-import path from 'path';
 
 interface HeaderNavLink {
   href: string;
@@ -33,8 +34,6 @@ const Header = () => {
   const isLoggedIn = useIsLoggedIn();
   const session = useDynamicContext();
   const pathname = usePathname();
-
-  console.log('Header ~ session', session);
 
   return (
     <header className="w-full flex animate-background bg-[length:_400%_400%] [animation-duration:_10s] bg-gradient-to-r from-pink-500 dark:from-pink-500/55 via-purple-300 dark:via-purple-300/55 to-cyan-300 dark:to-cyan-300/55 pb-0.5">
@@ -96,7 +95,15 @@ const Header = () => {
                 ))}
 
               {session.primaryWallet?.address && (
-                <span>{shortenAddress(session.primaryWallet.address, 3)}</span>
+                <button
+                  onClick={() => {
+                    // useCopyToClipboard(session.primaryWallet.address as string);
+                    toast.success('Copied!');
+                  }}
+                  className="transition active:text-slate-300 active:scale-95"
+                >
+                  {shortenAddress(session.primaryWallet.address, 3)}
+                </button>
               )}
             </>
           )}
