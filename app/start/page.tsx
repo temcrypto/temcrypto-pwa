@@ -35,7 +35,7 @@ export default function StartPage({
         handleLogOut();
       }
     }
-  }, [isAuthenticated, authStatus]);
+  }, [isAuthenticated, authStatus, searchParams, handleLogOut, router]);
 
   return (
     <PageWrapper id="page-start" className="flex h-full">
