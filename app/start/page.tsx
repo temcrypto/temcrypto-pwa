@@ -1,31 +1,53 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import Lottie from 'lottie-react';
+
 import PageWrapper from '@/components/PageWrapper';
 import { DynamicConnectButton, useDynamicContext } from '@/lib/dynamicxyz';
-import { useSession } from 'next-auth/react';
-import { useEffect } from 'react';
 
-const Signin = () => {
+// Animations
+import StartAnimation from '@/lottie/start.json';
+
+export default function StartPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const { status } = useSession({ required: false });
   const { showAuthFlow, isAuthenticated, user, handleLogOut } =
     useDynamicContext();
-  const { status } = useSession();
+  const router = useRouter();
 
+  console.log('searchParams', searchParams);
+  console.log('status', status);
   console.log('isAuthenticated', isAuthenticated);
   console.log('user', user);
-  console.log('status', status);
 
-  useEffect(() => {
-    if ('unauthenticated' === status) {
-      handleLogOut();
-    }
-  }, [status, handleLogOut]);
+  // useEffect(() => {
+  //   if ('unauthenticated' === status && isAuthenticated) {
+  //     handleLogOut();
+  //   }
+  // }, [status, isAuthenticated, handleLogOut]);
+
+  if (
+    'authenticated' === status &&
+    isAuthenticated &&
+    searchParams.callbackUrl
+  ) {
+    return router.push(searchParams.callbackUrl as string);
+  }
 
   return (
-    <PageWrapper id="page-signin" className="flex h-full">
+    <PageWrapper id="page-start" className="flex h-full">
       <div className="flex flex-col w-full">
         <div className="flex grow items-center">
           <div className="w-full px-2">
-            <h1 className="text-5xl font-extrabold">
+            <div className="flex justify-center">
+              <Lottie animationData={StartAnimation} loop={true} />
+            </div>
+            <h1 className="text-5xl font-extrabold mt-10">
               Start living in crypto with us!
             </h1>
             <h2 className="text-2xl text-slate-400 dark:text-slate-300 mt-6">
@@ -69,6 +91,4 @@ const Signin = () => {
       </div>
     </PageWrapper>
   );
-};
-
-export default Signin;
+}

@@ -49,7 +49,7 @@ const Header = () => {
             opacity: { duration: 0.15 },
           }}
         >
-          {['/', '/signin'].includes(pathname) ? (
+          {['/', '/start'].includes(pathname) ? (
             <>
               <Logo />
             </>

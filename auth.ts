@@ -8,6 +8,13 @@ type User = {
 };
 
 declare module 'next-auth' {
+  interface User {
+    id?: string;
+    // name?: string | null;
+    email?: string | null;
+    // image?: string | null;
+  }
+
   /**
    * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
    */
@@ -26,55 +33,12 @@ declare module 'next-auth' {
 
 export const authConfig = {
   pages: {
-    signIn: '/signin',
+    signIn: '/start',
   },
   secret: process.env.AUTH_SECRET,
   callbacks: {
-    async signIn(signInData) {
-      console.log('auth ~ callback ~ signIn ~ signInData', signInData);
-      return true;
-    },
-    // authorized(authorizedData) {
-    //   console.log(
-    //     'auth ~ callback ~ authorized ~ authorizedData',
-    //     authorizedData
-    //   );
-
-    //   const isLoggedIn = !!authorizedData.auth?.user;
-    //   const isOnSigninPage =
-    //     authorizedData.request.nextUrl.pathname.startsWith('/signin');
-
-    //   if (isLoggedIn && isOnSigninPage) {
-    //     return Response.redirect(new URL('/', authorizedData.request.nextUrl));
-    //   }
-    // },
-    // authorized(authorizedData) {
-    //   console.log(
-    //     'auth ~ callback ~ authorized ~ authorizedData',
-    //     authorizedData
-    //   );
-    //   // return true;
-
-    //   const isLoggedIn = !!authorizedData.auth?.user;
-    //   if (!isLoggedIn) return false;
-
-    //   console.log('>>>>>>>>>>>>>>>>>> authorized', isLoggedIn, authorizedData.request.nextUrl);
-
-    //   return Response.redirect(new URL('/wallet', authorizedData.request.nextUrl));
-
-    //   // const isOnDashboardPage = nextUrl.pathname.startsWith('/');
-    //   // if (isOnDashboardPage) {
-    //   //   if (!isLoggedIn) return false;
-    //   // } else if (isLoggedIn) {
-    //   //   return Response.redirect(new URL('/', nextUrl));
-    //   // }
-    // },
-    // async redirect(redirectData) {
-    //   console.log('auth ~ callback ~ redirect ~ redirectData', redirectData);
-    //   return redirectData.baseUrl;
-    // },
     async jwt(jwtData) {
-      console.log('auth ~ callback ~ jwt ~ jwtData 1', jwtData);
+      // Available when trigger is "signIn" or "signUp".
       if (jwtData.user) {
         jwtData.token.customAttribute = '';
       }
@@ -82,7 +46,6 @@ export const authConfig = {
       return jwtData.token;
     },
     async session(sessionData) {
-      console.log('auth ~ callback ~ session ~ sessionData 1', sessionData);
       if (sessionData.token) {
         sessionData.session.user.customAttribute = sessionData.token
           .customAttribute as string; // Transfer custom attributes to the session
@@ -96,7 +59,7 @@ export const authConfig = {
     strategy: 'jwt',
     maxAge: 60 * 60 * 24 * 7, // 7 days
   },
-  debug: true,
+  debug: process.env.NODE_ENV === 'development',
 } satisfies NextAuthConfig;
 
 export const {
@@ -128,7 +91,6 @@ export const {
             id: jwtPayload.sub!, // Assuming 'sub' is the user ID
             email: jwtPayload.email || '', // Replace with actual field from JWT payload
           };
-          console.log('authorize ~ dynamic ~ user', user);
           return user;
         } else {
           return null;

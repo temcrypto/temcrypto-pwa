@@ -2,7 +2,6 @@ import { type Metadata, type Viewport } from 'next';
 import { Nunito } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 
-import { auth } from '@/auth';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 
@@ -56,8 +55,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
-
   return (
     <html lang="en">
       <head>
@@ -233,17 +230,14 @@ export default async function RootLayout({
         />
       </head>
       <body className={`${nunito.className} overflow-hidden`}>
-        <Providers session={session}>
+        <Providers>
           <div
             id="layout-app"
             className="flex flex-col min-h-svh h-svh max-h-svh overflow-hidden"
           >
             <Header />
-
             {children}
-
             <Toaster position="bottom-center" />
-
             <Footer />
           </div>
         </Providers>

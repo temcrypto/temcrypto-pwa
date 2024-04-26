@@ -32,11 +32,11 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
         .then(async (res) => {
           if (res.ok) {
             console.log('LOGGED IN', res);
-            if (args.user.newUser) {
-              console.log('This is a new user');
-            }
-
+            // if (args.user.newUser) {
+            //   console.log('This is a new user');
+            // }
             router.push('/');
+            window.location.reload();
           } else {
             // Handle any errors - maybe show an error message to the user
             console.error('Failed to log in');
@@ -66,8 +66,6 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
           onAuthSuccess: handleAuthSuccess,
           onLogout: handleOnLogout,
         },
-        // hideEmbeddedWalletTransactionUIs: false,
-        // logLevel: 'DEBUG',
         shadowDOMEnabled: true,
       }}
       theme="auto"

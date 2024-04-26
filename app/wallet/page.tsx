@@ -1,7 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
+
 'use client';
 
-import Image from 'next/image';
-import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 
 import PageWrapper from '@/components/PageWrapper';
@@ -10,15 +10,8 @@ import { useDynamicContext } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
 
 const Wallet = () => {
-  const { data: session, status } = useSession({ required: true });
   const { primaryWallet, user, handleLogOut } = useDynamicContext();
   const [copiedText, copyToClipboard] = useCopyToClipboard();
-
-  console.log('Wallet ~ session', session, status);
-  console.log('Wallet ~ primaryWallet', primaryWallet);
-  console.log('Wallet ~ user', user);
-
-  if ('authenticated' !== status) return null;
 
   const userWallet = primaryWallet?.address ?? '';
   const userAuthenticatedWith =
@@ -29,7 +22,7 @@ const Wallet = () => {
       : user?.email) ?? '';
 
   return (
-    <PageWrapper id="page-wallet">
+    <PageWrapper id="page-wallet" requireSession={true}>
       <div className="text-left">
         <div className="text-md text-slate-400 font-light uppercase mb-3">
           Wallet
@@ -50,7 +43,7 @@ const Wallet = () => {
           Connected with
         </div>
         <div className="flex dark:text-white break-words items-center">
-          <Image
+          <img
             src={`https://iconic.dynamic-static-assets.com/icons/sprite.svg#${userAuthenticatedWith}`}
             alt={userAuthenticatedWith}
             height={20}
@@ -73,7 +66,7 @@ const Wallet = () => {
         </div>
         <div className="dark:text-white break-words">
           <button
-            className="text-red-500 dark:text-white uppercase hover:text-pink-500"
+            className="text-red-400 uppercase"
             onClick={() => handleLogOut()}
           >
             Signout

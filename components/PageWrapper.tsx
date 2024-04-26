@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { SessionProvider, useSession } from 'next-auth/react';
 import { AnimatePresence, motion } from 'framer-motion';
+
+import Loading from './Loading';
 
 const variants = {
   hidden: { opacity: 0, x: 0, y: 85 },
@@ -35,20 +38,28 @@ const PageWrapper = ({
   id,
   children,
   className = '',
+  requireSession = false,
 }: {
   id?: string;
   children: React.ReactNode;
   className?: string;
+  requireSession?: boolean;
 }) => {
+  const { data: session, status } = useSession({ required: requireSession });
   const pathname = usePathname();
   const [isMounted, setIsMounted] = useState(false);
+  const isAuthenticated = status === 'authenticated';
+
+  console.log('PageWrapper', pathname, session, status, isMounted);
 
   useEffect(() => {
     setIsMounted(true);
     return () => {
       setIsMounted(false);
     };
-  }, []);
+  }, [isAuthenticated]);
+
+  if (status === 'loading') return <Loading />;
 
   return (
     <AnimatePresence
@@ -78,7 +89,7 @@ const PageWrapper = ({
               opacity: { duration: 0.25 },
             }}
           >
-            {children}
+            <SessionProvider session={session}>{children}</SessionProvider>
           </motion.div>
         )}
       </main>

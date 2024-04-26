@@ -1,24 +1,20 @@
-'use client';
-
 import { type ReactNode } from 'react';
-import { type Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 
+import { auth } from '@/auth';
 import DynamicProviderWrapper from '@/components/DynamicWrapper';
 import { PixPaymentProvider } from '@/context/PixPaymentContext';
 
-type ProvidersProps = {
-  children: ReactNode;
-  session?: Session | null;
-};
+const Providers = async ({ children }: { children: ReactNode }) => {
+  const session = await auth();
+  console.log('Provider ~ session', session);
 
-const Providers = ({ children, session }: ProvidersProps) => {
   return (
-    <SessionProvider session={session}>
-      <DynamicProviderWrapper>
+    <DynamicProviderWrapper>
+      <SessionProvider session={session}>
         <PixPaymentProvider>{children}</PixPaymentProvider>
-      </DynamicProviderWrapper>
-    </SessionProvider>
+      </SessionProvider>
+    </DynamicProviderWrapper>
   );
 };
 
