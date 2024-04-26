@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-import PageHeader from '@/components/PageHeader';
 import PageWrapper from '@/components/PageWrapper';
 import { fetchTxById } from '@/app/send/actions';
 import { NewTransaction } from '@/lib/db/schema';
@@ -30,7 +29,6 @@ export default function Txs({
 
   return (
     <PageWrapper id="page-tx">
-      <PageHeader title="Transaction details" subtitle="Check you TX status" />
       {!txData ? (
         'No data available'
       ) : (

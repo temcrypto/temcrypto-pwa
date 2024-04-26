@@ -50,8 +50,6 @@ const PageWrapper = ({
   const [isMounted, setIsMounted] = useState(false);
   const isAuthenticated = status === 'authenticated';
 
-  console.log('PageWrapper', pathname, session, status, isMounted);
-
   useEffect(() => {
     setIsMounted(true);
     return () => {

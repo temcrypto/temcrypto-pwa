@@ -7,7 +7,6 @@ import { PixPaymentProvider } from '@/context/PixPaymentContext';
 
 const Providers = async ({ children }: { children: ReactNode }) => {
   const session = await auth();
-  console.log('Provider ~ session', session);
 
   return (
     <DynamicProviderWrapper>

@@ -8,6 +8,7 @@ import { useDynamicContext, useIsLoggedIn } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
 import Link from './Link';
 import Logo from './Logo';
+import path from 'path';
 
 interface HeaderNavLink {
   href: string;
@@ -19,6 +20,7 @@ const headerNavLinks: HeaderNavLink[] = [
   { href: '/send', title: 'Send Pix' },
   { href: '/receive', title: 'Receive Pix' },
   { href: '/wallet', title: 'My Wallet' },
+  { href: '/txs', title: 'Transaction Details' },
 ];
 
 const variants = {
@@ -66,7 +68,12 @@ const Header = () => {
                   <IoArrowBackOutline />
                 </button>
                 <span className="ml-4 text-2xl">
-                  {headerNavLinks.find((link) => link.href === pathname)?.title}
+                  {
+                    headerNavLinks.find((link) => {
+                      const linkHref = link.href;
+                      return pathname.startsWith(linkHref) && linkHref !== '/';
+                    })?.title
+                  }
                 </span>
               </div>
             )}
