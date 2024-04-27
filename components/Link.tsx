@@ -1,10 +1,10 @@
 import { type AnchorHTMLAttributes } from 'react';
 import Link, { type LinkProps } from 'next/link';
 
-const CustomLink = ({
+export default function CustomLink({
   href,
   ...rest
-}: LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>) => {
+}: LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>) {
   const isInternalLink = href && href.startsWith('/');
   const isAnchorLink = href && href.startsWith('#');
 
@@ -17,6 +17,4 @@ const CustomLink = ({
   }
 
   return <a target="_blank" rel="noopener noreferrer" href={href} {...rest} />;
-};
-
-export default CustomLink;
+}

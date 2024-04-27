@@ -1,4 +1,4 @@
-const Logo = ({ className }: { className?: string }) => {
+export default function Logo({ className }: { className?: string }) {
   return (
     <div className={`flex items-center justify-between ${className}`}>
       <div className="flex h-6 items-center text-3xl font-extrabold">
@@ -7,6 +7,4 @@ const Logo = ({ className }: { className?: string }) => {
       </div>
     </div>
   );
-};
-
-export default Logo;
+}
