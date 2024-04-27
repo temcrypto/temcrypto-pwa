@@ -1,13 +1,12 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import toast from 'react-hot-toast';
 import { IoArrowBackOutline } from 'react-icons/io5';
 
-import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
 
+import Link from './Link';
 import Logo from './Logo';
 
 // List of paths that should have the logo on top left corner
@@ -38,18 +37,17 @@ const pathTitles = [
 export default function Header() {
   const { primaryWallet } = useDynamicContext();
   const pathname = usePathname();
-  const { copyToClipboard } = useCopyToClipboard();
 
   const isPathWithLogo = pathsWithLogo.includes(pathname);
-
-  console.log('Header', isPathWithLogo, primaryWallet);
+  const currentPathTitle =
+    pathTitles.find((path) => pathname.startsWith(path.prefix))?.title || '';
 
   return (
     <header className="w-full flex animate-background bg-[length:_400%_400%] [animation-duration:_10s] bg-gradient-to-r from-pink-500 dark:from-pink-500/55 via-purple-300 dark:via-purple-300/55 to-cyan-300 dark:to-cyan-300/55 pb-0.5">
       <div className="h-16 w-full flex justify-between bg-white dark:bg-slate-800 px-6">
         <div className="flex items-center">
           {isPathWithLogo ? (
-            <Logo />
+            <Logo className="animate-bonce-from-bottom" />
           ) : (
             <div className="flex animate-bonce-from-bottom transition active:scale-95">
               <button
@@ -61,27 +59,20 @@ export default function Header() {
               >
                 <IoArrowBackOutline />
               </button>
-              <span className="ml-3 text-2xl">
-                {
-                  pathTitles.find((path) => pathname.startsWith(path.prefix))
-                    ?.title
-                }
-              </span>
+              <span className="ml-3 text-2xl">{currentPathTitle}</span>
             </div>
           )}
         </div>
 
         <div className="flex items-center">
           {primaryWallet?.address && (
-            <button
-              onClick={() => {
-                copyToClipboard(primaryWallet.address);
-                toast.success('Copied!');
-              }}
+            <Link
+              href="/wallet"
+              aria-label={primaryWallet.address}
               className="transition active:text-slate-300 active:scale-95"
             >
               {shortenAddress(primaryWallet.address, 3)}
-            </button>
+            </Link>
           )}
         </div>
       </div>

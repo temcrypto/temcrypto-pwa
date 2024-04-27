@@ -5,12 +5,36 @@ import { FaCheck, FaPix } from 'react-icons/fa6';
 import { SiTether } from 'react-icons/si';
 
 import PageWrapper from '@/components/PageWrapper';
+import HomeActions from '@/components/HomeActions';
 
 export default function App() {
   return (
     <PageWrapper id="page-app">
       <section className="flex flex-col space-y-3 justify-between sm:flex-row sm:space-y-0 sm:space-x-8">
-        <div className="w-full p-8 shadow-md rounded-2xl bg-slate-700 text-gray-400">
+        {/* <div className="relative group mb-6">
+          <div className="absolute -inset-1 bg-gradient-to-r from-purple-300 to-pink-300 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+          <div className="relative px-7 py-6 bg-white dark:bg-slate-700 ring-1 ring-gray-900/5 rounded-lg leading-none flex items-top justify-start space-x-3">
+            <div className="flex rounded-full w-20 h-16 bg-white items-center justify-center text-3xl text-[#32BCAD] border-2 border-[#32BCAD]">
+              <FaPix />
+            </div>
+            <div className="space-y-2">
+              <p className="text-slate-800 dark:text-white">
+                Learn how to make a glowing gradient background!
+              </p>
+              <a
+                href="https://braydoncoyer.dev/blog/tailwind-gradients-how-to-make-a-glowing-gradient-background"
+                className="block text-indigo-400 group-hover:text-slate-800 transition duration-200"
+                target="_blank"
+              >
+                Read Article →
+              </a>
+            </div>
+          </div>
+        </div> */}
+
+        <HomeActions />
+
+        <div className="w-full p-8 shadow-md rounded-2xl bg-slate-700 text-gray-400 mt-10">
           <div className="mb-8 flex items-center">
             <div className="flex rounded-2xl w-16 h-16 bg-white items-center justify-center text-3xl text-[#009393]">
               <SiTether />
