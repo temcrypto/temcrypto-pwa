@@ -3,12 +3,14 @@
 'use client';
 
 import toast from 'react-hot-toast';
+import { LiaSignOutAltSolid } from 'react-icons/lia';
 import { LuFileKey } from 'react-icons/lu';
 
 import PageWrapper from '@/components/PageWrapper';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
+import { IoMdLogOut } from 'react-icons/io';
 
 export default function Wallet() {
   const { primaryWallet, user, handleLogOut } = useDynamicContext();
@@ -83,13 +85,9 @@ export default function Wallet() {
           <div className="text-md text-slate-400 font-light uppercase mb-3 mt-6">
             Session
           </div>
-          <div className="dark:text-white break-words">
-            <button
-              className="text-red-400 uppercase"
-              onClick={() => handleLogOut()}
-            >
-              Signout
-            </button>
+          <div className="flex items-center dark:text-white">
+            <IoMdLogOut className="inline me-2 items-center text-rose-500 w-5 h-5" />
+            <button onClick={() => handleLogOut()}>Signout</button>
           </div>
         </div>
       )}
