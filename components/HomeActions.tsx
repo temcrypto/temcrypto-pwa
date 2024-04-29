@@ -4,6 +4,8 @@ import { useState } from 'react';
 import Sheet from 'react-modal-sheet';
 
 import DepositMenu from './DepositMenu';
+import SendMenu from './SendMenu';
+import PayMenu from './PayMenu';
 
 type HomeActionType = 'pay' | 'deposit' | 'send' | null;
 
@@ -12,14 +14,14 @@ export default function HomeActions() {
 
   return (
     <>
-      <div className="flex rounded-2xl h-14 space-x-1 p-1 border-2 border-rose-500 text-center items-center">
+      <div className="flex rounded-2xl h-14 space-x-1 p-2 border-2 border-rose-500 text-center items-center">
         <div className="flex-1 rounded-l-xl transition active:scale-95">
           <button
             onClick={() => {
               setSheetOpen('pay');
             }}
           >
-            Pay
+            PAY
           </button>
         </div>
         <div className="flex-1 transition active:scale-95">
@@ -28,7 +30,7 @@ export default function HomeActions() {
               setSheetOpen('deposit');
             }}
           >
-            Deposit
+            DEPOSIT
           </button>
         </div>
         <div className="flex-1 rounded-r-xl transition active:scale-95">
@@ -37,23 +39,23 @@ export default function HomeActions() {
               setSheetOpen('send');
             }}
           >
-            Send
+            SEND
           </button>
         </div>
       </div>
 
       <Sheet
         isOpen={!!sheetOpen}
-        onClose={() => {
-          setSheetOpen(null);
-        }}
+        onClose={() => setSheetOpen(null)}
         detent="content-height"
         // rootId={sheetRootId}
       >
         <Sheet.Container>
           <Sheet.Header />
           <Sheet.Content>
+            {sheetOpen === 'pay' && <PayMenu />}
             {sheetOpen === 'deposit' && <DepositMenu />}
+            {sheetOpen === 'send' && <SendMenu />}
           </Sheet.Content>
         </Sheet.Container>
         <Sheet.Backdrop onTap={() => setSheetOpen(null)} />

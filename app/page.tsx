@@ -4,13 +4,13 @@ import Link from 'next/link';
 import { FaCheck, FaPix } from 'react-icons/fa6';
 import { SiTether } from 'react-icons/si';
 
-import PageWrapper from '@/components/PageWrapper';
 import HomeActions from '@/components/HomeActions';
+import PageWrapper from '@/components/PageWrapper';
 
 export default function App() {
   return (
     <PageWrapper id="page-app">
-      <section className="flex flex-col space-y-4 justify-between sm:flex-row sm:space-y-0 sm:space-x-8">
+      <section className="flex flex-col space-y-8 justify-between sm:flex-row sm:space-y-0 sm:space-x-8">
         <HomeActions />
 
         <div className="w-full p-8 shadow-md rounded-2xl bg-slate-700 text-gray-400 mt-10">

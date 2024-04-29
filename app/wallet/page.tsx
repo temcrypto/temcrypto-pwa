@@ -4,25 +4,17 @@
 
 import toast from 'react-hot-toast';
 import { IoMdLogOut } from 'react-icons/io';
-import { LuFileKey, LuSettings } from 'react-icons/lu';
+import { LuFileKey } from 'react-icons/lu';
 
 import PageWrapper from '@/components/PageWrapper';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
-import {
-  useDynamicContext,
-  useEmbeddedReveal,
-  useUserWallets,
-} from '@/lib/dynamicxyz';
+import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
 
 export default function Wallet() {
   const { primaryWallet, user, handleLogOut } = useDynamicContext();
   const { copyToClipboard } = useCopyToClipboard();
   const { initExportProcess } = useEmbeddedReveal();
-
-  console.log('primaryWallet: ', primaryWallet);
-  console.log('user: ', user);
-  console.log('useUserWallets: ', useUserWallets());
 
   // Set the wallet address to the user's primary wallet if they have one
   // Otherwise, set it to their email
