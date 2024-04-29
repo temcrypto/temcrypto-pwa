@@ -1,57 +1,36 @@
-import jwt, {
-  type JwtPayload,
-  type Secret,
-  type VerifyErrors,
-} from 'jsonwebtoken';
+import { importSPKI, jwtVerify, type JWTPayload, type KeyLike } from 'jose';
 
-export const getKey = (
-  _headers: any, // TODO: Check typings
-  callback: (err: Error | null, key?: Secret) => void
-): void => {
-  // Perform the fetch request asynchronously
-  fetch(
-    `https://app.dynamicauth.com/api/v0/environments/${process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID}/keys`,
-    {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_DYNAMIC_BEARER_TOKEN}`,
-      },
-    }
-  )
-    .then((response) => {
-      return response.json();
-    })
-    .then((json) => {
-      const publicKey = json.key.publicKey;
-      const pemPublicKey = Buffer.from(publicKey, 'base64').toString('ascii');
-      callback(null, pemPublicKey); // Pass the public key to the callback
-    })
-    .catch((err) => {
-      console.error('Error fetching public key', err);
-      callback(err); // Pass the error to the callback
-    });
-};
-
-export const validateJWT = (token: string): Promise<JwtPayload | null> => {
-  return new Promise((resolve) => {
-    jwt.verify(
-      token,
-      getKey,
-      { algorithms: ['RS256'] },
-      (err: VerifyErrors | null, decoded: JwtPayload | string | undefined) => {
-        if (err) {
-          console.error('Invalid token:', err);
-          resolve(null); // Rejecting or resolving with null to handle errors gracefully
-        }
-
-        // Ensuring that the decoded token is of type JwtPayload
-        if (typeof decoded === 'object' && decoded !== null) {
-          resolve(decoded as JwtPayload);
-        } else {
-          console.error('Invalid token: Decoded payload is not an object');
-          resolve(null);
-        }
+const getKey = async (): Promise<KeyLike> => {
+  try {
+    const response = await fetch(
+      `https://app.dynamicauth.com/api/v0/environments/${process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID}/keys`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_DYNAMIC_BEARER_TOKEN}`,
+        },
       }
     );
-  });
+    const json = await response.json();
+    const publicKey = json.key.publicKey;
+    const pemPublicKey = Buffer.from(publicKey, 'base64').toString('ascii');
+    const keyLike = await importSPKI(pemPublicKey, 'RS256');
+    return keyLike;
+  } catch (err) {
+    console.error('Error fetching public key', err);
+    throw err;
+  }
+};
+
+export const validateJWT = async (
+  token: string
+): Promise<JWTPayload | null> => {
+  try {
+    const publicKey = await getKey();
+    const { payload } = await jwtVerify(token, publicKey);
+    return payload as JWTPayload;
+  } catch (err) {
+    console.error('Invalid token:', err);
+    return null;
+  }
 };

@@ -88,7 +88,7 @@ export const {
           // Transform the JWT payload into your user object
           const user: User = {
             id: jwtPayload.sub!, // Assuming 'sub' is the user ID
-            email: jwtPayload.email || '', // Replace with actual field from JWT payload
+            email: (jwtPayload.email as string) ?? '', // Replace with actual field from JWT payload
           };
           return user;
         } else {
