@@ -1,13 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 
+import toast from 'react-hot-toast';
 import { TbCopy } from 'react-icons/tb';
 import { QRCodeSVG } from 'qrcode.react';
 
+import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
 
 export default function DepositCrypto() {
   const { primaryWallet } = useDynamicContext();
+  const { copyToClipboard } = useCopyToClipboard();
 
   return (
     <div className="flex flex-col items-center animate-bonce-from-bottom">
@@ -32,13 +35,17 @@ export default function DepositCrypto() {
             className="rounded-2xl p-2 bg-white dark:bg-white border-8 border-pink-400"
           />
 
-          <div className="flex items-center mt-6">
-            <TbCopy className="text-pink-500 mr-2" />
+          <div className="mt-6">
             <button
               type="button"
               aria-label={primaryWallet.address}
-              className="transition active:text-slate-300 active:scale-95"
+              className="flex items-center text-lg transition active:text-slate-300 active:scale-95"
+              onClick={() => {
+                copyToClipboard(primaryWallet.address);
+                toast.success('Address copied!');
+              }}
             >
+              <TbCopy className="text-pink-500 mr-2" />
               {shortenAddress(primaryWallet.address, 10)}
             </button>
           </div>
