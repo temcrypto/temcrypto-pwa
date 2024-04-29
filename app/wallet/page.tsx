@@ -56,7 +56,7 @@ export default function Wallet() {
             {userWalletType === 'signinwithemail' && (
               <div className="flex item-center">
                 <LuFileKey className="inline me-2 items-center text-rose-500 w-5 h-5" />
-                <button onClick={() => initExportProcess()}>Export</button>
+                <button onClick={() => initExportProcess()}>Export Key</button>
               </div>
             )}
           </div>
@@ -88,7 +88,7 @@ export default function Wallet() {
           </div>
           <div className="flex items-center dark:text-white">
             <IoMdLogOut className="inline me-2 items-center text-rose-500 w-5 h-5" />
-            <button onClick={() => handleLogOut()}>Signout</button>
+            <button onClick={() => handleLogOut()}>Sign Out</button>
           </div>
 
           {/* <div className="text-md text-slate-400 font-light uppercase mb-3 mt-6">

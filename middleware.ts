@@ -9,7 +9,8 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      * - .*\.png$ (Any path ending in .png)
+     * - .*\.svg$ (Any path ending in .svg)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|manifest.webmanifest|sw.js|workbox*.js|.*\\.png$).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|manifest.webmanifest|sw.js|workbox*.js|.*\\.png|.*\\.svg$).*)',
   ],
 };
