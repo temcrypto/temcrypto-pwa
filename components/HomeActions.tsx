@@ -84,7 +84,7 @@ export default function HomeActions() {
                   <div className="flex flex-row">
                     <div className="flex items-center justify-center text-3xl">
                       <img
-                        src={`https://iconic.dynamic-static-assets.com/icons/sprite.svg#polygon`}
+                        src={`/images/sprite.svg#polygon`}
                         alt="Deposit Crypto"
                         height={35}
                         width={35}

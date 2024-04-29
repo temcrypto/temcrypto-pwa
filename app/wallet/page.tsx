@@ -3,14 +3,13 @@
 'use client';
 
 import toast from 'react-hot-toast';
-import { LiaSignOutAltSolid } from 'react-icons/lia';
-import { LuFileKey } from 'react-icons/lu';
+import { IoMdLogOut } from 'react-icons/io';
+import { LuFileKey, LuSettings } from 'react-icons/lu';
 
 import PageWrapper from '@/components/PageWrapper';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
-import { IoMdLogOut } from 'react-icons/io';
 
 export default function Wallet() {
   const { primaryWallet, user, handleLogOut } = useDynamicContext();
@@ -37,7 +36,7 @@ export default function Wallet() {
           <div className="flex flex-col space-y-6 dark:text-white break-words">
             <div className="flex item-center">
               <img
-                src={`https://iconic.dynamic-static-assets.com/icons/sprite.svg#polygon`}
+                src={`/images/sprite.svg#polygon`}
                 alt={userWallet}
                 height={20}
                 width={20}
@@ -65,7 +64,7 @@ export default function Wallet() {
           </div>
           <div className="flex dark:text-white break-words items-center">
             <img
-              src={`https://iconic.dynamic-static-assets.com/icons/sprite.svg#${userWalletType}`}
+              src={`/images/sprite.svg#${userWalletType}`}
               alt={userAuthenticatedWith}
               height={20}
               width={20}
@@ -89,6 +88,20 @@ export default function Wallet() {
             <IoMdLogOut className="inline me-2 items-center text-rose-500 w-5 h-5" />
             <button onClick={() => handleLogOut()}>Signout</button>
           </div>
+
+          {/* <div className="text-md text-slate-400 font-light uppercase mb-3 mt-6">
+            Dev Settings
+          </div>
+          <div className="flex items-center dark:text-white">
+            <LuSettings className="inline me-2 items-center text-rose-500 w-5 h-5" />
+            <button
+              onClick={() => {
+                console.log('open settings');
+              }}
+            >
+              Open
+            </button>
+          </div> */}
         </div>
       )}
     </PageWrapper>

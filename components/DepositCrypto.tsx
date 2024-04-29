@@ -1,5 +1,6 @@
 import { QRCodeSVG } from 'qrcode.react';
-import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
+
+import { useDynamicContext } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
 
 export default function DepositCrypto() {
@@ -17,7 +18,7 @@ export default function DepositCrypto() {
             level={'L'}
             includeMargin={false}
             imageSettings={{
-              src: 'https://iconic.dynamic-static-assets.com/icons/sprite.svg#polygon',
+              src: '/images/sprite.svg#polygon',
               x: undefined,
               y: undefined,
               height: 24,
