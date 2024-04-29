@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 
+import { useState } from 'react';
 import { FaPix } from 'react-icons/fa6';
 
 import DepositCrypto from './DepositCrypto';
 import DepositPix from './DepositPix';
-import { useState } from 'react';
 
 type DepositType = 'crypto' | 'pix' | null;
 
