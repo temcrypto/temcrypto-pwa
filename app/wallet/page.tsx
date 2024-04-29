@@ -8,13 +8,21 @@ import { LuFileKey, LuSettings } from 'react-icons/lu';
 
 import PageWrapper from '@/components/PageWrapper';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
-import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
+import {
+  useDynamicContext,
+  useEmbeddedReveal,
+  useUserWallets,
+} from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
 
 export default function Wallet() {
   const { primaryWallet, user, handleLogOut } = useDynamicContext();
   const { copyToClipboard } = useCopyToClipboard();
   const { initExportProcess } = useEmbeddedReveal();
+
+  console.log('primaryWallet: ', primaryWallet);
+  console.log('user: ', user);
+  console.log('useUserWallets: ', useUserWallets());
 
   // Set the wallet address to the user's primary wallet if they have one
   // Otherwise, set it to their email
@@ -53,10 +61,12 @@ export default function Wallet() {
               </button>
             </div>
 
-            <div className="flex item-center">
-              <LuFileKey className="inline me-2 items-center text-rose-500 w-5 h-5" />
-              <button onClick={() => initExportProcess()}>Export</button>
-            </div>
+            {userWalletType === 'signinwithemail' && (
+              <div className="flex item-center">
+                <LuFileKey className="inline me-2 items-center text-rose-500 w-5 h-5" />
+                <button onClick={() => initExportProcess()}>Export</button>
+              </div>
+            )}
           </div>
 
           <div className="text-md text-slate-400 font-light uppercase mb-3 mt-6">
