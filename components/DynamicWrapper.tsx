@@ -7,6 +7,7 @@ import {
   DynamicContextProvider,
   EthereumWalletConnectors,
   ZeroDevSmartWalletConnectors,
+  locale,
   type UserProfile,
 } from '@/lib/dynamicxyz';
 
@@ -60,6 +61,7 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
         shadowDOMEnabled: true,
       }}
       theme="auto"
+      locale={locale}
     >
       {children}
     </DynamicContextProvider>
