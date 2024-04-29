@@ -1,11 +1,17 @@
+/* eslint-disable @next/next/no-img-element */
+
 import { useState } from 'react';
 import { FaPix } from 'react-icons/fa6';
 import Sheet from 'react-modal-sheet';
 
-import Link from '@/components/Link';
+import DepositCrypto from './DepositCrypto';
+import DepositPix from './DepositPix';
+
+type DepositType = 'crypto' | 'pix' | null;
 
 export default function HomeActions() {
   const [isSheetOpen, setSheetOpen] = useState<boolean>(false);
+  const [depositType, setDepositType] = useState<DepositType>(null);
 
   return (
     <>
@@ -50,47 +56,70 @@ export default function HomeActions() {
         <Sheet.Container>
           <Sheet.Header />
           <Sheet.Content>
-            <nav className="flex flex-col justify-center space-y-6 safe-m-bottom">
-              <Link
-                href="/send"
-                className="flex py-2"
-                onClick={() => {
-                  setSheetOpen(false);
-                }}
-              >
-                <div className="flex flex-row">
-                  <div className="flex items-center justify-center text-3xl text-[#32BCAD]">
-                    <FaPix />
-                  </div>
-                  <div className="ml-4">
-                    <div className="">Send Pix</div>
-                    <div className="text-slate-400 font-light text-sm">
-                      Scan a QR code or enter a Chave Pix
-                    </div>
-                  </div>
-                </div>
-              </Link>
+            <>
+              {depositType === 'crypto' && <DepositCrypto />}
 
-              <Link
-                href="/receive"
-                className="flex py-2"
-                onClick={() => {
-                  setSheetOpen(false);
-                }}
-              >
-                <div className="flex flex-row">
-                  <div className="flex items-center justify-center text-3xl text-[#32BCAD]">
-                    <FaPix />
-                  </div>
-                  <div className="ml-4">
-                    <div className="">Receive Pix</div>
-                    <div className="text-slate-400 font-light text-sm">
-                      Generate a QR code to receive Pix
+              {depositType === 'pix' && <DepositPix />}
+
+              {depositType !== null && (
+                <button
+                  type="button"
+                  className="flex items-center justify-center w-full p-4 mt-4 text-center cursor-pointer"
+                  onClick={() => setDepositType(null)}
+                >
+                  Cancel
+                </button>
+              )}
+            </>
+
+            {depositType === null && (
+              <nav className="flex flex-col space-y-6 safe-m-bottom animate-bonce-from-bottom">
+                <button
+                  type="button"
+                  className="py-2 text-left"
+                  onClick={() => {
+                    setDepositType('crypto');
+                  }}
+                >
+                  <div className="flex flex-row">
+                    <div className="flex items-center justify-center text-3xl">
+                      <img
+                        src={`https://iconic.dynamic-static-assets.com/icons/sprite.svg#polygon`}
+                        alt="Deposit Crypto"
+                        height={35}
+                        width={35}
+                      />
+                    </div>
+                    <div className="ml-4">
+                      <div className="">Deposit using Crypto</div>
+                      <div className="text-slate-400 font-light text-sm">
+                        Send crypto to your account.
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            </nav>
+                </button>
+
+                <button
+                  type="button"
+                  className="py-2 text-left"
+                  onClick={() => {
+                    setDepositType('pix');
+                  }}
+                >
+                  <div className="flex flex-row">
+                    <div className="flex items-center justify-center text-3xl">
+                      <FaPix />
+                    </div>
+                    <div className="ml-4">
+                      <div className="">Deposit using Pix</div>
+                      <div className="text-slate-400 font-light text-sm">
+                        Convert Reais to USDT in your account.
+                      </div>
+                    </div>
+                  </div>
+                </button>
+              </nav>
+            )}
           </Sheet.Content>
         </Sheet.Container>
         <Sheet.Backdrop onTap={() => setSheetOpen(false)} />

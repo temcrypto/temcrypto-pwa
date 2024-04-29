@@ -10,7 +10,7 @@
  */
 export default function shortenAddress(
   address: string,
-  numDigits: 3 | 4 = 4
+  numDigits: number = 4
 ): string {
   const truncateRegexStr = `^(0x[a-zA-Z0-9]{${numDigits}})[a-zA-Z0-9]+([a-zA-Z0-9]{${numDigits}})$`;
   const match = address.match(new RegExp(truncateRegexStr));
