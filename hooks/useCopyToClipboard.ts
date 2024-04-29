@@ -1,5 +1,5 @@
 // Inspired on https://github.com/uidotdev/usehooks/blob/main/index.js#L133:L164
-// Code assisted by Claude 3 (Anthropic AI)
+// Code assisted by Claude 3 Sonnet, an AI assistant created by Anthropic
 
 /**
  * A React hook for copying text to the clipboard.

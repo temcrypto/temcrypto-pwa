@@ -1166,70 +1166,70 @@
     "@jridgewell/trace-mapping" "0.3.9"
 
 "@dynamic-labs/ethereum-aa@^1.4.10":
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/@dynamic-labs/ethereum-aa/-/ethereum-aa-1.4.10.tgz#5f91c5de9b3a400f32e376f988b6b3fa2e7c6826"
-  integrity sha512-8nNVedjRoZ0x0ePflkxW2if2TAdp1Nh9x9k7UvOTDR2knXW9Klq3xpmcb4T+WEdMVZIcJpK/F8+MvTb+ooS3Mw==
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/@dynamic-labs/ethereum-aa/-/ethereum-aa-1.4.11.tgz#28780ee548c1b086be18aebe4add5e933cd38431"
+  integrity sha512-ORdUYTj/Ry7l+XznDYR4ARrXwelMqwig8FaRCTPQRb9E2/QYEkRrAL5xvFKRxU7MdNMhHSTcUYi0WqtVS/QsmQ==
   dependencies:
-    "@dynamic-labs/logger" "1.4.10"
+    "@dynamic-labs/logger" "1.4.11"
     "@dynamic-labs/sdk-api" "0.0.387"
-    "@dynamic-labs/types" "1.4.10"
-    "@dynamic-labs/utils" "1.4.10"
-    "@dynamic-labs/viem-utils" "1.4.10"
-    "@dynamic-labs/wallet-book" "1.4.10"
-    "@dynamic-labs/wallet-connector-core" "1.4.10"
+    "@dynamic-labs/types" "1.4.11"
+    "@dynamic-labs/utils" "1.4.11"
+    "@dynamic-labs/viem-utils" "1.4.11"
+    "@dynamic-labs/wallet-book" "1.4.11"
+    "@dynamic-labs/wallet-connector-core" "1.4.11"
     "@zerodev/sdk" "^4.1.5"
 
-"@dynamic-labs/ethereum@1.4.10", "@dynamic-labs/ethereum@^1.4.10":
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/@dynamic-labs/ethereum/-/ethereum-1.4.10.tgz#47bc4c0d2b0912fc7a0c39e62da148b7b21f553c"
-  integrity sha512-GTHiACbyxCGzP6Lyduvk8my7u5pY3AOAu/QMu/DfP0q0Tbh3SWjaxQfQECucsMpckS6yLWNXj//eBF5Tuu4eNQ==
+"@dynamic-labs/ethereum@1.4.11", "@dynamic-labs/ethereum@^1.4.10":
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/@dynamic-labs/ethereum/-/ethereum-1.4.11.tgz#8716c5508bb8a49a713ea400cd6f7da55da38dd0"
+  integrity sha512-6TSFliZx1f4eauXiruInwqnIYUFSgRpMBB4zIqVE7R06qXsVjXQSCAbXlXjXNEZYBaNFVi59VDZMj9r/h1N0bg==
   dependencies:
     "@coinbase/wallet-sdk" "3.9.3"
-    "@dynamic-labs/rpc-providers" "1.4.10"
-    "@dynamic-labs/turnkey" "1.4.10"
-    "@dynamic-labs/types" "1.4.10"
-    "@dynamic-labs/utils" "1.4.10"
-    "@dynamic-labs/viem-utils" "1.4.10"
-    "@dynamic-labs/wallet-book" "1.4.10"
-    "@dynamic-labs/wallet-connector-core" "1.4.10"
+    "@dynamic-labs/rpc-providers" "1.4.11"
+    "@dynamic-labs/turnkey" "1.4.11"
+    "@dynamic-labs/types" "1.4.11"
+    "@dynamic-labs/utils" "1.4.11"
+    "@dynamic-labs/viem-utils" "1.4.11"
+    "@dynamic-labs/wallet-book" "1.4.11"
+    "@dynamic-labs/wallet-connector-core" "1.4.11"
     "@walletconnect/client" "1.8.0"
     "@walletconnect/ethereum-provider" "2.11.2"
     buffer "6.0.3"
     eventemitter3 "5.0.1"
     stream "0.0.2"
 
-"@dynamic-labs/iconic@1.4.10":
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/@dynamic-labs/iconic/-/iconic-1.4.10.tgz#9ea42f239579c51f74d6981bb6c9fdfe2a5db730"
-  integrity sha512-6Ntm7zwhjr7LEKDC8GmHu4gHpIaew5BAwkZRetqrXItYyK2J1Lq+HldUrEJKKlZ7/3S1n6GValxOv7ZQM32hRA==
+"@dynamic-labs/iconic@1.4.11":
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/@dynamic-labs/iconic/-/iconic-1.4.11.tgz#c4020692407092e1323f3ef9ac11c20cf8948a48"
+  integrity sha512-PZOHtMotiF/d1jBZ+mJpWnjvy61k/iNDrpoAulNScp5uT/CYxi+8kZmhNo8I+Hr5MiFB6Bw61dMkcxgwkLcNtQ==
   dependencies:
-    "@dynamic-labs/logger" "1.4.10"
+    "@dynamic-labs/logger" "1.4.11"
     sharp "0.33.2"
 
-"@dynamic-labs/logger@1.4.10":
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/@dynamic-labs/logger/-/logger-1.4.10.tgz#219c13b1de3ae0d471b229504bbe16a325c6ffeb"
-  integrity sha512-3Iwo2Ac/rAqXLXb9E4OhWqFb23MmHZ3LOoMufzxGZZOyuubQHBvw65EerTSwx1GyoiCybgGePEYB8qjicAFU7Q==
+"@dynamic-labs/logger@1.4.11":
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/@dynamic-labs/logger/-/logger-1.4.11.tgz#3c1535047a133da6d21e9b05c0e1111aa99c5b7b"
+  integrity sha512-yvl5tMKLRt3jXo9YRe4Sj/Ur1g86Hb0aqMCO5vE0mXp2Ib7Im06A/1SZu8+8vPRySbxtO7Hu9k+73yMFS8YybQ==
 
-"@dynamic-labs/multi-wallet@1.4.10":
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/@dynamic-labs/multi-wallet/-/multi-wallet-1.4.10.tgz#480d2d003c7d65b6d8db46998e91682a53d2c894"
-  integrity sha512-Lo82FdhvSzvwHLF0AMaEEsUKNmmrewy8nqkcS1m/F3MEjuqjwmTQOsB1FDiak8pmjkIJxQqRkFVRKVL5wdul3w==
+"@dynamic-labs/multi-wallet@1.4.11":
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/@dynamic-labs/multi-wallet/-/multi-wallet-1.4.11.tgz#4cc71e497a74768a4bb6c26ace9a90f86b740af9"
+  integrity sha512-O2iQzJIQ6Zxw0TXaHM3jHTBRAeFA2fqDdfVvQvjOvfkK2qB1S2cVL5JhT+j594so+6eYA1qQ7CHjWiraDRUakQ==
   dependencies:
-    "@dynamic-labs/rpc-providers" "1.4.10"
+    "@dynamic-labs/rpc-providers" "1.4.11"
     "@dynamic-labs/sdk-api" "0.0.387"
-    "@dynamic-labs/types" "1.4.10"
-    "@dynamic-labs/utils" "1.4.10"
-    "@dynamic-labs/wallet-book" "1.4.10"
-    "@dynamic-labs/wallet-connector-core" "1.4.10"
+    "@dynamic-labs/types" "1.4.11"
+    "@dynamic-labs/utils" "1.4.11"
+    "@dynamic-labs/wallet-book" "1.4.11"
+    "@dynamic-labs/wallet-connector-core" "1.4.11"
     tslib "2.4.1"
 
-"@dynamic-labs/rpc-providers@1.4.10":
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/@dynamic-labs/rpc-providers/-/rpc-providers-1.4.10.tgz#8dbb4a9bf3c1f87d1c8f5fbb63ac0515473c7b90"
-  integrity sha512-XodxEuqmogSjuJ/IVCcDt9pnyq1CiQii32YFOKS2LsbB17FNcCO/VLC5Yn/LvWvPPH1lNtcPUqkO3lgvm0QJOA==
+"@dynamic-labs/rpc-providers@1.4.11":
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/@dynamic-labs/rpc-providers/-/rpc-providers-1.4.11.tgz#16c63bbe0ced8bd71d1573c7b7f303da77dab7bd"
+  integrity sha512-OGLsmIieBm35L0rZ7dNXaKQxIsvGRqNUsP2UwRk/0KsjGpo567Men8cjV173o5Sy+O8DPi8EdRemm3oHHp8IZA==
   dependencies:
-    "@dynamic-labs/types" "1.4.10"
+    "@dynamic-labs/types" "1.4.11"
     "@solana/web3.js" "1.91.6"
     starknet "5.25.0"
 
@@ -1239,21 +1239,21 @@
   integrity sha512-l1nuFo+5TptnOxiq1R+FvHn+1UwJhzbkKpEWw92HajmvmJifjNFmddMSjoHqKA432KAOXDuM4UTyPBmv4cLStw==
 
 "@dynamic-labs/sdk-react-core@^1.4.10":
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/@dynamic-labs/sdk-react-core/-/sdk-react-core-1.4.10.tgz#12794b643c180d866ae35bf888f42d53242d9721"
-  integrity sha512-qaGi86VnwMisQq+Di4eab9CLcGiqw7umQQz/+K5TzR1XSYMUuEbsT0I+JmavO7iav5e4GQXdMVfzQMnOPEB2nA==
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/@dynamic-labs/sdk-react-core/-/sdk-react-core-1.4.11.tgz#b7df7953006e63151915895b5937cca40f03568a"
+  integrity sha512-9VHTBWfndQRI8nsdegUThOx71xFUKSOuxgqE3dqFZJs5jaqqp+Z8EoIBwYCAI6Jtsr2N5v8lhm0SyuosJ0J18Q==
   dependencies:
-    "@dynamic-labs/ethereum" "1.4.10"
-    "@dynamic-labs/iconic" "1.4.10"
-    "@dynamic-labs/logger" "1.4.10"
-    "@dynamic-labs/multi-wallet" "1.4.10"
-    "@dynamic-labs/rpc-providers" "1.4.10"
+    "@dynamic-labs/ethereum" "1.4.11"
+    "@dynamic-labs/iconic" "1.4.11"
+    "@dynamic-labs/logger" "1.4.11"
+    "@dynamic-labs/multi-wallet" "1.4.11"
+    "@dynamic-labs/rpc-providers" "1.4.11"
     "@dynamic-labs/sdk-api" "0.0.387"
-    "@dynamic-labs/types" "1.4.10"
-    "@dynamic-labs/utils" "1.4.10"
-    "@dynamic-labs/viem-utils" "1.4.10"
-    "@dynamic-labs/wallet-book" "1.4.10"
-    "@dynamic-labs/wallet-connector-core" "1.4.10"
+    "@dynamic-labs/types" "1.4.11"
+    "@dynamic-labs/utils" "1.4.11"
+    "@dynamic-labs/viem-utils" "1.4.11"
+    "@dynamic-labs/wallet-book" "1.4.11"
+    "@dynamic-labs/wallet-connector-core" "1.4.11"
     "@hcaptcha/react-hcaptcha" "1.4.4"
     country-list "2.3.0"
     eventemitter3 "5.0.1"
@@ -1264,18 +1264,18 @@
     react-i18next "^13.2.0"
     yup "0.32.11"
 
-"@dynamic-labs/turnkey@1.4.10":
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/@dynamic-labs/turnkey/-/turnkey-1.4.10.tgz#9d057e8e7a126e5fb98f30e1c183281a2a4d6f3a"
-  integrity sha512-KUw8kcbbTOBgBhhz6+DPmZWwZlpa8yJ3ztFAskkK39TIDmP8DtVNeECl1JjwXrDU32+YodqVw1K3X3eLA5mueA==
+"@dynamic-labs/turnkey@1.4.11":
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/@dynamic-labs/turnkey/-/turnkey-1.4.11.tgz#aba7f00d6a0d13f9e0f9c62b4668bfbdeeab1837"
+  integrity sha512-s2iRKhuDYayPnEpHDS1ktj01dcTsDnxf2eS8AgbKKP4wkaGSIZPPOqwX2T7AQjp9XHTCSwmQ6q8+fzJM2Biu6Q==
   dependencies:
-    "@dynamic-labs/rpc-providers" "1.4.10"
+    "@dynamic-labs/rpc-providers" "1.4.11"
     "@dynamic-labs/sdk-api" "0.0.387"
-    "@dynamic-labs/types" "1.4.10"
-    "@dynamic-labs/utils" "1.4.10"
-    "@dynamic-labs/viem-utils" "1.4.10"
-    "@dynamic-labs/wallet-book" "1.4.10"
-    "@dynamic-labs/wallet-connector-core" "1.4.10"
+    "@dynamic-labs/types" "1.4.11"
+    "@dynamic-labs/utils" "1.4.11"
+    "@dynamic-labs/viem-utils" "1.4.11"
+    "@dynamic-labs/wallet-book" "1.4.11"
+    "@dynamic-labs/wallet-connector-core" "1.4.11"
     "@solana/web3.js" "1.91.6"
     "@turnkey/http" "^2.6.1"
     "@turnkey/iframe-stamper" "^1.0.0"
@@ -1284,42 +1284,42 @@
     "@turnkey/webauthn-stamper" "^0.4.3"
     tldts "^6.0.16"
 
-"@dynamic-labs/types@1.4.10":
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/@dynamic-labs/types/-/types-1.4.10.tgz#b955db6ecfccab65b98c98fdf1fc83836b1d8d1a"
-  integrity sha512-AzVZVjb9xptibpQDu50MeETeJDirNeM17s3ZpTd2dklZEvuC900K7qzbKZ/t7dg5uSlojXylAgbaRPJtyF8jpg==
+"@dynamic-labs/types@1.4.11":
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/@dynamic-labs/types/-/types-1.4.11.tgz#af861015d2d917dc4b143169b518a8ea14f30606"
+  integrity sha512-Nor2QwARd6i/HjEwSphcZVmgFnIlmPrjAcYOieM2FzTUGlSR4s8btHpGnE4n0caYkFJtRMu8BSX3T4etmTMJaA==
   dependencies:
     "@dynamic-labs/sdk-api" "0.0.387"
 
-"@dynamic-labs/utils@1.4.10":
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/@dynamic-labs/utils/-/utils-1.4.10.tgz#92acac4b26ecf6583f21838525dacf2ebe657538"
-  integrity sha512-x4p59Pn10Oq+A8FFt55VG37n01BKHvynMLgEymLs4e0th1WjDfpBiv2AGHsKjk/DVmyrD+7XbUJOLdE9KxXwbQ==
+"@dynamic-labs/utils@1.4.11":
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/@dynamic-labs/utils/-/utils-1.4.11.tgz#544290c2a11da9721f8dbfe755684875f574c51a"
+  integrity sha512-N6dr1tX7wFmAkPq804+gh+E42mhCD9iChaHXHqGFAj4jLE6RFuLj80X2RFk1EQaXxJUv89L1T10wnS07XJSIHg==
   dependencies:
-    "@dynamic-labs/logger" "1.4.10"
-    "@dynamic-labs/types" "1.4.10"
+    "@dynamic-labs/logger" "1.4.11"
+    "@dynamic-labs/types" "1.4.11"
     tldts "^6.0.16"
 
-"@dynamic-labs/viem-utils@1.4.10":
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/@dynamic-labs/viem-utils/-/viem-utils-1.4.10.tgz#87960c455b5935455f368c8f9835af65ac38f60c"
-  integrity sha512-lsq0sBTgbpTb3CsrpX3EC3EoH5d7P5gtsYc2yN2gvpbJDG8g23iCl14uGlXxX49iLQvXmKyKHo0ieKRsI5vhoA==
+"@dynamic-labs/viem-utils@1.4.11":
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/@dynamic-labs/viem-utils/-/viem-utils-1.4.11.tgz#b94ec674dc56e78b1f39edaa27a5f9154e5ef5bb"
+  integrity sha512-imtqgt1ePlzfbtPbs4FHY/FiRUza009nPEKJU4DEfYSdRz3zX2EMpfbPPKyIDHjUOTWqSMZ+Xn+yvi7Iyxyarg==
 
-"@dynamic-labs/wallet-book@1.4.10":
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/@dynamic-labs/wallet-book/-/wallet-book-1.4.10.tgz#08b0782f3446fd343bf16121387cc703fc25de18"
-  integrity sha512-V2zmBW7D7XxMg87P7wr7oJePRqHb1HcBWp9LAw+Y8ohlGwpLeXt4jX4SYglhRrXn6Iz0M7sbkrzEwZLu90p7DQ==
+"@dynamic-labs/wallet-book@1.4.11":
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/@dynamic-labs/wallet-book/-/wallet-book-1.4.11.tgz#f0d6963854a3a22188355c469bf81bf39af05f13"
+  integrity sha512-+C/UY2CdlVi4+QDU+bt8HRAbsjGKZ7kz3ELu3i2LfwDWtD33zllxcJBKIUo0LuGvJ96oaw/qENu1oM37MwoDcw==
   dependencies:
-    "@dynamic-labs/iconic" "1.4.10"
-    "@dynamic-labs/logger" "1.4.10"
-    "@dynamic-labs/utils" "1.4.10"
+    "@dynamic-labs/iconic" "1.4.11"
+    "@dynamic-labs/logger" "1.4.11"
+    "@dynamic-labs/utils" "1.4.11"
     util "0.12.5"
     zod "3.22.4"
 
-"@dynamic-labs/wallet-connector-core@1.4.10":
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/@dynamic-labs/wallet-connector-core/-/wallet-connector-core-1.4.10.tgz#a7804bf5ee49bd7ea36f86e090f74d5687d11111"
-  integrity sha512-b7NCyPsvgMxvgK9X8aSfVnHxNUZD+2Z8kDwN9HGs47MIY3eBUHtciq/HcAg6Snxcj2hPk6o53xRspF63SOejbQ==
+"@dynamic-labs/wallet-connector-core@1.4.11":
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/@dynamic-labs/wallet-connector-core/-/wallet-connector-core-1.4.11.tgz#c957cbf20825b11bfee636bd9f908c81446d2c41"
+  integrity sha512-yYtlEG+Bh+mkOQeJuGale4SOyeDeJ7avgwy6BWsCXa/5ySKhcKqvc6EnPa2S9G+qeVTQSC3rHWSziKguH0y5MA==
 
 "@emnapi/runtime@^0.45.0":
   version "0.45.0"
@@ -3245,10 +3245,33 @@
     "@turnkey/webauthn-stamper" "0.5.0"
     cross-fetch "^3.1.5"
 
-"@turnkey/iframe-stamper@^1.0.0":
+"@turnkey/iframe-stamper@1.2.0", "@turnkey/iframe-stamper@^1.0.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@turnkey/iframe-stamper/-/iframe-stamper-1.2.0.tgz#bba478e391a266833f1a5960b9f1df9de5934fb8"
   integrity sha512-OXbCVVzypa0AXa6dcNpfu8Q0xY/sq2nGXwhesrUQmE7V5I5nYYHZE3sQv54lErToX6H6YyDR9Z1DuPzEUkYTjw==
+
+"@turnkey/sdk-browser@0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@turnkey/sdk-browser/-/sdk-browser-0.0.1.tgz#4e7714dd22393f3c7834746918baf7fd77b608bd"
+  integrity sha512-vRkfL1y7zB66r3Ck+w/LNU3HBPW5Mj1CdkwOuUITqdzNZtqpPrcDR9MSYs+AGU2RzaV4/cyFnILbdEIVUJ+10w==
+  dependencies:
+    "@turnkey/api-key-stamper" "0.4.0"
+    "@turnkey/http" "2.10.0"
+    "@turnkey/iframe-stamper" "1.2.0"
+    "@turnkey/webauthn-stamper" "0.5.0"
+    buffer "^6.0.3"
+    elliptic "^6.5.5"
+
+"@turnkey/sdk-server@0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@turnkey/sdk-server/-/sdk-server-0.0.1.tgz#be805ee9f2419766a1d602bdda94c833319386e3"
+  integrity sha512-Fi17aJA01BVLfOEwkyz2WFd3GtlkVz1ijh2ikaHqprH2G2y2Zy8SSxG/pMx2FBhR/PuFyotYDL0yYyaoBj7qGQ==
+  dependencies:
+    "@turnkey/api-key-stamper" "0.4.0"
+    "@turnkey/http" "2.10.0"
+    buffer "^6.0.3"
+    cross-fetch "^3.1.5"
+    elliptic "^6.5.5"
 
 "@turnkey/solana@^0.2.0":
   version "0.2.2"
@@ -3259,12 +3282,14 @@
     "@turnkey/http" "2.7.1"
 
 "@turnkey/viem@^0.4.8":
-  version "0.4.14"
-  resolved "https://registry.yarnpkg.com/@turnkey/viem/-/viem-0.4.14.tgz#bbc60bd8ce478401e9e7900357de7edc792acd14"
-  integrity sha512-YMREwb7QBBuge8wxdpFGKAl48e4W/rX84XR1E5GsD5HnypNPnfMu/AI7Np0cbQBA6IRuwY9HWu3HbDPU9kicDg==
+  version "0.4.15"
+  resolved "https://registry.yarnpkg.com/@turnkey/viem/-/viem-0.4.15.tgz#d957e504443e5283cc38d8c6f607a71bfadd4b1e"
+  integrity sha512-RIuKGS/eIIc4GcKRiQ6z8yvkNB9d6R4UfNB+4WE8StjCKlk5o0uMoUG5RJoMxXcBzcneVpX3rI6ynp6cm8p83g==
   dependencies:
     "@turnkey/api-key-stamper" "0.4.0"
     "@turnkey/http" "2.10.0"
+    "@turnkey/sdk-browser" "0.0.1"
+    "@turnkey/sdk-server" "0.0.1"
     cross-fetch "^4.0.0"
     typescript "^5.1"
 
@@ -3452,10 +3477,18 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^18.3.0":
+"@types/react@*":
   version "18.3.0"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.3.0.tgz#2e6ac50dea2f68f774b20f1bd536ef82365cd64a"
   integrity sha512-DiUcKjzE6soLyln8NNZmyhcQjVv+WsUIFSqetMN0p8927OztKT4VTfFTqsbAi5oAGIcgOmOajlfBqyptDDjZRw==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^3.0.2"
+
+"@types/react@^18.3.0":
+  version "18.3.1"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.3.1.tgz#fed43985caa834a2084d002e4771e15dfcbdbe8e"
+  integrity sha512-V0kuGBX3+prX+DQ/7r2qsv1NsdfnCLnTgnRJ1pYnxykBhGMz+qj+box5lq7XsO5mtZsBqpjwwTu/7wszPfMBcw==
   dependencies:
     "@types/prop-types" "*"
     csstype "^3.0.2"
@@ -5331,6 +5364,19 @@ elliptic@6.5.4:
     minimalistic-assert "^1.0.1"
     minimalistic-crypto-utils "^1.0.1"
 
+elliptic@^6.5.5:
+  version "6.5.5"
+  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.5.tgz#c715e09f78b6923977610d4c2346d6ce22e6dded"
+  integrity sha512-7EjbcmUm17NQFu4Pmgmq2olYMj8nwMnpcddByChSUjArp8F5DQWcIcpriwO4ZToLNAJig0yiyjswfyGNje/ixw==
+  dependencies:
+    bn.js "^4.11.9"
+    brorand "^1.1.0"
+    hash.js "^1.0.0"
+    hmac-drbg "^1.0.1"
+    inherits "^2.0.4"
+    minimalistic-assert "^1.0.1"
+    minimalistic-crypto-utils "^1.0.1"
+
 emitter-component@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/emitter-component/-/emitter-component-1.1.2.tgz#d65af5833dc7c682fd0ade35f902d16bc4bad772"
@@ -6613,9 +6659,9 @@ humanize-ms@^1.2.1:
     ms "^2.0.0"
 
 i18next@^23.4.6:
-  version "23.11.2"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-23.11.2.tgz#4c0e8192a9ba230fe7dc68b76459816ab601826e"
-  integrity sha512-qMBm7+qT8jdpmmDw/kQD16VpmkL9BdL+XNAK5MNbNFaf1iQQq35ZbPrSlqmnNPOSUY4m342+c0t0evinF5l7sA==
+  version "23.11.3"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-23.11.3.tgz#d269c9c15bae9d90ab291055cfc433089ca5f77b"
+  integrity sha512-Pq/aSKowir7JM0rj+Wa23Kb6KKDUGno/HjG+wRQu0PxoTbpQ4N89MAT0rFGvXmLkRLNMb1BbBOKGozl01dabzg==
   dependencies:
     "@babel/runtime" "^7.23.2"
 
@@ -7906,9 +7952,9 @@ lottie-web@^5.10.2:
   integrity sha512-uvhvYPC8kGPjXT3MyKMrL3JitEAmDMp30lVkuq/590Mw9ok6pWcFCwXJveo0t5uqYw1UREQHofD+jVpdjBv8wg==
 
 lru-cache@^10.2.0:
-  version "10.2.1"
-  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.2.1.tgz#e8d901141f22937968e45a6533d52824070151e4"
-  integrity sha512-tS24spDe/zXhWbNPErCHs/AGOzbKGHT+ybSBqmdLm8WZ1xXLWvH8Qn71QPAlqVhd0qUTWjy+Kl9JmISgDdEjsA==
+  version "10.2.2"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.2.2.tgz#48206bc114c1252940c41b25b41af5b545aca878"
+  integrity sha512-9hp3Vp2/hFQUiIwKo8XCeFVnrg8Pk3TYNPIR7tJADKi5YfcF7vEaK7avFHTlSy3kOKYaJQaalfEo6YuXdceBOQ==
 
 lru-cache@^5.1.1:
   version "5.1.1"
@@ -10881,10 +10927,15 @@ ws@^7.4.5, ws@^7.5.1:
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.9.tgz#54fa7db29f4c7cec68b1ddd3a89de099942bb591"
   integrity sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==
 
-ws@^8.11.0, ws@^8.5.0:
+ws@^8.11.0:
   version "8.16.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.16.0.tgz#d1cd774f36fbc07165066a60e40323eab6446fd4"
   integrity sha512-HS0c//TP7Ina87TfiPUz1rQzMhHrl/SG2guqRcTOIUYD2q8uhUdNHZYJUaQ8aTGPzCh+c6oawMKW35nFl1dxyQ==
+
+ws@^8.5.0:
+  version "8.17.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.17.0.tgz#d145d18eca2ed25aaf791a183903f7be5e295fea"
+  integrity sha512-uJq6108EgZMAl20KagGkzCKfMEjxmKvZHG7Tlq0Z6nOky7YF7aq4mOx6xK8TJ/i1LeK4Qus7INktacctDgY8Ow==
 
 xml-name-validator@^4.0.0:
   version "4.0.0"

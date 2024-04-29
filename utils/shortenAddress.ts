@@ -1,5 +1,5 @@
 // Inspired on https://github.com/gpxl-dev/truncate-eth-address
-// Improved with Claude 3
+// Code assisted by Claude 3 Sonnet, an AI assistant created by Anthropic
 
 /**
  * Shortens an Ethereum address to a user-defined format.
