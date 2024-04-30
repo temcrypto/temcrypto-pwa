@@ -1,20 +1,20 @@
 import Image from 'next/image';
+import { Address } from 'viem';
 
 // This is a subset of https://api-polygon-tokens.polygon.technology/tokenlists/polygonPopular.tokenlist.json
 // TODO: Improve this to get from the API or cache
 const allowedTokenList = [
   {
-    chainId: 1101,
-    name: 'Matic',
+    chainId: 137,
+    name: 'Matic Token',
     symbol: 'MATIC',
     decimals: 18,
-    address: '0xa2036f0538221a77a3937f1379699f44945018d0',
+    address: '0x0000000000000000000000000000000000001010',
     logoURI: 'https://assets.polygon.technology/tokenAssets/matic.svg',
-    tags: ['lxly', 'erc20'],
+    tags: ['plasma', 'native', 'swapable'],
     extensions: {
       originTokenAddress: '0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0',
       originTokenNetwork: 0,
-      wrappedTokenNetwork: 1,
     },
   },
   {
@@ -31,49 +31,42 @@ const allowedTokenList = [
     },
   },
   {
-    chainId: 1101,
+    chainId: 137,
     name: 'Tether USD',
     symbol: 'USDT',
     decimals: 6,
-    address: '0x1e4a5963abfd975d8c9021ce480b42188849d41d',
+    address: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f',
     logoURI: 'https://assets.polygon.technology/tokenAssets/usdt.svg',
-    tags: ['lxly', 'stablecoin', 'erc20'],
+    tags: ['pos', 'stablecoin', 'erc20', 'swapable', 'metaTx'],
     extensions: {
       originTokenAddress: '0xdac17f958d2ee523a2206206994597c13d831ec7',
       originTokenNetwork: 0,
-      wrappedTokenNetwork: 1,
     },
   },
   {
-    chainId: 1101,
-    name: 'USD Coin',
+    chainId: 137,
+    name: 'Bridged USD Coin',
     symbol: 'USDC.e',
     decimals: 6,
-    address: '0x37eAA0eF3549a5Bb7D431be78a3D99BD360d19e5',
+    address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
     logoURI: 'https://assets.polygon.technology/tokenAssets/usdc.svg',
-    tags: ['lxly', 'stablecoin', 'erc20', 'customZkevmBridge'],
+    tags: ['pos', 'erc20', 'swapable', 'metaTx', 'stablecoin'],
     extensions: {
       originTokenAddress: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-      originChainBridgeAdapter: '0x70E70e58ed7B1Cec0D8ef7464072ED8A52d755eB',
-      wrapperChainBridgeAdapter: '0xBDa0B27f93B2FD3f076725b89cf02e48609bC189',
       originTokenNetwork: 0,
-      wrappedTokenNetwork: 1,
     },
   },
   {
-    chainId: 1101,
+    chainId: 137,
     name: 'Dai',
     symbol: 'DAI',
     decimals: 18,
-    address: '0x744C5860ba161b5316F7E80D9Ec415e2727e5bD5',
+    address: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063',
     logoURI: 'https://assets.polygon.technology/tokenAssets/dai.svg',
-    tags: ['lxly', 'stablecoin', 'erc20', 'customZkevmBridge'],
+    tags: ['pos', 'stablecoin', 'erc20', 'swapable', 'metaTx'],
     extensions: {
       originTokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
-      originChainBridgeAdapter: '0x4A27aC91c5cD3768F140ECabDe3FC2B2d92eDb98',
-      wrapperChainBridgeAdapter: '0x744C5860ba161b5316F7E80D9Ec415e2727e5bD5',
       originTokenNetwork: 0,
-      wrappedTokenNetwork: 1,
     },
   },
 ];
@@ -138,7 +131,7 @@ function TokenItem({
   );
 }
 
-export default function TokenList() {
+export default function TokenList({ address }: { address: Address }) {
   return (
     <>
       <div className="flex flex-col space-y-6 mt-4">

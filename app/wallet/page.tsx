@@ -36,7 +36,7 @@ export default function Wallet() {
           <div className="flex flex-col space-y-6 dark:text-white break-words">
             <div className="flex item-center">
               <img
-                src={`/images/sprite.svg#polygon`}
+                src={`/images/networks/polygon.svg`}
                 alt={userWallet}
                 height={20}
                 width={20}
@@ -49,7 +49,7 @@ export default function Wallet() {
                 }}
                 className="transition active:text-slate-300 active:scale-95"
               >
-                {shortenAddress(userWallet)}
+                {shortenAddress(userWallet, 6)}
               </button>
             </div>
 

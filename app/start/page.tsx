@@ -68,7 +68,7 @@ export default function StartPage({
               <DynamicConnectButton buttonClassName="w-full justify-center items-center p-4 text-xl text-white bg-pink-500 hover:bg-pink-600 active:bg-pink-700 rounded-2xl">
                 Continue
               </DynamicConnectButton>
-              <p className="text-slate-300 text-sm mt-4">
+              <p className="text-slate-300 text-sm pb-4 safe-m-bottom">
                 By proceeding, you agree to TEMCRYPTO&apos;s{' '}
                 <Link
                   href="https://temcrypto.com/terms-of-use"
