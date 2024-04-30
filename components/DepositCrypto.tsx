@@ -25,14 +25,14 @@ export default function DepositCrypto() {
             level={'L'}
             includeMargin={false}
             imageSettings={{
-              src: '/images/sprite.svg#polygon',
+              src: '/images/networks/polygon.svg',
               x: undefined,
               y: undefined,
-              height: 30,
-              width: 30,
+              height: 40,
+              width: 40,
               excavate: true,
             }}
-            className="rounded-2xl p-2 bg-white dark:bg-white border-8 border-pink-400"
+            className="rounded-2xl p-2 bg-white dark:bg-white border-8 border-pink-500"
           />
 
           <div className="mt-6">

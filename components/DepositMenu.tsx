@@ -5,6 +5,7 @@ import { FaPix } from 'react-icons/fa6';
 
 import DepositCrypto from './DepositCrypto';
 import DepositPix from './DepositPix';
+import Image from 'next/image';
 
 type DepositType = 'crypto' | 'pix' | null;
 
@@ -40,8 +41,8 @@ export default function DepositMenu() {
           >
             <div className="flex flex-row">
               <div className="flex items-center justify-center text-3xl">
-                <img
-                  src={`/images/sprite.svg#polygon`}
+                <Image
+                  src="/images/networks/polygon.svg"
                   alt="Deposit Crypto"
                   height={35}
                   width={35}

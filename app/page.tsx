@@ -8,10 +8,7 @@ import TokenList from '@/components/TokenList';
 import { useDynamicContext } from '@/lib/dynamicxyz';
 
 export default function App() {
-  const { primaryWallet, user } = useDynamicContext();
-
-  console.log('user', user);
-  console.log('primaryWallet', primaryWallet);
+  const { primaryWallet } = useDynamicContext();
 
   return (
     <PageWrapper id="page-app" requireSession={true}>
