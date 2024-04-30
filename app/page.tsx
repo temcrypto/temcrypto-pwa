@@ -14,7 +14,7 @@ export default function App() {
   console.log('primaryWallet', primaryWallet);
 
   return (
-    <PageWrapper id="page-app">
+    <PageWrapper id="page-app" requireSession={true}>
       <section className="flex flex-col space-y-8 justify-between sm:flex-row sm:space-y-0 sm:space-x-8">
         <HomeActions />
 
