@@ -43,7 +43,7 @@ export default function StartPage({
       <div className="flex flex-col w-full">
         <div className="flex grow items-center text-center">
           <div className="w-full px-2">
-            <div className="m-auto w-56">
+            <div className="m-auto w-48">
               <Lottie animationData={StartAnimation} loop={true} />
             </div>
             <h1 className="text-5xl font-extrabold mt-10">
@@ -68,7 +68,7 @@ export default function StartPage({
               <DynamicConnectButton buttonClassName="w-full justify-center items-center p-4 text-xl text-white bg-pink-500 hover:bg-pink-600 active:bg-pink-700 rounded-2xl">
                 Continue
               </DynamicConnectButton>
-              <p className="text-slate-300 text-sm pb-4 safe-m-bottom">
+              <p className="text-slate-300 dark:text-slate-400 text-sm py-6 safe-m-bottom text-pretty">
                 By proceeding, you agree to TEMCRYPTO&apos;s{' '}
                 <Link
                   href="https://temcrypto.com/terms-of-use"

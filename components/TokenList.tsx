@@ -1,5 +1,15 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Address } from 'viem';
+import {
+  type Address,
+  createPublicClient,
+  http,
+  parseAbi,
+  formatUnits,
+} from 'viem';
+import { polygon, polygonAmoy, polygonMumbai } from 'viem/chains';
 
 // This is a subset of https://api-polygon-tokens.polygon.technology/tokenlists/polygonPopular.tokenlist.json
 // TODO: Improve this to get from the API or cache
@@ -71,39 +81,52 @@ const allowedTokenList = [
   },
 ];
 
-// Demo Data
-const demoTokenList = [
-  {
-    name: 'Polygon',
-    symbol: 'MATIC',
-    logoFile: 'matic.svg',
-    amount: 0.01553408,
-    amountConverted: 49.15,
-  },
-  {
-    name: 'Tether USD',
-    symbol: 'USDT',
-    logoFile: 'usdt.svg',
-    amount: 110.15,
-    amountConverted: 110.15,
-  },
-];
+// Create a public client for interacting with the Polygon (Matic) mainnet
+const client = createPublicClient({
+  chain: polygon,
+  transport: http(),
+});
+
+async function getTokenBalances(address: Address): Promise<TokenItemData[]> {
+  try {
+    const promises = allowedTokenList.map(async (token) => {
+      return client
+        .readContract({
+          address: token.address as Address,
+          abi: parseAbi(['function balanceOf(address) view returns (uint256)']),
+          functionName: 'balanceOf',
+          args: [address],
+        })
+        .catch((err) => {
+          throw new Error(`Error getting balance for ${token.symbol}: ${err}`);
+        });
+    });
+
+    const balancesData = await Promise.all(promises);
+
+    return balancesData.map((balance, index) => {
+      const token = allowedTokenList[index];
+      const formattedBalance = formatUnits(balance, token.decimals);
+      return {
+        name: token.name,
+        symbol: token.symbol,
+        balance: formattedBalance,
+        logoFile: token.logoURI.split('/').pop() ?? '',
+      };
+    });
+  } catch (err) {
+    throw new Error(`Error getting token balances: ${err}`);
+  }
+}
 
 type TokenItemData = {
   name: string;
   symbol: string;
+  balance: string;
   logoFile: string;
-  amount: number;
-  amountConverted: number;
 };
 
-function TokenItem({
-  name,
-  symbol,
-  logoFile,
-  amount,
-  amountConverted,
-}: TokenItemData) {
+function TokenItem({ name, symbol, logoFile, balance }: TokenItemData) {
   return (
     <>
       <div className="token-item flex flex-row justify-between items-center">
@@ -123,8 +146,8 @@ function TokenItem({
           </div>
         </div>
         <div className="token-item-amount">
-          <div className="font-extrabold">{amount}</div>
-          <div className="text-slate-500 text-sm">{amountConverted} USDT</div>
+          <div className="font-extrabold">{balance}</div>
+          <div className="text-slate-500 text-sm">{balance} USDT</div>
         </div>
       </div>
     </>
@@ -132,17 +155,27 @@ function TokenItem({
 }
 
 export default function TokenList({ address }: { address: Address }) {
+  const [tokenBalances, setBalances] = useState<TokenItemData[]>([]);
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      const balances = await getTokenBalances(address as Address);
+      console.log('balances', balances);
+      setBalances(balances as TokenItemData[]);
+    };
+    fetchBalance();
+  }, [address]);
+
   return (
     <>
       <div className="flex flex-col space-y-6 mt-4">
-        {demoTokenList.map((token) => (
+        {tokenBalances.map((token) => (
           <TokenItem
             key={token.name}
             name={token.name}
             symbol={token.symbol}
             logoFile={token.logoFile}
-            amount={token.amount}
-            amountConverted={token.amountConverted}
+            balance={token.balance}
           />
         ))}
       </div>
