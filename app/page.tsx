@@ -16,10 +16,7 @@ export default function App() {
         <HomeActions />
 
         <div className="mt-6">
-          <h1 className="text-lg font-extrabold">
-            Tokens
-            <span className="font-normal text-slate-500 ml-2">(2)</span>
-          </h1>
+          <h1 className="text-lg font-extrabold">Tokens</h1>
           <TokenList address={primaryWallet?.address as Address} />
         </div>
       </section>

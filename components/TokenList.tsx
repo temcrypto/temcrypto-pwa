@@ -1,15 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import Image from 'next/image';
+import { type Address, parseAbi, PublicClient, formatUnits } from 'viem';
 import {
-  type Address,
-  createPublicClient,
-  http,
-  parseAbi,
-  formatUnits,
-} from 'viem';
-import { polygon, polygonAmoy, polygonMumbai } from 'viem/chains';
+  WalletConnector,
+  useDynamicContext,
+} from '@dynamic-labs/sdk-react-core';
+import Loading from './Loading';
 
 // This is a subset of https://api-polygon-tokens.polygon.technology/tokenlists/polygonPopular.tokenlist.json
 // TODO: Improve this to get from the API or cache
@@ -79,40 +77,71 @@ const allowedTokenList = [
       originTokenNetwork: 0,
     },
   },
+  {
+    chainId: 137,
+    name: 'Aave',
+    symbol: 'AAVE',
+    decimals: 18,
+    address: '0xd6df932a45c0f255f85145f286ea0b292b21c90b',
+    logoURI: 'https://assets.polygon.technology/tokenAssets/aave.svg',
+    tags: ['pos', 'erc20', 'swapable', 'metaTx'],
+    extensions: {
+      originTokenAddress: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
+      originTokenNetwork: 0,
+    },
+  },
+  {
+    chainId: 137,
+    name: 'ChainLink Token',
+    symbol: 'LINK',
+    decimals: 18,
+    address: '0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39',
+    logoURI: 'https://assets.polygon.technology/tokenAssets/link.svg',
+    tags: ['pos', 'erc20', 'swapable', 'metaTx'],
+    extensions: {
+      originTokenAddress: '0x514910771AF9Ca656af840dff83E8264EcF986CA',
+      originTokenNetwork: 0,
+    },
+  },
 ];
 
-// Create a public client for interacting with the Polygon (Matic) mainnet
-const client = createPublicClient({
-  chain: polygon,
-  transport: http(),
-});
-
-async function getTokenBalances(address: Address): Promise<TokenItemData[]> {
+async function getTokenBalances(
+  address: Address,
+  walletConnector: WalletConnector
+): Promise<TokenItemData[]> {
   try {
-    const promises = allowedTokenList.map(async (token) => {
-      return client
-        .readContract({
-          address: token.address as Address,
-          abi: parseAbi(['function balanceOf(address) view returns (uint256)']),
-          functionName: 'balanceOf',
-          args: [address],
-        })
-        .catch((err) => {
-          throw new Error(`Error getting balance for ${token.symbol}: ${err}`);
-        });
+    const walletClient =
+      (await walletConnector.getPublicClient()) as PublicClient;
+
+    const calls = allowedTokenList.map((token) => {
+      return {
+        address: token.address as Address,
+        abi: parseAbi(['function balanceOf(address) view returns (uint256)']),
+        functionName: 'balanceOf',
+        args: [address],
+      };
     });
 
-    const balancesData = await Promise.all(promises);
+    const balancesData = await walletClient.multicall({ contracts: calls });
+
+    console.log('getTokenBalances ~ walletClient', walletClient);
+    console.log('getTokenBalances ~ balancesData', balancesData);
 
     return balancesData.map((balance, index) => {
       const token = allowedTokenList[index];
-      const formattedBalance = formatUnits(balance, token.decimals);
-      return {
+      const balanceItem = {
         name: token.name,
         symbol: token.symbol,
-        balance: formattedBalance,
+        balance: '',
         logoFile: token.logoURI.split('/').pop() ?? '',
       };
+
+      if (balance && balance.status === 'success') {
+        const formattedBalance = formatUnits(balance.result, token.decimals);
+        balanceItem.balance = formattedBalance;
+      }
+
+      return balanceItem;
     });
   } catch (err) {
     throw new Error(`Error getting token balances: ${err}`);
@@ -126,7 +155,12 @@ type TokenItemData = {
   logoFile: string;
 };
 
-function TokenItem({ name, symbol, logoFile, balance }: TokenItemData) {
+const TokenItem = memo(function TokenItem({
+  name,
+  symbol,
+  logoFile,
+  balance,
+}: TokenItemData) {
   return (
     <>
       <div className="token-item flex flex-row justify-between items-center">
@@ -152,30 +186,37 @@ function TokenItem({ name, symbol, logoFile, balance }: TokenItemData) {
       </div>
     </>
   );
-}
+});
 
 export default function TokenList({ address }: { address: Address }) {
   const [tokenBalances, setBalances] = useState<TokenItemData[]>([]);
+  const { walletConnector } = useDynamicContext();
 
   useEffect(() => {
-    const fetchBalance = async () => {
-      const balances = await getTokenBalances(address as Address);
-      console.log('balances', balances);
-      setBalances(balances as TokenItemData[]);
-    };
-    fetchBalance();
-  }, [address]);
+    if (walletConnector) {
+      const fetchBalance = async () => {
+        const balances = await getTokenBalances(
+          address as Address,
+          walletConnector
+        );
+        setBalances(balances as TokenItemData[]);
+      };
+      fetchBalance();
+    }
+  }, [walletConnector, address]);
 
   return (
     <>
       <div className="flex flex-col space-y-6 mt-4">
-        {tokenBalances.map((token) => (
+        {!walletConnector && <Loading />}
+        {/* {walletConnector &&!tokenBalances.length && <NoTokens /> */}
+        {tokenBalances.map(({ name, symbol, logoFile, balance }) => (
           <TokenItem
-            key={token.name}
-            name={token.name}
-            symbol={token.symbol}
-            logoFile={token.logoFile}
-            balance={token.balance}
+            key={name}
+            name={name}
+            symbol={symbol}
+            logoFile={logoFile}
+            balance={balance}
           />
         ))}
       </div>
