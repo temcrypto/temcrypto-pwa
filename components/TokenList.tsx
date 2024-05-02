@@ -124,9 +124,6 @@ async function getTokenBalances(
 
     const balancesData = await walletClient.multicall({ contracts: calls });
 
-    console.log('getTokenBalances ~ walletClient', walletClient);
-    console.log('getTokenBalances ~ balancesData', balancesData);
-
     return balancesData.map((balance, index) => {
       const token = allowedTokenList[index];
       const balanceItem = {
@@ -138,7 +135,10 @@ async function getTokenBalances(
 
       if (balance && balance.status === 'success') {
         const formattedBalance = formatUnits(balance.result, token.decimals);
-        balanceItem.balance = formattedBalance;
+        const isStablecoin = token.tags.includes('stablecoin');
+        balanceItem.balance = isStablecoin
+          ? parseFloat(formattedBalance).toFixed(2)
+          : parseFloat(formattedBalance).toFixed(8);
       }
 
       return balanceItem;
@@ -155,12 +155,9 @@ type TokenItemData = {
   logoFile: string;
 };
 
-const TokenItem = memo(function TokenItem({
-  name,
-  symbol,
-  logoFile,
-  balance,
-}: TokenItemData) {
+const TokenItem = memo(function TokenItem({ token }: { token: TokenItemData }) {
+  const { name, symbol, logoFile, balance } = token;
+
   return (
     <>
       <div className="token-item flex flex-row justify-between items-center">
@@ -169,8 +166,8 @@ const TokenItem = memo(function TokenItem({
             <Image
               src={`/images/tokens/${logoFile}`}
               alt={name}
-              height={35}
-              width={35}
+              height={38}
+              width={38}
               className="mr-2"
             />
             <div>
@@ -199,7 +196,7 @@ export default function TokenList({ address }: { address: Address }) {
           address as Address,
           walletConnector
         );
-        setBalances(balances as TokenItemData[]);
+        setBalances(balances);
       };
       fetchBalance();
     }
@@ -209,15 +206,8 @@ export default function TokenList({ address }: { address: Address }) {
     <>
       <div className="flex flex-col space-y-6 mt-4">
         {!walletConnector && <Loading />}
-        {/* {walletConnector &&!tokenBalances.length && <NoTokens /> */}
-        {tokenBalances.map(({ name, symbol, logoFile, balance }) => (
-          <TokenItem
-            key={name}
-            name={name}
-            symbol={symbol}
-            logoFile={logoFile}
-            balance={balance}
-          />
+        {tokenBalances.map((token) => (
+          <TokenItem key={token.name} token={token} />
         ))}
       </div>
     </>
