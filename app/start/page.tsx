@@ -61,7 +61,7 @@ export default function StartPage({
         <div className="flex-none text-center">
           {isAuthenticated && !showAuthFlow ? (
             <div className="flex justify-center items-center p-4 text-xl ">
-              <Loading />
+              <Loading bounce={true} />
             </div>
           ) : (
             <>

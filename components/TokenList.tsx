@@ -1,12 +1,14 @@
+// components/TokenList.tsx
+
 'use client';
 
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { type Address, parseAbi, PublicClient, formatUnits } from 'viem';
-import {
-  WalletConnector,
-  useDynamicContext,
-} from '@dynamic-labs/sdk-react-core';
+
+import { Rate, useRates } from '@/context/RatesContext';
+import { WalletConnector, useDynamicContext } from '@/lib/dynamicxyz';
+
 import Loading from './Loading';
 
 // This is a subset of https://api-polygon-tokens.polygon.technology/tokenlists/polygonPopular.tokenlist.json
@@ -157,6 +159,9 @@ type TokenItemData = {
 
 const TokenItem = memo(function TokenItem({ token }: { token: TokenItemData }) {
   const { name, symbol, logoFile, balance } = token;
+  const tokenRate = useRates(symbol) as Rate;
+
+  console.log('TokenItem ~ tokenRate', tokenRate);
 
   return (
     <>
