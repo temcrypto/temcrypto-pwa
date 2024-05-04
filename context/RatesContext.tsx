@@ -39,7 +39,6 @@ export const RatesProvider = ({
 
   const fetchRatesCb = useCallback(async () => {
     const data = await fetchRates();
-    // e.g. [{ code: 'USD', rate: 1 }, { code: 'MATIC; rate: 0.04558123 }]
     console.log('RatesContext ~ fetchRates ~ data:', data);
     setRates(data);
   }, []);
@@ -78,8 +77,11 @@ export const useRates = (currencyCode?: string): Rate[] | Rate | undefined => {
   if (!context) {
     throw new Error('useRates must be used within a RatesProvider');
   }
+  console.log('useRates ~ currencyCode:', currencyCode);
+
   if (currencyCode) {
     return context.getRateForCode(currencyCode);
   }
+
   return context.rates;
 };

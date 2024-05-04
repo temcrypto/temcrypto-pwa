@@ -2,7 +2,7 @@
 
 'use client';
 
-import { memo, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { type Address, parseAbi, PublicClient, formatUnits } from 'viem';
 
@@ -157,42 +157,56 @@ type TokenItemData = {
   logoFile: string;
 };
 
-const TokenItem = memo(function TokenItem({ token }: { token: TokenItemData }) {
-  const { name, symbol, logoFile, balance } = token;
-  const tokenRate = useRates(symbol) as Rate;
+const TokenItem = memo(
+  function TokenItem({ token, rate }: { token: TokenItemData; rate: number }) {
+    const { name, symbol, logoFile, balance } = token;
 
-  console.log('TokenItem ~ tokenRate', tokenRate);
+    console.log('TokenItem ~ tokenRate', rate);
 
-  return (
-    <>
-      <div className="token-item flex flex-row justify-between items-center">
-        <div className="token-item-data">
-          <div className="flex flex-row">
-            <Image
-              src={`/images/tokens/${logoFile}`}
-              alt={name}
-              height={38}
-              width={38}
-              className="mr-2"
-            />
-            <div>
-              <div className="font-extrabold">{name}</div>
-              <div className="text-slate-500 text-sm">{symbol}</div>
+    return (
+      <>
+        <div className="token-item flex flex-row justify-between items-center">
+          <div className="token-item-data">
+            <div className="flex flex-row">
+              <Image
+                src={`/images/tokens/${logoFile}`}
+                alt={name}
+                height={38}
+                width={38}
+                className="mr-2"
+              />
+              <div>
+                <div className="font-extrabold">{name}</div>
+                <div className="text-slate-500 text-sm">{symbol}</div>
+              </div>
             </div>
           </div>
+          <div className="token-item-amount">
+            <div className="font-extrabold">{balance}</div>
+            <div className="text-slate-500 text-sm">{rate ?? '--'} USDT</div>
+          </div>
         </div>
-        <div className="token-item-amount">
-          <div className="font-extrabold">{balance}</div>
-          <div className="text-slate-500 text-sm">{balance} USDT</div>
-        </div>
-      </div>
-    </>
-  );
-});
+      </>
+    );
+  },
+  (prevProps, nextProps) => {
+    return prevProps.token.balance === nextProps.token.balance;
+  }
+);
 
 export default function TokenList({ address }: { address: Address }) {
-  const [tokenBalances, setBalances] = useState<TokenItemData[]>([]);
   const { walletConnector } = useDynamicContext();
+  const [tokenBalances, setBalances] = useState<TokenItemData[]>([]);
+  const rates = useRates() as Rate[];
+
+  const getRateForCode = useCallback(
+    (code: string) => {
+      const rate = rates.find((rate) => rate.code === code)?.rate;
+      console.log('TokenList ~ getRateForCode', rate);
+      return rate ?? 0;
+    },
+    [rates]
+  );
 
   useEffect(() => {
     if (walletConnector) {
@@ -212,7 +226,11 @@ export default function TokenList({ address }: { address: Address }) {
       <div className="flex flex-col space-y-6 mt-4">
         {!walletConnector && <Loading />}
         {tokenBalances.map((token) => (
-          <TokenItem key={token.name} token={token} />
+          <TokenItem
+            key={token.name}
+            token={token}
+            rate={getRateForCode(token.symbol)}
+          />
         ))}
       </div>
     </>

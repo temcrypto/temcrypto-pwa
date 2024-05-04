@@ -38,6 +38,8 @@ export default function Header() {
   const { primaryWallet } = useDynamicContext();
   const pathname = usePathname();
 
+  console.log('primaryWallet', primaryWallet);
+
   const isPathWithLogo = pathsWithLogo.includes(pathname);
   const currentPathTitle =
     pathTitles.find((path) => pathname.startsWith(path.prefix))?.title || '';
