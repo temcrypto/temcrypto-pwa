@@ -8,6 +8,7 @@ import shortenAddress from '@/utils/shortenAddress';
 
 import Link from './Link';
 import Logo from './Logo';
+import LoadingSkeleton from './LoadingSkeleton';
 
 // List of paths that should have the logo on top left corner
 // TODO: Find a better way to do this.
@@ -35,7 +36,7 @@ const pathTitles = [
 ];
 
 export default function Header() {
-  const { primaryWallet } = useDynamicContext();
+  const { isAuthenticated, primaryWallet } = useDynamicContext();
   const pathname = usePathname();
 
   const isPathWithLogo = pathsWithLogo.includes(pathname);
@@ -65,14 +66,16 @@ export default function Header() {
         </div>
 
         <div className="flex items-center">
-          {primaryWallet?.address && (
+          {isAuthenticated && primaryWallet?.address ? (
             <Link
               href="/wallet"
               aria-label={primaryWallet.address}
-              className="transition active:text-slate-300 active:scale-95"
+              className="animate-bonce-from-bottom transition active:text-slate-300 active:scale-95"
             >
               {shortenAddress(primaryWallet.address, 3)}
             </Link>
+          ) : (
+            <LoadingSkeleton />
           )}
         </div>
       </div>
