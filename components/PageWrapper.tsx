@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { AnimatePresence, motion } from 'framer-motion';
+
+import { useDynamicContext } from '@/lib/dynamicxyz';
 
 import Loading from './Loading';
 
@@ -31,7 +33,9 @@ export default function PageWrapper({
   requireSession?: boolean;
 }) {
   const { status: authStatus } = useSession({ required: requireSession });
+  const { primaryWallet } = useDynamicContext();
   const pathname = usePathname();
+  const router = useRouter()
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -40,6 +44,11 @@ export default function PageWrapper({
       setIsMounted(false);
     };
   }, []);
+
+  // If the user is not logged in, redirect to login page
+  if (primaryWallet === null) {
+    return router.push('/start');
+  }
 
   return (
     <main
