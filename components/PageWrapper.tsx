@@ -8,7 +8,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { DynamicEmbeddedWidget, useDynamicContext } from '@/lib/dynamicxyz';
 
 import Loading from './Loading';
-import { signOut } from '@/auth';
 
 // Motion settings
 const motionVariants = {
