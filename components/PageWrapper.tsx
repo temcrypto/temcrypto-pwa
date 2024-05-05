@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { useDynamicContext } from '@/lib/dynamicxyz';
+import { DynamicEmbeddedWidget, useDynamicContext } from '@/lib/dynamicxyz';
 
 import Loading from './Loading';
 import { signOut } from '@/auth';
@@ -36,21 +36,13 @@ export default function PageWrapper({
   const { status: authStatus } = useSession({ required: requireSession });
   const { primaryWallet } = useDynamicContext();
   const pathname = usePathname();
-  const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
-  console.log('primaryWallet', primaryWallet);
-  console.log('router', router);
-
   useEffect(() => {
-    if (primaryWallet) {
-      setIsMounted(true);
-      return () => {
-        setIsMounted(false);
-      };
-    } else {
-      signOut({ redirectTo: '/start' });
-    }
+    setIsMounted(true);
+    return () => {
+      setIsMounted(false);
+    };
   }, [primaryWallet]);
 
   return (
@@ -58,25 +50,33 @@ export default function PageWrapper({
       id="main"
       className="flex-1 overflow-y-scroll scroll-smooth px-6 py-8 overflow-hidden"
     >
-      {authStatus === 'loading' ? (
-        <Loading bounce={true} fullScreen={true} />
-      ) : (
-        <AnimatePresence initial={false}>
-          {isMounted && (
-            <motion.div
-              id={id}
-              key={pathname}
-              className={className}
-              variants={motionVariants}
-              initial="hidden"
-              animate="enter"
-              exit="exit"
-              transition={motionTransition}
-            >
-              {children}
-            </motion.div>
+      {primaryWallet ? (
+        <>
+          {authStatus === 'loading' ? (
+            <Loading bounce={true} fullScreen={true} />
+          ) : (
+            <AnimatePresence initial={false}>
+              {isMounted && (
+                <motion.div
+                  id={id}
+                  key={pathname}
+                  className={className}
+                  variants={motionVariants}
+                  initial="hidden"
+                  animate="enter"
+                  exit="exit"
+                  transition={motionTransition}
+                >
+                  {children}
+                </motion.div>
+              )}
+            </AnimatePresence>
           )}
-        </AnimatePresence>
+        </>
+      ) : (
+        <>
+          <DynamicEmbeddedWidget background="none" />
+        </>
       )}
     </main>
   );
