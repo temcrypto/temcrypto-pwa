@@ -35,7 +35,7 @@ export default function PageWrapper({
   const { status: authStatus } = useSession({ required: requireSession });
   const { primaryWallet } = useDynamicContext();
   const pathname = usePathname();
-  const router = useRouter()
+  const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -47,7 +47,8 @@ export default function PageWrapper({
 
   // If the user is not logged in, redirect to login page
   if (primaryWallet === null) {
-    return router.push('/start');
+    router.push('/start');
+    return;
   }
 
   return (
