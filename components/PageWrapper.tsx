@@ -33,7 +33,7 @@ export default function PageWrapper({
   requireSession?: boolean;
 }) {
   const { status: authStatus } = useSession({ required: requireSession });
-  const { primaryWallet } = useDynamicContext();
+  const { isAuthenticated } = useDynamicContext();
   const pathname = usePathname();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -44,8 +44,8 @@ export default function PageWrapper({
     };
   }, []);
 
-  // If the user is not logged in or wallet is locked, redirect to login page.
-  if (!primaryWallet && pathname !== '/start') {
+  // If the user wallet is not authenticated, redirect to start page.
+  if (!isAuthenticated && pathname !== '/start') {
     window.location.href = '/start';
   }
 
