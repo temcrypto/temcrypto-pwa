@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useDynamicContext } from '@/lib/dynamicxyz';
 
 import Loading from './Loading';
+import { signOut } from '@/auth';
 
 // Motion settings
 const motionVariants = {
@@ -38,12 +39,19 @@ export default function PageWrapper({
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
+  console.log('primaryWallet', primaryWallet);
+  console.log('router', router);
+
   useEffect(() => {
-    setIsMounted(true);
-    return () => {
-      setIsMounted(false);
-    };
-  }, []);
+    if (primaryWallet) {
+      setIsMounted(true);
+      return () => {
+        setIsMounted(false);
+      };
+    } else {
+      signOut({ redirectTo: '/start' });
+    }
+  }, [primaryWallet]);
 
   return (
     <main
