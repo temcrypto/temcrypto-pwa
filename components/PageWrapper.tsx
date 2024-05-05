@@ -47,6 +47,7 @@ export default function PageWrapper({
   // If the user wallet is not authenticated, redirect to start page.
   if (!isAuthenticated && pathname !== '/start') {
     window.location.href = '/start';
+    return;
   }
 
   return (
