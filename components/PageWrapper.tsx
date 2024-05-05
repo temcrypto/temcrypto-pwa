@@ -45,7 +45,7 @@ export default function PageWrapper({
   }, []);
 
   // If the user is not logged in or wallet is locked, redirect to login page.
-  if (!primaryWallet) {
+  if (!primaryWallet && pathname !== '/start') {
     window.location.href = '/start';
   }
 
