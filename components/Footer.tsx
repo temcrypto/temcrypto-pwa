@@ -6,9 +6,12 @@ import { usePathname } from 'next/navigation';
 import { FaPix, FaPlus } from 'react-icons/fa6';
 import Sheet from 'react-modal-sheet';
 
+import { useDynamicContext } from '@/lib/dynamicxyz';
+
 import Link from './Link';
 
 export default function Footer() {
+  const { primaryWallet } = useDynamicContext();
   const { status: authStatus } = useSession({ required: false });
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const pathname = usePathname();
@@ -16,7 +19,14 @@ export default function Footer() {
   const isHome = pathname === '/';
   const isWallet = pathname === '/wallet';
 
-  if ('authenticated' !== authStatus || '/start' === pathname) return null;
+  // If not authenticated or , don't show the footer
+  if (
+    'authenticated' !== authStatus ||
+    '/start' === pathname ||
+    !primaryWallet
+  ) {
+    return null;
+  }
 
   return (
     <>
