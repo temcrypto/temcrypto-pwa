@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import { FaPix, FaPlus } from 'react-icons/fa6';
 import Sheet from 'react-modal-sheet';
 
+import { DynamicWidget } from '@/lib/dynamicxyz';
+
 import Link from './Link';
 
 export default function Footer() {
@@ -79,6 +81,8 @@ export default function Footer() {
 
       <footer className="w-full animate-background bg-[length:_400%_400%] [animation-duration:_8s] bg-gradient-to-r from-cyan-500 dark:from-cyan-500/55 via-pink-300 dark:via-pink-500/55 to-yellow-500 dark:to-yellow-500/55 pt-0.5 safe-m-bottom">
         <nav className="flex flex-row items-center text-sm text-center bg-white dark:bg-slate-800 p-3">
+          <DynamicWidget variant="modal" />
+
           <div className="basis-1/3">
             <Link
               href="/"

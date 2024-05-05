@@ -45,12 +45,6 @@ export default function PageWrapper({
     };
   }, []);
 
-  // If the user is not logged in, redirect to login page
-  if (primaryWallet === null) {
-    router.push('/start');
-    return;
-  }
-
   return (
     <main
       id="main"
