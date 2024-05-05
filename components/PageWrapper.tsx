@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { DynamicEmbeddedWidget, useDynamicContext } from '@/lib/dynamicxyz';
+import { useDynamicContext } from '@/lib/dynamicxyz';
 
 import Loading from './Loading';
 
@@ -42,40 +42,37 @@ export default function PageWrapper({
     return () => {
       setIsMounted(false);
     };
-  }, [primaryWallet]);
+  }, []);
+
+  // If the user is not logged in or wallet is locked, redirect to login page.
+  if (!primaryWallet) {
+    window.location.href = '/start';
+  }
 
   return (
     <main
       id="main"
       className="flex-1 overflow-y-scroll scroll-smooth px-6 py-8 overflow-hidden"
     >
-      {primaryWallet ? (
-        <>
-          {authStatus === 'loading' ? (
-            <Loading bounce={true} fullScreen={true} />
-          ) : (
-            <AnimatePresence initial={false}>
-              {isMounted && (
-                <motion.div
-                  id={id}
-                  key={pathname}
-                  className={className}
-                  variants={motionVariants}
-                  initial="hidden"
-                  animate="enter"
-                  exit="exit"
-                  transition={motionTransition}
-                >
-                  {children}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          )}
-        </>
+      {authStatus === 'loading' ? (
+        <Loading bounce={true} fullScreen={true} />
       ) : (
-        <>
-          <DynamicEmbeddedWidget background="none" />
-        </>
+        <AnimatePresence initial={false}>
+          {isMounted && (
+            <motion.div
+              id={id}
+              key={pathname}
+              className={className}
+              variants={motionVariants}
+              initial="hidden"
+              animate="enter"
+              exit="exit"
+              transition={motionTransition}
+            >
+              {children}
+            </motion.div>
+          )}
+        </AnimatePresence>
       )}
     </main>
   );
