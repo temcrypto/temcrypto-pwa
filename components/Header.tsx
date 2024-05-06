@@ -75,7 +75,7 @@ export default function Header() {
               {shortenAddress(primaryWallet.address, 3)}
             </Link>
           ) : (
-            <LoadingSkeleton />
+            <LoadingSkeleton width={24} height={5} />
           )}
         </div>
       </div>
