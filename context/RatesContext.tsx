@@ -11,6 +11,7 @@ import {
 } from 'react';
 
 import { fetchRates } from '@/app/actions';
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 
 const UPDATE_INTERVAL = 1000 * 10; // 10 seconds
 
@@ -36,12 +37,15 @@ export const RatesProvider = ({
   rates: Rate[];
 }) => {
   const [rates, setRates] = useState(initialRates);
+  const { isAuthenticated } = useDynamicContext();
 
   const fetchRatesCb = useCallback(async () => {
-    const data = await fetchRates();
-    console.log('RatesContext ~ fetchRates ~ data:', data);
-    setRates(data);
-  }, []);
+    if (isAuthenticated) {
+      const data = await fetchRates();
+      console.log('RatesContext ~ fetchRates ~ data:', data);
+      setRates(data);
+    }
+  }, [isAuthenticated]);
 
   useEffect(() => {
     const interval = setInterval(fetchRatesCb, UPDATE_INTERVAL);

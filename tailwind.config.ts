@@ -25,6 +25,7 @@ const config: Config = {
             transform: 'translateY(10px)',
           },
           '50%': {
+            opacity: '0.25',
             transform: 'translateY(-5px)',
           },
           '100%': {

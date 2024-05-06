@@ -1,5 +1,3 @@
-// app/actions.ts
-
 'use server';
 
 import { type Rate } from '@/context/RatesContext';
