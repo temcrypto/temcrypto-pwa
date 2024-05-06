@@ -45,9 +45,9 @@ export default function PageWrapper({
   }, []);
 
   // If the user wallet is not authenticated, redirect to start page.
-  if (!isAuthenticated && pathname !== '/start') {
+  if (isMounted && pathname !== '/start' && !isAuthenticated) {
+    setIsMounted(false);
     window.location.href = '/start';
-    return;
   }
 
   return (
@@ -55,7 +55,7 @@ export default function PageWrapper({
       id="main"
       className="flex-1 overflow-y-scroll scroll-smooth px-6 py-8 overflow-hidden"
     >
-      {authStatus === 'loading' ? (
+      {!isMounted || authStatus === 'loading' ? (
         <Loading bounce={true} fullScreen={true} />
       ) : (
         <AnimatePresence initial={false}>

@@ -24,8 +24,6 @@ export default function StartPage({
   const prevAuthenticated = useRef(isAuthenticated);
   const router = useRouter();
 
-  console.log('dynamicContext', dynamicContext);
-
   useEffect(() => {
     if (isAuthenticated) {
       if (authStatus === 'authenticated') {

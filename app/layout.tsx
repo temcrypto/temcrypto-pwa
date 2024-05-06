@@ -2,7 +2,6 @@ import { type Metadata, type Viewport } from 'next';
 import { Nunito } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 
-import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 
 import Providers from './providers';
@@ -237,8 +236,7 @@ export default async function RootLayout({
           >
             <Header />
             {children}
-            <Toaster position="top-center" />
-            <Footer />
+            <Toaster position="top-center" containerClassName="z-50" />
           </div>
         </Providers>
       </body>

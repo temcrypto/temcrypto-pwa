@@ -39,6 +39,7 @@ export default function Header() {
   const { isAuthenticated, primaryWallet } = useDynamicContext();
   const pathname = usePathname();
 
+  const showAccount = pathname !== '/start';
   const isPathWithLogo = pathsWithLogo.includes(pathname);
   const currentPathTitle =
     pathTitles.find((path) => pathname.startsWith(path.prefix))?.title || '';
@@ -65,19 +66,23 @@ export default function Header() {
           )}
         </div>
 
-        <div className="flex items-center">
-          {isAuthenticated && primaryWallet?.address ? (
-            <Link
-              href="/wallet"
-              aria-label={primaryWallet.address}
-              className="animate-bonce-from-bottom transition active:text-slate-300 active:scale-95"
-            >
-              {shortenAddress(primaryWallet.address, 3)}
-            </Link>
-          ) : (
-            <LoadingSkeleton width={24} height={5} />
-          )}
-        </div>
+        {showAccount && (
+          <div className="flex items-center">
+            {primaryWallet?.address ? (
+              <Link
+                href="/wallet"
+                aria-label={primaryWallet.address}
+                className="animate-bonce-from-bottom transition active:text-slate-300 active:scale-95"
+              >
+                {shortenAddress(primaryWallet.address, 3)}
+              </Link>
+            ) : (
+              <div className="animate-bonce-from-bottom">
+                <LoadingSkeleton className="w-24 h-5" />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </header>
   );
