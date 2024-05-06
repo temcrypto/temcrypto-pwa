@@ -36,7 +36,7 @@ const pathTitles = [
 ];
 
 export default function Header() {
-  const { isAuthenticated, primaryWallet } = useDynamicContext();
+  const { primaryWallet } = useDynamicContext();
   const pathname = usePathname();
 
   const showAccount = pathname !== '/start';
