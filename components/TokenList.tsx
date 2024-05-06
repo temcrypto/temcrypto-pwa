@@ -38,7 +38,6 @@ export default function TokenList({ address }: TokenListProps) {
             address as Address,
             walletConnector
           );
-          console.log('useEffect ~ balances', balances);
           setBalances(balances);
         } catch (err) {
           console.error('Error getting token balances:', err);

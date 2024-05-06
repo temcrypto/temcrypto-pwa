@@ -1,4 +1,3 @@
-// context/RatesContext.tsx
 'use client';
 
 import {
@@ -42,7 +41,6 @@ export const RatesProvider = ({
   const fetchRatesCb = useCallback(async () => {
     if (isAuthenticated) {
       const data = await fetchRates();
-      console.log('RatesContext ~ fetchRates ~ data:', data);
       setRates(data);
     }
   }, [isAuthenticated]);
@@ -81,7 +79,6 @@ export const useRates = (currencyCode?: string): Rate[] | Rate | undefined => {
   if (!context) {
     throw new Error('useRates must be used within a RatesProvider');
   }
-  console.log('useRates ~ currencyCode:', currencyCode);
 
   if (currencyCode) {
     return context.getRateForCode(currencyCode);
