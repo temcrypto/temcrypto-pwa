@@ -51,10 +51,10 @@ export default function Header() {
           {isPathWithLogo ? (
             <Logo className="animate-bonce-from-bottom" />
           ) : (
-            <div className="flex animate-bonce-from-bottom transition active:scale-95">
+            <div className="flex animate-bonce-from-bottom">
               <button
                 type="button"
-                className="text-3xl text-pink-500"
+                className="text-3xl text-pink-500 transition active:scale-95"
                 onClick={() => {
                   history.back();
                 }}
