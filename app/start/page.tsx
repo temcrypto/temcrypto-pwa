@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Lottie from 'lottie-react';
 
@@ -22,20 +21,20 @@ export default function StartPage({
   const dynamicContext = useDynamicContext();
   const { showAuthFlow, isAuthenticated, handleLogOut } = dynamicContext;
   const prevAuthenticated = useRef(isAuthenticated);
-  const router = useRouter();
 
+  // Check for authentication status and redirect to callbackUrl or log out
   useEffect(() => {
     if (isAuthenticated) {
       if (authStatus === 'authenticated') {
         const redirectTo = searchParams.callbackUrl || '/';
-        return router.push(redirectTo as string);
+        window.location.href = redirectTo as string;
       }
 
       if (authStatus === 'unauthenticated' && prevAuthenticated.current) {
         handleLogOut();
       }
     }
-  }, [isAuthenticated, authStatus, searchParams, handleLogOut, router]);
+  }, [isAuthenticated, authStatus, searchParams, handleLogOut]);
 
   return (
     <PageWrapper id="page-start" className="flex h-full">
