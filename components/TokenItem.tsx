@@ -21,14 +21,14 @@ const TokenItem = memo(
     rate: number;
   }) {
     return (
-      <div className="token-item flex flex-row justify-between items-center">
-        <div className="token-item-data">
+      <div className="flex flex-row justify-between items-center">
+        <div>
           <div className="flex flex-row">
             <Image
               src={`/images/tokens/${logoFile}`}
               alt={name}
-              height={38}
-              width={38}
+              height={40}
+              width={40}
               className="mr-2"
             />
             <div>
@@ -37,7 +37,7 @@ const TokenItem = memo(
             </div>
           </div>
         </div>
-        <div className="token-item-amount">
+        <div>
           <div className="font-extrabold">{balance}</div>
           <div className="text-slate-500 text-sm">{rate ?? '--'} USDT</div>
         </div>

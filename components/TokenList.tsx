@@ -49,11 +49,11 @@ export default function TokenList({ address }: TokenListProps) {
   }, [walletConnector, address]);
 
   return (
-    <div className="flex flex-col space-y-6 mt-4">
+    <div className="flex flex-col space-y-3 *:bg-slate-100 *:dark:bg-slate-700 *:rounded-3xl *:p-4">
       {!walletConnector && <Loading />}
       {tokenBalances.map((token) => (
         <TokenItem
-          key={token.symbol} // Use a unique key for better performance
+          key={token.symbol}
           token={token}
           rate={getRateForCode(token.symbol)}
         />
