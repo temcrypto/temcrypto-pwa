@@ -2,7 +2,7 @@
 
 'use client';
 
-import { type ReactNode } from 'react';
+import { memo, type ReactNode } from 'react';
 import toast from 'react-hot-toast';
 import { IoMdLogOut } from 'react-icons/io';
 import { LuFileKey } from 'react-icons/lu';
@@ -14,13 +14,19 @@ import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
 
-function PageHeader({ children }: { children: ReactNode }) {
+// Define the prop types for the PageHeader component
+type PageHeaderProps = {
+  children: ReactNode;
+};
+
+// Memoize the PageHeader component
+const PageHeader = memo(function PageHeader({ children }: PageHeaderProps) {
   return (
     <h2 className="text-md text-slate-400 font-light uppercase mb-3">
       {children}
     </h2>
   );
-}
+});
 
 export default function Wallet() {
   const { primaryWallet, user, handleLogOut } = useDynamicContext();
