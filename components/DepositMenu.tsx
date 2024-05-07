@@ -31,7 +31,7 @@ export default function DepositMenu() {
       </>
 
       {depositType === null && (
-        <nav className="flex flex-col space-y-6 safe-m-bottom animate-bonce-from-bottom">
+        <nav className="flex flex-col space-y-6 safe-m-bottom animate-bounce-from-bottom">
           <button
             type="button"
             className="py-2 text-left"

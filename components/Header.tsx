@@ -49,9 +49,9 @@ export default function Header() {
       <div className="h-16 w-full flex justify-between bg-white dark:bg-slate-800 px-6">
         <div className="flex items-center">
           {isPathWithLogo ? (
-            <Logo className="animate-bonce-from-bottom" />
+            <Logo className="animate-bounce-from-bottom" />
           ) : (
-            <div className="flex animate-bonce-from-bottom">
+            <div className="flex animate-bounce-from-bottom">
               <button
                 type="button"
                 className="text-3xl text-pink-500 transition active:scale-95"
@@ -72,12 +72,12 @@ export default function Header() {
               <Link
                 href="/wallet"
                 aria-label={primaryWallet.address}
-                className="animate-bonce-from-bottom transition active:text-slate-300 active:scale-95"
+                className="animate-bounce-from-bottom transition active:text-slate-300 active:scale-95"
               >
                 {shortenAddress(primaryWallet.address, 3)}
               </Link>
             ) : (
-              <div className="animate-bonce-from-bottom">
+              <div className="animate-bounce-from-bottom">
                 <LoadingSkeleton className="w-24 h-5" />
               </div>
             )}

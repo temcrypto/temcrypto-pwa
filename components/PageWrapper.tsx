@@ -3,23 +3,10 @@
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { AnimatePresence, motion } from 'framer-motion';
 
 import { useDynamicContext } from '@/lib/dynamicxyz';
 
 import Loading from './Loading';
-
-// Motion settings
-const motionVariants = {
-  hidden: { opacity: 0, x: 0, y: 85 },
-  enter: { opacity: 1, x: 0, y: 0 },
-  exit: { opacity: 0, x: 0, y: -80 },
-};
-
-const motionTransition = {
-  y: { type: 'spring', stiffness: 150, damping: 20 },
-  opacity: { duration: 0.25 },
-};
 
 export default function PageWrapper({
   id,
@@ -58,22 +45,13 @@ export default function PageWrapper({
       {!isMounted || authStatus === 'loading' ? (
         <Loading bounce={true} fullScreen={true} />
       ) : (
-        <AnimatePresence initial={false}>
-          {isMounted && (
-            <motion.div
-              id={id}
-              key={pathname}
-              className={className}
-              variants={motionVariants}
-              initial="hidden"
-              animate="enter"
-              exit="exit"
-              transition={motionTransition}
-            >
-              {children}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div
+          id={id}
+          key={pathname}
+          className={`animate-page-bounce ${className}`}
+        >
+          {children}
+        </div>
       )}
     </main>
   );

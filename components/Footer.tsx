@@ -30,7 +30,7 @@
 //   }
 
 //   return (
-//     <div className="animate-bonce-from-bottom">
+//     <div className="animate-bounce-from-bottom">
 //       <Sheet
 //         isOpen={isOpen}
 //         onClose={() => {
