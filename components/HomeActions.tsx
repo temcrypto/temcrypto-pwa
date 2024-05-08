@@ -22,7 +22,7 @@ export default function HomeActions() {
           Start exploring what you can do with us
         </div>
 
-        <nav className="mt-8 flex flex-col space-y-6 safe-m-bottom animate-bounce-from-bottom *:bg-slate-100 dark:bg-slate-700 *:rounded-3xl *:p-4">
+        <nav className="mt-8 flex flex-col space-y-6 safe-m-bottom animate-bounce-from-bottom *:bg-slate-100 *:dark:bg-slate-700 *:rounded-3xl *:p-4">
           <button
             type="button"
             className="py-2 text-left"
@@ -77,7 +77,7 @@ export default function HomeActions() {
               <div className="ml-4">
                 <div className="text-xl">Send</div>
                 <div className="text-slate-400 font-light text-sm">
-                  Send funds and from your account to another.
+                  Send funds from your account to another.
                 </div>
               </div>
             </div>
