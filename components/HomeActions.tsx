@@ -18,7 +18,7 @@ export default function HomeActions() {
   return (
     <>
       <div>
-        <div className="text-center text-3xl text-slate-500 text-pretty text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400 px-4 py-10">
+        <div className="text-center text-3xl text-slate-400 text-pretty text-transparent animate-background bg-[length:_400%_400%] [animation-duration:_4s] bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-pink-400 px-4 py-10">
           Start exploring what you can do with us
         </div>
 

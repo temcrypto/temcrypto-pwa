@@ -62,18 +62,18 @@ export default function Wallet() {
                   className="inline me-2"
                 />
                 <button
+                  className="transition active:text-slate-300 active:scale-95"
                   onClick={() => {
                     copyToClipboard(userAuthenticatedWith);
-                    toast.success('Copied!');
+                    toast.success('Email copied!');
                   }}
-                  className="transition active:text-slate-300 active:scale-95"
                 >
                   {userAuthenticatedWith}
                 </button>
               </div>
 
               <button
-                className="flex items-center text-rose-500 text-sm"
+                className="flex items-center text-rose-400 text-sm"
                 onClick={() => handleLogOut()}
               >
                 <IoMdLogOut className="inline me-1 w-4 h-4" />
@@ -96,11 +96,11 @@ export default function Wallet() {
                   className="inline me-2"
                 />
                 <button
+                  className="transition active:text-slate-300 active:scale-95"
                   onClick={() => {
                     copyToClipboard(userWalletAddress);
                     toast.success('Address copied!');
                   }}
-                  className="transition active:text-slate-300 active:scale-95"
                 >
                   {shortenAddress(userWalletAddress, 6)}
                 </button>
@@ -109,7 +109,10 @@ export default function Wallet() {
               {canExportKey && (
                 <div className="flex item-center">
                   <LuFileKey className="inline me-2 items-center text-rose-500 w-5 h-5" />
-                  <button onClick={() => initExportProcess()}>
+                  <button
+                    className="transition active:text-slate-300 active:scale-95"
+                    onClick={() => initExportProcess()}
+                  >
                     Export Key
                   </button>
                 </div>
