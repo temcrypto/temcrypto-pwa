@@ -63,7 +63,7 @@ export default function StartPage({
             </div>
           ) : (
             <>
-              <DynamicConnectButton buttonClassName="w-full justify-center items-center p-4 text-xl text-white bg-pink-500 hover:bg-pink-600 active:bg-pink-700 rounded-2xl">
+              <DynamicConnectButton buttonClassName="w-full justify-center items-center p-4 text-xl text-white bg-pink-500 hover:bg-pink-600 active:bg-pink-700 rounded-3xl">
                 Continue
               </DynamicConnectButton>
               <p className="text-slate-300 dark:text-slate-400 text-sm py-6 safe-m-bottom text-pretty">

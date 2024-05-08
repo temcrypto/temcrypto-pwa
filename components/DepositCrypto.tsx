@@ -32,7 +32,7 @@ export default function DepositCrypto() {
               width: 40,
               excavate: true,
             }}
-            className="rounded-2xl p-2 bg-white dark:bg-white border-8 border-pink-500"
+            className="rounded-3xl p-2 bg-white dark:bg-white border-8 border-pink-500"
           />
 
           <div className="mt-6">
