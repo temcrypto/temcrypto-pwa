@@ -1,6 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
-
 import { useState } from 'react';
+import {
+  TbArrowDownFromArc,
+  TbArrowDownToArc,
+  TbInvoice,
+} from 'react-icons/tb';
 import Sheet from 'react-modal-sheet';
 
 import DepositMenu from './DepositMenu';
@@ -14,34 +17,72 @@ export default function HomeActions() {
 
   return (
     <>
-      <div className="flex rounded-2xl h-14 space-x-1 p-2 border-2 border-rose-500 text-center items-center">
-        <div className="flex-1 rounded-l-xl transition active:scale-95">
+      <div>
+        <div className="text-center text-3xl text-slate-500 text-pretty text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400 px-4 py-10">
+          Start exploring what you can do with us
+        </div>
+
+        <nav className="mt-8 flex flex-col space-y-6 safe-m-bottom animate-bounce-from-bottom *:bg-slate-100 dark:bg-slate-700 *:rounded-3xl *:p-4">
           <button
+            type="button"
+            className="py-2 text-left"
             onClick={() => {
               setSheetOpen('pay');
             }}
           >
-            PAY
+            <div className="flex flex-row">
+              <div className="flex items-center justify-center text-4xl text-pink-500">
+                <TbInvoice />
+              </div>
+              <div className="ml-4">
+                <div className="text-xl">Pay</div>
+                <div className="text-slate-400 font-light text-sm">
+                  Make a payment using your crypto wallet.
+                </div>
+              </div>
+            </div>
           </button>
-        </div>
-        <div className="flex-1 transition active:scale-95">
+
           <button
+            type="button"
+            className="py-2 text-left"
             onClick={() => {
               setSheetOpen('deposit');
             }}
           >
-            DEPOSIT
+            <div className="flex flex-row">
+              <div className="flex items-center justify-center text-4xl text-pink-500">
+                <TbArrowDownToArc />
+              </div>
+              <div className="ml-4">
+                <div className="text-xl">Deposit</div>
+                <div className="text-slate-400 font-light text-sm">
+                  Deposit funds in your account to operate.
+                </div>
+              </div>
+            </div>
           </button>
-        </div>
-        <div className="flex-1 rounded-r-xl transition active:scale-95">
+
           <button
+            type="button"
+            className="py-2 text-left"
             onClick={() => {
               setSheetOpen('send');
             }}
           >
-            SEND
+            <div className="flex flex-row">
+              <div className="flex items-center justify-center text-4xl text-pink-500">
+                <TbArrowDownFromArc />
+              </div>
+              <div className="ml-4">
+                <div className="text-xl">Send</div>
+                <div className="text-slate-400 font-light text-sm">
+                  Send funds and from your account to another.
+                </div>
+              </div>
+            </div>
           </button>
-        </div>
+        </nav>
       </div>
 
       <Sheet

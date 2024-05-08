@@ -60,7 +60,8 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
         },
         shadowDOMEnabled: true,
       }}
-      theme="auto"
+      // theme="auto"
+      theme="dark"
       locale={locale}
     >
       {children}

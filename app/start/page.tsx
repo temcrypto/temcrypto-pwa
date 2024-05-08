@@ -41,13 +41,13 @@ export default function StartPage({
       <div className="flex flex-col w-full">
         <div className="flex grow items-center text-center">
           <div className="w-full px-2">
-            <div className="m-auto w-48">
+            <div className="m-auto w-40">
               <Lottie animationData={StartAnimation} loop={true} />
             </div>
-            <h1 className="text-5xl font-extrabold mt-10">
+            <h1 className="text-4xl font-extrabold mt-10">
               Start living in crypto with us!
             </h1>
-            <h2 className="text-2xl text-slate-400 dark:text-slate-300 mt-6">
+            <h2 className="text-2xl text-slate-400 dark:text-slate-300 text-pretty mt-6">
               Explore where digital freedom meets real-world ease.
             </h2>
             <h3 className="text-sm text-transparent bg-clip-text bg-gradient-to-br from-amber-500 via-pink-400 to-blue-500 uppercase mt-16 mb-8">
