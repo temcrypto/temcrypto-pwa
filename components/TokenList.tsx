@@ -11,7 +11,7 @@ import TokenItem from './TokenItem';
 
 function LoadingSkeleton() {
   return (
-    <div className="flex flex-col space-y-3 *:bg-slate-200 *:dark:bg-slate-500 *:rounded-3xl *:h-20 *:animate-pulse">
+    <div className="flex flex-col space-y-3 *:bg-slate-100 *:dark:bg-slate-700 *:rounded-3xl *:h-20 *:animate-pulse">
       <div className="" />
       <div className="" />
       <div className="" />
@@ -67,7 +67,7 @@ export default function TokenList({ address }: TokenListProps) {
   }
 
   return (
-    <div className="flex flex-col space-y-3 *:bg-slate-100 *:dark:bg-slate-700 *:rounded-3xl *:p-4">
+    <div className="flex flex-col space-y-3 *:bg-slate-100 *:dark:bg-slate-700 *:rounded-3xl *:h-20 *:px-4">
       {tokenBalances.map((token) => (
         <TokenItem
           key={token.symbol}

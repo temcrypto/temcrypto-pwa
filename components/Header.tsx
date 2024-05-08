@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { IoArrowBackOutline } from 'react-icons/io5';
+import { IoMdArrowBack } from 'react-icons/io';
 
 import { useDynamicContext } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
@@ -59,7 +59,7 @@ export default function Header() {
                   history.back();
                 }}
               >
-                <IoArrowBackOutline />
+                <IoMdArrowBack />
               </button>
               <span className="ml-3 text-2xl">{currentPathTitle}</span>
             </div>

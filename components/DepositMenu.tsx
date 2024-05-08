@@ -25,7 +25,7 @@ export default function DepositMenu() {
             className="flex items-center justify-center w-full p-4 mt-4 text-center cursor-pointer"
             onClick={() => setDepositType(null)}
           >
-            Cancel
+            Close
           </button>
         )}
       </>

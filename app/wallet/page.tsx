@@ -2,10 +2,11 @@
 
 'use client';
 
-import { memo, type ReactNode } from 'react';
+import { memo, useState, type ReactNode } from 'react';
 import toast from 'react-hot-toast';
-import { IoMdLogOut } from 'react-icons/io';
+import { IoIosAddCircleOutline, IoMdAdd, IoMdLogOut } from 'react-icons/io';
 import { LuFileKey } from 'react-icons/lu';
+import Sheet from 'react-modal-sheet';
 import { type Address } from 'viem';
 
 import PageWrapper from '@/components/PageWrapper';
@@ -13,6 +14,8 @@ import TokenList from '@/components/TokenList';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
+import DepositMenu from '@/components/DepositMenu';
+import { IoAddCircleOutline } from 'react-icons/io5';
 
 // Define the prop types for the PageHeader component
 type PageHeaderProps = {
@@ -22,9 +25,7 @@ type PageHeaderProps = {
 // Memoize the PageHeader component
 const PageHeader = memo(function PageHeader({ children }: PageHeaderProps) {
   return (
-    <h2 className="text-md text-slate-400 font-light uppercase mb-3">
-      {children}
-    </h2>
+    <h2 className="text-md text-slate-400 font-light uppercase">{children}</h2>
   );
 });
 
@@ -32,6 +33,7 @@ export default function Wallet() {
   const { primaryWallet, user, handleLogOut } = useDynamicContext();
   const { copyToClipboard } = useCopyToClipboard();
   const { initExportProcess } = useEmbeddedReveal();
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   // Set the wallet address to the user's primary wallet if they have one
   // Otherwise, set it to their email
@@ -69,15 +71,21 @@ export default function Wallet() {
                   {userAuthenticatedWith}
                 </button>
               </div>
-              <div className="flex items-center text-rose-500 text-sm">
-                <IoMdLogOut className="inline me-2 w-4 h-4" />
-                <button onClick={() => handleLogOut()}>Sign Out</button>
-              </div>
+
+              <button
+                className="flex items-center text-rose-500 text-sm"
+                onClick={() => handleLogOut()}
+              >
+                <IoMdLogOut className="inline me-1 w-4 h-4" />
+                Sign Out
+              </button>
             </div>
           </div>
 
           <div className="mt-6">
-            <PageHeader>Wallet</PageHeader>
+            <div className="flex flex-row justify-between items-center mb-3">
+              <PageHeader>Wallet</PageHeader>
+            </div>
             <div className="flex flex-col space-y-6 dark:text-white break-words">
               <div className="flex item-center">
                 <img
@@ -110,11 +118,36 @@ export default function Wallet() {
           </div>
 
           <div className="mt-6">
-            <PageHeader>Tokens</PageHeader>
+            <div className="flex flex-row justify-between items-center mb-3">
+              <PageHeader>Tokens</PageHeader>
+
+              <button
+                className="flex items-center transition active:scale-95"
+                onClick={() => setSheetOpen(true)}
+              >
+                <IoAddCircleOutline className="text-rose-500 inline me-1 w-5 h-5" />
+                Deposit
+              </button>
+            </div>
             <TokenList address={userWalletAddress} />
           </div>
         </div>
       )}
+
+      <Sheet
+        isOpen={!!sheetOpen}
+        onClose={() => setSheetOpen(false)}
+        detent="content-height"
+        // rootId={sheetRootId}
+      >
+        <Sheet.Container>
+          <Sheet.Header />
+          <Sheet.Content>
+            <DepositMenu />
+          </Sheet.Content>
+        </Sheet.Container>
+        <Sheet.Backdrop onTap={() => setSheetOpen(false)} />
+      </Sheet>
     </PageWrapper>
   );
 }
