@@ -16,12 +16,11 @@ const UPDATE_INTERVAL = 1000 * 10; // 10 seconds
 
 export interface Rate {
   code: string;
-  rate: number;
+  value: number;
 }
 
 interface RatesContextType {
   rates: Rate[];
-  getRateForCode: (code: string) => Rate | undefined;
 }
 
 export const RatesContext = createContext<RatesContextType | undefined>(
@@ -35,8 +34,8 @@ export const RatesProvider = ({
   children: React.ReactNode;
   rates: Rate[];
 }) => {
-  const [rates, setRates] = useState(initialRates);
   const { isAuthenticated } = useDynamicContext();
+  const [rates, setRates] = useState(initialRates ?? []);
 
   const fetchRatesCb = useCallback(async () => {
     if (isAuthenticated) {
@@ -54,16 +53,10 @@ export const RatesProvider = ({
   // Memoize the rates array using useMemo
   const memoizedRates = useMemo(() => rates, [rates]);
 
-  // Memoize the getRateForCode function
-  const getRateForCode = useCallback(
-    (code: string) => memoizedRates.find((rate) => rate.code === code),
-    [memoizedRates]
-  );
-
   // Use memoizedRates in the context value
   const memoizedValue = useMemo(
-    () => ({ rates: memoizedRates, getRateForCode }),
-    [memoizedRates, getRateForCode]
+    () => ({ rates: memoizedRates }),
+    [memoizedRates]
   );
 
   return (
@@ -74,15 +67,10 @@ export const RatesProvider = ({
 };
 
 // Hook to access rates from the context
-export const useRates = (currencyCode?: string): Rate[] | Rate | undefined => {
+export const useRates = (): Rate[] | Rate | undefined => {
   const context = useContext(RatesContext);
   if (!context) {
     throw new Error('useRates must be used within a RatesProvider');
   }
-
-  if (currencyCode) {
-    return context.getRateForCode(currencyCode);
-  }
-
   return context.rates;
 };

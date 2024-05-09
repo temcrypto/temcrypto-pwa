@@ -1,7 +1,10 @@
+// components/TokenItem.tsx
+
 import { memo } from 'react';
 import Image from 'next/image';
 
-import { TokenItemData } from '@/utils/getTokenBalances';
+import { type TokenData } from '@/utils/getTokensData';
+import { Rate } from '@/context/RatesContext';
 
 /**
  * TokenItem component
@@ -9,7 +12,7 @@ import { TokenItemData } from '@/utils/getTokenBalances';
  * Displays a single token item with its logo, name, symbol, balance, and rate.
  * Memoized component with a proper equality check.
  *
- * @param {TokenItemData} token - The token data to display.
+ * @param {TokenData} token - The token data to display.
  * @param {number} rate - The rate of the token in USDT.
  */
 const TokenItem = memo(
@@ -17,8 +20,8 @@ const TokenItem = memo(
     token: { name, symbol, logoFile, balance },
     rate,
   }: {
-    token: TokenItemData;
-    rate: number;
+    token: TokenData;
+    rate: Rate;
   }) {
     return (
       <div className="flex flex-row justify-between items-center">
@@ -39,7 +42,9 @@ const TokenItem = memo(
         </div>
         <div>
           <div className="font-extrabold">{balance}</div>
-          <div className="text-slate-500 text-sm">{rate ?? '--'} USDT</div>
+          <div className="text-slate-500 text-sm">
+            {(rate.value * parseFloat(balance)).toFixed(2) ?? '--'} USDT
+          </div>
         </div>
       </div>
     );

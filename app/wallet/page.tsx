@@ -4,18 +4,18 @@
 
 import { memo, useState, type ReactNode } from 'react';
 import toast from 'react-hot-toast';
-import { IoIosAddCircleOutline, IoMdAdd, IoMdLogOut } from 'react-icons/io';
+import { IoMdLogOut } from 'react-icons/io';
+import { IoAddCircleOutline, IoChevronDownOutline } from 'react-icons/io5';
 import { LuFileKey } from 'react-icons/lu';
 import Sheet from 'react-modal-sheet';
 import { type Address } from 'viem';
 
+import DepositMenu from '@/components/DepositMenu';
 import PageWrapper from '@/components/PageWrapper';
-import TokenList from '@/components/TokenList';
+import TokensList from '@/components/TokensList';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
-import DepositMenu from '@/components/DepositMenu';
-import { IoAddCircleOutline } from 'react-icons/io5';
 
 // Define the prop types for the PageHeader component
 type PageHeaderProps = {
@@ -122,6 +122,25 @@ export default function Wallet() {
 
           <div className="mt-6">
             <div className="flex flex-row justify-between items-center mb-3">
+              <PageHeader>Balance</PageHeader>
+            </div>
+            <div className="flex items-center justify-center">
+              <span className="text-3xl me-2 text-white">
+                {(10000).toFixed(2)}
+              </span>
+
+              <button
+                className="flex items-center text-slate-400 transition active:scale-95"
+                onClick={() => setSheetOpen(true)}
+              >
+                USDT
+                <IoChevronDownOutline className="inline me-1 w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <div className="flex flex-row justify-between items-center mb-3">
               <PageHeader>Tokens</PageHeader>
 
               <button
@@ -132,7 +151,7 @@ export default function Wallet() {
                 Deposit
               </button>
             </div>
-            <TokenList address={userWalletAddress} />
+            <TokensList address={userWalletAddress} />
           </div>
         </div>
       )}

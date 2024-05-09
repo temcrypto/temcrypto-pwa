@@ -1,6 +1,8 @@
+export type AllowedToken = (typeof allowedTokensList)[0]; // TODO: Improve this
+
 // This is a subset of https://api-polygon-tokens.polygon.technology/tokenlists/polygonPopular.tokenlist.json
 // TODO: Improve this to get from the API or cache
-const allowedTokenList = [
+const allowedTokensList = [
   {
     chainId: 137,
     name: 'Matic Token',
@@ -94,4 +96,4 @@ const allowedTokenList = [
   },
 ];
 
-export default allowedTokenList;
+export default allowedTokensList;
