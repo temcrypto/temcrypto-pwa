@@ -129,10 +129,12 @@ const WalletDetailsMenu = memo(function WalletDetailsMenu() {
   );
 });
 
+type WalletMenuType = 'deposit' | 'wallet' | null;
+
 export default function Wallet() {
   const { primaryWallet, walletConnector } = useDynamicContext();
   const [tokensData, setTokensData] = useState<TokenData[]>([]);
-  const [sheetOpen, setSheetOpen] = useState<'wallet' | 'deposit' | null>(null);
+  const [sheetOpen, setSheetOpen] = useState<WalletMenuType>(null);
   const [totalBalance, setTotalBalance] = useState<number>(0);
   const rates = useRates();
 

@@ -10,10 +10,10 @@ import DepositMenu from './DepositMenu';
 import SendMenu from './SendMenu';
 import PayMenu from './PayMenu';
 
-type HomeActionType = 'pay' | 'deposit' | 'send' | null;
+type HomeMenuType = 'pay' | 'deposit' | 'send' | null;
 
 export default function HomeActions() {
-  const [sheetOpen, setSheetOpen] = useState<HomeActionType>(null);
+  const [sheetOpen, setSheetOpen] = useState<HomeMenuType>(null);
 
   return (
     <>
