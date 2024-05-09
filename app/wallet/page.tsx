@@ -21,6 +21,7 @@ import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
 import { getTokensData, type TokenData } from '@/utils/getTokensData';
 import shortenAddress from '@/utils/shortenAddress';
+import { BsThreeDots } from 'react-icons/bs';
 
 // Define the prop types for the SectionHeader component
 type SectionHeaderProps = {
@@ -187,7 +188,7 @@ export default function Wallet() {
                   className="flex items-center transition active:scale-95"
                   onClick={() => setSheetOpen('wallet')}
                 >
-                  <IoInformationCircleOutline className="text-slate-400 w-5 h-5" />
+                  <BsThreeDots className="text-slate-400 w-5 h-5" />
                 </button>
               </div>
               <div className="flex items-baseline justify-center pb-4">
