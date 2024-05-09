@@ -1,5 +1,3 @@
-// utils/getTokensData.ts
-
 import { type Address, parseAbi, type PublicClient, formatUnits } from 'viem';
 
 import { WalletConnector } from '@/lib/dynamicxyz';
