@@ -188,7 +188,7 @@ export default function Wallet() {
                   <IoInformationCircleOutline className="text-slate-400 w-5 h-5" />
                 </button>
               </div>
-              <div className="flex items-baseline justify-center">
+              <div className="flex items-baseline justify-center pb-4">
                 <span className="text-3xl me-1 text-white">
                   {totalBalance.toFixed(2)}
                 </span>
