@@ -47,7 +47,9 @@ export default function Header() {
     pathTitles.find((path) => pathname.startsWith(path.prefix))?.title || '';
 
   const handleGoTo = useCallback(() => {
-    const referrerUrl = new URL(document.referrer);
+    const referrerStr =
+      document.referrer !== '' ? document.referrer : window.location.href;
+    const referrerUrl = new URL(referrerStr);
     if ([pathname, '/start'].includes(referrerUrl.pathname)) {
       router.push('/');
     } else {

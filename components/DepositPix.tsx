@@ -18,7 +18,7 @@ export default function DepositPix() {
     <div className="flex flex-col items-center animate-bounce-from-bottom">
       <div className="text-xl mb-6">Deposit Pix</div>
       <form>
-        <div className="relative rounded-2xl text-xl mt-8">
+        <div className="relative rounded-2xl text-xl">
           <input
             type="text"
             inputMode="decimal"

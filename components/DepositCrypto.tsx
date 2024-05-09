@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-
 import toast from 'react-hot-toast';
 import { TbCopy } from 'react-icons/tb';
 import { QRCodeSVG } from 'qrcode.react';

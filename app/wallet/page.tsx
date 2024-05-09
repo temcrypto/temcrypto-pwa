@@ -1,14 +1,11 @@
-/* eslint-disable @next/next/no-img-element */
-
 'use client';
 
 import { memo, useEffect, useState, type ReactNode } from 'react';
+import Image from 'next/image';
 import toast from 'react-hot-toast';
+import { BsThreeDots } from 'react-icons/bs';
 import { IoMdLogOut } from 'react-icons/io';
-import {
-  IoAddCircleOutline,
-  IoInformationCircleOutline,
-} from 'react-icons/io5';
+import { IoAddCircleOutline } from 'react-icons/io5';
 import { LuFileKey } from 'react-icons/lu';
 import Sheet from 'react-modal-sheet';
 import { type Address } from 'viem';
@@ -21,7 +18,6 @@ import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
 import { getTokensData, type TokenData } from '@/utils/getTokensData';
 import shortenAddress from '@/utils/shortenAddress';
-import { BsThreeDots } from 'react-icons/bs';
 
 // Define the prop types for the SectionHeader component
 type SectionHeaderProps = {
@@ -61,12 +57,13 @@ const WalletDetailsMenu = memo(function WalletDetailsMenu() {
         </div>
         <div className="flex flex-col space-y-6 dark:text-white break-words">
           <div className="flex item-center">
-            <img
-              src={`/images/networks/polygon.svg`}
+            <Image
+              src="/images/networks/polygon.svg"
               alt={userWalletAddress}
               height={20}
               width={20}
               className="inline me-2"
+              unoptimized={true}
             />
             <button
               className="transition active:text-slate-300 active:scale-95"
@@ -99,12 +96,13 @@ const WalletDetailsMenu = memo(function WalletDetailsMenu() {
         </div>
         <div className="flex flex-row justify-between dark:text-white">
           <div className="flex item-center">
-            <img
+            <Image
               src={`/images/sprite.svg#${userWalletType}`}
               alt={userAuthenticatedWith}
               height={20}
               width={20}
               className="inline me-2"
+              unoptimized={true}
             />
             <button
               className={

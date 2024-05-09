@@ -1,11 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
-
 import { useState } from 'react';
+import Image from 'next/image';
 import { FaPix } from 'react-icons/fa6';
 
 import DepositCrypto from './DepositCrypto';
 import DepositPix from './DepositPix';
-import Image from 'next/image';
 
 type DepositType = 'crypto' | 'pix' | null;
 
@@ -13,25 +11,9 @@ export default function DepositMenu() {
   const [depositType, setDepositType] = useState<DepositType>(null);
 
   return (
-    <>
-      <>
-        {depositType === 'crypto' && <DepositCrypto />}
-
-        {depositType === 'pix' && <DepositPix />}
-
-        {depositType !== null && (
-          <button
-            type="button"
-            className="flex items-center justify-center w-full p-4 mt-4 text-center cursor-pointer"
-            onClick={() => setDepositType(null)}
-          >
-            Close
-          </button>
-        )}
-      </>
-
-      {depositType === null && (
-        <nav className="flex flex-col space-y-6 safe-m-bottom animate-bounce-from-bottom">
+    <div className="safe-m-bottom">
+      {depositType === null ? (
+        <nav className="flex flex-col space-y-6 animate-bounce-from-bottom">
           <button
             type="button"
             className="py-2 text-left"
@@ -43,15 +25,16 @@ export default function DepositMenu() {
               <div className="flex items-center justify-center text-3xl">
                 <Image
                   src="/images/networks/polygon.svg"
-                  alt="Deposit Crypto"
+                  alt="Deposit using Crypto"
                   height={35}
                   width={35}
+                  unoptimized={true}
                 />
               </div>
               <div className="ml-4">
                 <div className="text-xl">Deposit using Crypto</div>
                 <div className="text-slate-400 font-light text-sm">
-                  Send crypto assets to your account.
+                  Receive crypto assets in your account.
                 </div>
               </div>
             </div>
@@ -77,7 +60,20 @@ export default function DepositMenu() {
             </div>
           </button>
         </nav>
+      ) : (
+        <>
+          {depositType === 'crypto' && <DepositCrypto />}
+          {depositType === 'pix' && <DepositPix />}
+
+          <button
+            type="button"
+            className="flex items-center justify-center w-full p-4 mt-4 text-center cursor-pointer"
+            onClick={() => setDepositType(null)}
+          >
+            Close
+          </button>
+        </>
       )}
-    </>
+    </div>
   );
 }
