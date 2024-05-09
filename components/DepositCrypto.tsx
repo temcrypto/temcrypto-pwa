@@ -51,7 +51,7 @@ export default function DepositCrypto() {
           </div>
 
           <div className="flex items-center mt-2">
-            <p className="transition text-sm text-slate-400 active:scale-95 text-pretty text-center">
+            <p className="transition text-sm text-slate-400 text-pretty text-center">
               Only send Polygon assets to this account
             </p>
           </div>

@@ -31,7 +31,7 @@ export default function HomeActions() {
             }}
           >
             <div className="flex flex-row">
-              <div className="flex items-center justify-center text-4xl text-pink-500">
+              <div className="flex items-center justify-center text-4xl text-rose-500">
                 <TbInvoice />
               </div>
               <div className="ml-4">
@@ -51,7 +51,7 @@ export default function HomeActions() {
             }}
           >
             <div className="flex flex-row">
-              <div className="flex items-center justify-center text-4xl text-pink-500">
+              <div className="flex items-center justify-center text-4xl text-cyan-500">
                 <TbArrowDownToArc />
               </div>
               <div className="ml-4">
@@ -71,7 +71,7 @@ export default function HomeActions() {
             }}
           >
             <div className="flex flex-row">
-              <div className="flex items-center justify-center text-4xl text-pink-500">
+              <div className="flex items-center justify-center text-4xl text-amber-500">
                 <TbArrowDownFromArc />
               </div>
               <div className="ml-4">

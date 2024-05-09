@@ -51,7 +51,7 @@ const WalletDetailsMenu = memo(function WalletDetailsMenu() {
       : user?.email) ?? '';
   const userWalletType =
     (user?.isAuthenticatedWithAWallet ? user.wallet : 'signinwithemail') ?? '';
-  const canExportKey = userWalletType === 'signinwithemail';
+  const isEmailAccount = userWalletType === 'signinwithemail';
 
   return (
     <>
@@ -79,7 +79,7 @@ const WalletDetailsMenu = memo(function WalletDetailsMenu() {
             </button>
           </div>
 
-          {canExportKey && (
+          {isEmailAccount && (
             <div className="flex item-center">
               <LuFileKey className="inline me-2 items-center text-rose-500 w-5 h-5" />
               <button
@@ -107,10 +107,16 @@ const WalletDetailsMenu = memo(function WalletDetailsMenu() {
               className="inline me-2"
             />
             <button
-              className="transition active:text-slate-300 active:scale-95"
+              className={
+                isEmailAccount
+                  ? 'transition active:text-slate-300 active:scale-95'
+                  : ''
+              }
               onClick={() => {
-                copyToClipboard(userAuthenticatedWith);
-                toast.success('Email copied!');
+                if (isEmailAccount) {
+                  copyToClipboard(userAuthenticatedWith);
+                  toast.success('Email copied!');
+                }
               }}
             >
               {userAuthenticatedWith}

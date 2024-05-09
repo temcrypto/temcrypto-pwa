@@ -237,7 +237,10 @@ export default async function RootLayout({
           >
             <Header />
             {children}
-            <Toaster position="top-center" containerClassName="z-50" />
+            <Toaster
+              position="top-center"
+              containerStyle={{ zIndex: '99999999' }}
+            />
           </div>
         </Providers>
       </body>
