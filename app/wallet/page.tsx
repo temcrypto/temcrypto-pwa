@@ -2,7 +2,7 @@
 
 'use client';
 
-import { memo, useState, type ReactNode } from 'react';
+import { memo, useEffect, useState, type ReactNode } from 'react';
 import toast from 'react-hot-toast';
 import { IoMdLogOut } from 'react-icons/io';
 import { IoAddCircleOutline, IoChevronDownOutline } from 'react-icons/io5';
@@ -15,7 +15,9 @@ import PageWrapper from '@/components/PageWrapper';
 import TokensList from '@/components/TokensList';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
+import { getTokensData, type TokenData } from '@/utils/getTokensData';
 import shortenAddress from '@/utils/shortenAddress';
+import { useRates } from '@/context/RatesContext';
 
 // Define the prop types for the PageHeader component
 type PageHeaderProps = {
@@ -30,14 +32,53 @@ const PageHeader = memo(function PageHeader({ children }: PageHeaderProps) {
 });
 
 export default function Wallet() {
-  const { primaryWallet, user, handleLogOut } = useDynamicContext();
+  const { primaryWallet, user, handleLogOut, walletConnector } =
+    useDynamicContext();
   const { copyToClipboard } = useCopyToClipboard();
   const { initExportProcess } = useEmbeddedReveal();
+  const [tokensData, setTokensData] = useState<TokenData[]>([]);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [totalBalance, setTotalBalance] = useState<number>(0);
+  const rates = useRates();
 
   // Set the wallet address to the user's primary wallet if they have one
   // Otherwise, set it to their email
   const userWalletAddress = (primaryWallet?.address ?? '0x00') as Address;
+
+  // Move the fetchBalance logic to a separate effect
+  useEffect(() => {
+    const fetchBalance = async () => {
+      if (userWalletAddress && walletConnector && rates) {
+        try {
+          const data = await getTokensData({
+            address: userWalletAddress,
+            walletConnector,
+          });
+          setTokensData(data ?? []);
+
+          // Calculate the total balance using rates and data from tokenData. Show it in USDT format.
+          const totalUsdt = data
+            .map(({ symbol, balance }: TokenData) => {
+              const rateObj = rates.find(({ code }) => code === symbol);
+              if (rateObj) {
+                return rateObj.value * parseFloat(balance);
+              }
+              return 0;
+            })
+            .reduce((acc: number, curr: number) => acc + curr, 0);
+
+          setTotalBalance(totalUsdt);
+
+          console.log(`Total balance: ${totalUsdt}`, data);
+        } catch (err) {
+          console.error('Error getting token balances:', err);
+        }
+      }
+    };
+
+    fetchBalance();
+  }, [walletConnector, userWalletAddress, rates]);
+
   const userWalletType =
     (user?.isAuthenticatedWithAWallet ? user.wallet : 'signinwithemail') ?? '';
   const userAuthenticatedWith =
@@ -124,9 +165,9 @@ export default function Wallet() {
             <div className="flex flex-row justify-between items-center mb-3">
               <PageHeader>Balance</PageHeader>
             </div>
-            <div className="flex items-center justify-center">
-              <span className="text-3xl me-2 text-white">
-                {(10000).toFixed(2)}
+            <div className="flex items-baseline justify-center">
+              <span className="text-3xl me-1 text-white">
+                {totalBalance.toFixed(2)}
               </span>
 
               <button
@@ -134,7 +175,7 @@ export default function Wallet() {
                 onClick={() => setSheetOpen(true)}
               >
                 USDT
-                <IoChevronDownOutline className="inline me-1 w-4 h-4" />
+                {/* <IoChevronDownOutline className="inline me-1 w-4 h-4" /> */}
               </button>
             </div>
           </div>
@@ -151,7 +192,7 @@ export default function Wallet() {
                 Deposit
               </button>
             </div>
-            <TokensList address={userWalletAddress} />
+            <TokensList tokens={tokensData} />
           </div>
         </div>
       )}

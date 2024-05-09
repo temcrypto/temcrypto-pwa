@@ -3,14 +3,14 @@
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import Lottie from 'lottie-react';
+// import Lottie from 'lottie-react';
 
 import Loading from '@/components/Loading';
 import PageWrapper from '@/components/PageWrapper';
 import { DynamicConnectButton, useDynamicContext } from '@/lib/dynamicxyz';
 
 // Animations
-import StartAnimation from '@/lottie/start.json';
+// import StartAnimation from '@/lottie/start.json';
 
 export default function StartPage({
   searchParams,
@@ -41,10 +41,10 @@ export default function StartPage({
       <div className="flex flex-col w-full">
         <div className="flex grow items-center text-center">
           <div className="w-full px-2">
-            <div className="m-auto w-40">
+            {/* <div className="m-auto w-40">
               <Lottie animationData={StartAnimation} loop={true} />
-            </div>
-            <h1 className="text-4xl font-extrabold mt-10">
+            </div> */}
+            <h1 className="text-4xl font-extrabold mt-20">
               Start living in crypto with us!
             </h1>
             <h2 className="text-2xl text-slate-400 dark:text-slate-300 text-pretty mt-6">
@@ -69,8 +69,9 @@ export default function StartPage({
               <p className="text-slate-300 dark:text-slate-400 text-sm py-6 safe-m-bottom text-pretty">
                 By proceeding, you agree to TEMCRYPTO&apos;s{' '}
                 <Link
-                  href="https://temcrypto.com/terms-of-use"
+                  href="https://temcrypto.com/terms"
                   className="underline"
+                  target="_blank"
                 >
                   Terms of Use
                 </Link>

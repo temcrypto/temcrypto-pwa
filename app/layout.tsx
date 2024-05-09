@@ -21,7 +21,8 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
   themeColor: [
     { media: '(prefers-color-scheme: dark)', color: '#1e293b' }, // INFO: tailwindcss color slate-800
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: light)', color: '#1e293b' }, // INFO: tailwindcss color slate-800
+    // { media: '(prefers-color-scheme: light)', color: '#ffffff' },
   ],
 };
 

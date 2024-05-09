@@ -40,6 +40,7 @@ export const RatesProvider = ({
   const fetchRatesCb = useCallback(async () => {
     if (isAuthenticated) {
       const data = await fetchRates();
+      // TODO: handle error
       setRates(data);
     }
   }, [isAuthenticated]);
@@ -67,7 +68,7 @@ export const RatesProvider = ({
 };
 
 // Hook to access rates from the context
-export const useRates = (): Rate[] | Rate | undefined => {
+export const useRates = (): Rate[] | undefined => {
   const context = useContext(RatesContext);
   if (!context) {
     throw new Error('useRates must be used within a RatesProvider');
