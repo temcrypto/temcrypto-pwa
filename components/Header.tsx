@@ -1,14 +1,15 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { useCallback } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { IoMdArrowBack } from 'react-icons/io';
 
 import { useDynamicContext } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
 
 import Link from './Link';
-import Logo from './Logo';
 import LoadingSkeleton from './LoadingSkeleton';
+import Logo from './Logo';
 
 // List of paths that should have the logo on top left corner
 // TODO: Find a better way to do this.
@@ -38,11 +39,21 @@ const pathTitles = [
 export default function Header() {
   const { primaryWallet } = useDynamicContext();
   const pathname = usePathname();
+  const router = useRouter();
 
   const showAccount = pathname !== '/start';
   const isPathWithLogo = pathsWithLogo.includes(pathname);
   const currentPathTitle =
     pathTitles.find((path) => pathname.startsWith(path.prefix))?.title || '';
+
+  const handleGoTo = useCallback(() => {
+    const currentUrl = new URL(document.referrer);
+    if (currentUrl.pathname === pathname) {
+      router.push('/');
+    } else {
+      router.back();
+    }
+  }, [pathname, router]);
 
   return (
     <header className="w-full flex animate-background bg-[length:_400%_400%] [animation-duration:_8s] bg-gradient-to-r from-pink-500 dark:from-pink-400/85 via-indigo-400 dark:via-indigo-400/55 to-cyan-400 dark:to-cyan-400/55 pb-1">
@@ -55,9 +66,7 @@ export default function Header() {
               <button
                 type="button"
                 className="text-3xl text-pink-500 transition active:scale-95"
-                onClick={() => {
-                  history.back();
-                }}
+                onClick={handleGoTo}
               >
                 <IoMdArrowBack />
               </button>
