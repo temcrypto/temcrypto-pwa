@@ -11,7 +11,7 @@ export default function DepositMenu() {
   const [depositType, setDepositType] = useState<DepositType>(null);
 
   return (
-    <div className="safe-m-bottom">
+    <>
       {depositType === null ? (
         <nav className="flex flex-col space-y-6 animate-bounce-from-bottom">
           <button
@@ -74,6 +74,6 @@ export default function DepositMenu() {
           </button>
         </>
       )}
-    </div>
+    </>
   );
 }

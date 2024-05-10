@@ -89,14 +89,15 @@ export default function HomeActions() {
         isOpen={!!sheetOpen}
         onClose={() => setSheetOpen(null)}
         detent="content-height"
-        // rootId={sheetRootId}
       >
         <Sheet.Container>
           <Sheet.Header />
           <Sheet.Content>
-            {sheetOpen === 'pay' && <PayMenu />}
-            {sheetOpen === 'deposit' && <DepositMenu />}
-            {sheetOpen === 'send' && <SendMenu />}
+            <div className="safe-m-bottom">
+              {sheetOpen === 'pay' && <PayMenu />}
+              {sheetOpen === 'deposit' && <DepositMenu />}
+              {sheetOpen === 'send' && <SendMenu />}
+            </div>
           </Sheet.Content>
         </Sheet.Container>
         <Sheet.Backdrop onTap={() => setSheetOpen(null)} />

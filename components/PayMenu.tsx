@@ -10,7 +10,7 @@ export default function PayMenu() {
   const [payType, setPayType] = useState<PayType>(null);
 
   return (
-    <div className="safe-m-bottom">
+    <>
       {payType === null ? (
         <nav className="flex flex-col space-y-6 animate-bounce-from-bottom">
           <button
@@ -72,6 +72,6 @@ export default function PayMenu() {
           </button>
         </>
       )}
-    </div>
+    </>
   );
 }

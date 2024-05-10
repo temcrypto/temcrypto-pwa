@@ -8,7 +8,7 @@ export default function SendMenu() {
   const [sendType, setSendType] = useState<SendType>(null);
 
   return (
-    <div className="safe-m-bottom">
+    <>
       {sendType === null ? (
         <nav className="flex flex-col space-y-6 animate-bounce-from-bottom">
           <button
@@ -68,6 +68,6 @@ export default function SendMenu() {
           </button>
         </>
       )}
-    </div>
+    </>
   );
 }

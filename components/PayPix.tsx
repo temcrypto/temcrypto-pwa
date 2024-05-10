@@ -1,17 +1,17 @@
-import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
-import { LuQrCode } from 'react-icons/lu';
-import QRCodeScanner from './QRCodeScanner';
+import { type ChangeEvent, type FormEvent, useCallback, useState } from 'react';
+import { rangeDelay } from 'delay';
 import toast from 'react-hot-toast';
+import { LuQrCode } from 'react-icons/lu';
 
 import { fetchPixKeyData, getSwapRateBrl } from '@/app/send/actions';
 import {
   type PixPaymentState,
   usePixPaymentContext,
 } from '@/context/PixPaymentContext';
-import { rangeDelay } from 'delay';
+
+import QRCodeScanner from './QRCodeScanner';
 
 // Regular Expression to Validate Currency Inputs from 5.00 up to 500.00
-
 /*
 Explanation:
 - The regex is divided into two main parts by the OR operator (|), handling numbers less than 500 and exactly 500 differently.
@@ -35,11 +35,9 @@ export default function PayPix() {
   const [formattedAmount, setFormattedAmount] = useState('');
   const [canSubmit, setCanSubmit] = useState(false);
 
-  // const canSubmit = !sending;
-
   // Form helpers
   const handleFormSubmit = useCallback(
-    async (e: FormEvent) => {
+    async (e: FormEvent<HTMLFormElement>) => {
       try {
         e.preventDefault(); // Prevent default form submission
         setPixPaymentState((prevState) => ({ ...prevState, loading: true }));
@@ -178,7 +176,7 @@ export default function PayPix() {
             id="pixKey"
             name="pixKey"
             type="text"
-            className="transition ease-in-out w-full rounded-3xl p-4 pr-24 border-2 border-slate-300 focus:border-pink-400 text-slate-800 placeholder:text-slate-400 focus:outline-none read-only:bg-slate-300 read-only:text-slate-400"
+            className="transition ease-in-out w-full rounded-3xl p-4 pr-24 border-[.2rem] border-slate-300 focus:border-pink-400 text-slate-800 placeholder:text-slate-400 focus:outline-none read-only:bg-slate-300 read-only:text-slate-400"
             aria-label="Enter Chave Pix such as CPF, CNPJ, phone number, or email"
             placeholder="CPF, phone number, email..."
             value={pixPaymentState.pixKeyParsed || pixPaymentState.pixKey}
@@ -189,7 +187,7 @@ export default function PayPix() {
           <div className="absolute inset-y-0 right-0 pr-4 flex">
             <button
               type="button"
-              className="text-pink-500 hover:text-pink-700 disabled:text-slate-400 text-base uppercase flex items-center"
+              className="text-pink-500 disabled:text-slate-400 text-base uppercase flex items-center"
               onClick={() => {
                 if (!sending) setOpenQrScanner(true);
               }}
@@ -204,11 +202,11 @@ export default function PayPix() {
           </div>
         </div>
 
-        <div className="relative rounded-2xl text-xl mt-8">
+        <div className="relative mt-8">
           <input
             type="text"
             inputMode="decimal"
-            className="transition ease-in-out w-full rounded-3xl p-4 pl-12 border-2 border-slate-300 focus:border-pink-400 text-slate-800 placeholder:text-slate-400 focus:outline-none read-only:bg-slate-300 read-only:text-slate-400 invalid:border-red-400 invalid:focus:border-red-400 invalid:focus:text-red-500 invalid:focus:bg-red-100 peer appearance-none"
+            className="transition ease-in-out w-full rounded-3xl p-4 pl-12 border-[.2rem] border-slate-300 focus:border-pink-400 text-slate-800 placeholder:text-slate-400 focus:outline-none read-only:bg-slate-300 read-only:text-slate-400 read-only:focus:border-slate-300 invalid:border-red-400 invalid:focus:border-red-400 invalid:focus:text-red-500 invalid:focus:bg-red-100 peer appearance-none"
             id="amount"
             name="amount"
             aria-label="Enter the transaction amount between 5,00 and 500,00"
@@ -234,7 +232,7 @@ export default function PayPix() {
 
         <button
           type="submit"
-          className={`transition ease-in-out w-full rounded-3xl p-4 mt-8 text-center text-white bg-pink-500  active:bg-pink-700  hover:bg-pink-600 disabled:text-slate-400 disabled:bg-slate-300 cursor-pointer disabled:cursor-not-allowed appearance-none ${
+          className={`transition ease-in-out w-full rounded-3xl p-4 mt-8 border-[.2rem] border-pink-500 active:border-pink-700 text-center text-white bg-pink-500 active:bg-pink-700 disabled:text-slate-400 disabled:border-slate-300 disabled:bg-slate-300 cursor-pointer disabled:cursor-not-allowed appearance-none ${
             sending ? 'animate-pulse' : ''
           }`}
           disabled={!canSubmit || sending}
