@@ -41,7 +41,6 @@ const QRCodeScanner = memo(
     const handleResult = useCallback(
       (result: any, error: any) => {
         if (!!result) {
-          // TODO: check if we can get the amount and update the amount input
           const text = result.getText();
           console.log('QR Code scanned: handleResult ', text);
           onScan(text);
