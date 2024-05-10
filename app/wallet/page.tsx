@@ -196,7 +196,7 @@ export default function Wallet() {
                 </button>
               </div>
               <div className="flex items-baseline justify-center pb-4">
-                <span className="text-3xl me-1 text-white">
+                <span className="text-4xl font-extrabold me-1 text-white">
                   {totalBalance.toFixed(2)}
                 </span>
 
