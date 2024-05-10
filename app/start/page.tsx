@@ -45,7 +45,9 @@ export default function StartPage({
               <Lottie animationData={StartAnimation} loop={true} />
             </div> */}
             <h1 className="text-4xl font-extrabold mt-20">
-              Start living in crypto with us!
+              <span className="text-rose-500">Start</span> living in crypto{' '}
+              <span className="text-cyan-500">with</span>{' '}
+              <span className="text-amber-500">us</span>!
             </h1>
             <h2 className="text-2xl text-slate-300 dark:text-slate-400 text-pretty mt-8">
               Explore where digital freedom meets real-world ease.
@@ -63,7 +65,7 @@ export default function StartPage({
             </div>
           ) : (
             <>
-              <DynamicConnectButton buttonClassName="w-full justify-center items-center p-4 text-xl text-white bg-pink-500 hover:bg-pink-600 active:bg-pink-700 rounded-3xl">
+              <DynamicConnectButton buttonClassName="w-full justify-center items-center p-4 text-xl text-white bg-pink-500 active:bg-pink-700 rounded-3xl">
                 Continue
               </DynamicConnectButton>
               <p className="text-slate-300 dark:text-slate-500 text-sm py-6 safe-m-bottom text-pretty">

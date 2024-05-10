@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 
 import { type Rate, useRates } from '@/context/RatesContext';
 import { useDynamicContext } from '@/lib/dynamicxyz';
@@ -8,6 +8,7 @@ import { type TokenData } from '@/utils/getTokensData';
 
 import TokenItem from './TokenItem';
 
+// Loading skeleton component
 function LoadingSkeleton() {
   return (
     <div className="flex flex-col space-y-3 *:bg-slate-100 *:dark:bg-slate-700 *:rounded-3xl *:h-20 *:animate-pulse">
@@ -27,7 +28,7 @@ type TokenListProps = {
   tokens: TokenData[];
 };
 
-export default function TokensList({ tokens }: TokenListProps) {
+const TokensList = memo(function TokensList({ tokens }: TokenListProps) {
   const { walletConnector } = useDynamicContext();
   const rates = useRates() as Rate[];
 
@@ -58,4 +59,6 @@ export default function TokensList({ tokens }: TokenListProps) {
       ))}
     </div>
   );
-}
+});
+
+export default TokensList;

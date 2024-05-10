@@ -1,4 +1,10 @@
-import { type Address, parseAbi, type PublicClient, formatUnits } from 'viem';
+import {
+  type Address,
+  parseAbi,
+  type PublicClient,
+  formatUnits,
+  isAddress,
+} from 'viem';
 
 import { WalletConnector } from '@/lib/dynamicxyz';
 import allowedTokensList, { type AllowedToken } from '@/utils/allowedTokens';
@@ -16,11 +22,17 @@ export async function getTokensData({
   walletConnector,
   allowedTokens = allowedTokensList,
 }: {
-  address: Address;
+  address: string;
   walletConnector: WalletConnector;
   allowedTokens?: AllowedToken[];
 }): Promise<TokenData[]> {
   try {
+    // Check that the address is valid before querying the tokens
+    if (!isAddress(address)) {
+      throw new Error('Invalid address');
+    }
+
+    // Get the wallet client
     const walletClient =
       (await walletConnector.getPublicClient()) as PublicClient;
 
@@ -43,7 +55,7 @@ export async function getTokensData({
         name: token.name,
         symbol: token.symbol,
         logoFile: token.logoURI.split('/').pop() ?? '',
-        balance: '',
+        balance: '', // Return string to keep the base type and be converted later
       };
 
       if (balance && balance.status === 'success') {

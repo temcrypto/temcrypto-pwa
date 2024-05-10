@@ -136,7 +136,7 @@ const WalletDetailsMenu = memo(function WalletDetailsMenu() {
 
 type WalletMenuType = 'deposit' | 'wallet' | null;
 
-export default function Wallet() {
+const WalletPage = memo(function Wallet() {
   const { primaryWallet, walletConnector } = useDynamicContext();
   const [tokensData, setTokensData] = useState<TokenData[]>([]);
   const [sheetOpen, setSheetOpen] = useState<WalletMenuType>(null);
@@ -145,12 +145,14 @@ export default function Wallet() {
 
   // Set the wallet address to the user's primary wallet if they have one
   // Otherwise, set it to their email
-  const userWalletAddress = (primaryWallet?.address ?? '0x00') as Address;
+  const userWalletAddress = primaryWallet?.address;
+
+  console.log('Wallet Page', userWalletAddress);
 
   // Move the fetchBalance logic to a separate effect
   useEffect(() => {
     const fetchBalance = async () => {
-      if (userWalletAddress && walletConnector && rates) {
+      if (userWalletAddress && walletConnector && Array.isArray(rates)) {
         try {
           const data = await getTokensData({
             address: userWalletAddress,
@@ -179,7 +181,7 @@ export default function Wallet() {
     };
 
     fetchBalance();
-  }, [walletConnector, userWalletAddress, rates]);
+  }, [userWalletAddress, walletConnector, rates]);
 
   return (
     <PageWrapper id="page-wallet" requireSession={true}>
@@ -245,4 +247,6 @@ export default function Wallet() {
       )}
     </PageWrapper>
   );
-}
+});
+
+export default WalletPage;
