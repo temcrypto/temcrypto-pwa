@@ -22,7 +22,7 @@ export default function HomeActions() {
           Start exploring what you can do with us...
         </div>
 
-        <nav className="mt-8 flex flex-col space-y-6 safe-m-bottom animate-bounce-from-bottom *:p-4 *:text-left *:transition *:bg-slate-100 *:dark:bg-slate-700 *:rounded-3xl">
+        <nav className="mt-8 flex flex-col space-y-6 safe-m-bottom animate-bounce-from-bottom *:p-4 *:text-left *:transition *:bg-slate-100 *:dark:bg-slate-700/60 *:rounded-3xl">
           <button
             type="button"
             className="active:scale-95"

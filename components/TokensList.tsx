@@ -48,7 +48,7 @@ export default function TokensList({ tokens }: TokenListProps) {
   console.log('TokensList', tokens);
 
   return (
-    <div className="flex flex-col space-y-3 *:bg-slate-100 *:dark:bg-slate-700 *:rounded-3xl *:h-20 *:px-4">
+    <div className="flex flex-col space-y-3 *:bg-slate-100 *:dark:bg-slate-700/60 *:rounded-3xl *:h-20 *:px-4">
       {tokens.map((token) => (
         <TokenItem
           key={token.symbol}
