@@ -8596,10 +8596,10 @@ pathe@^1.1.1, pathe@^1.1.2:
   resolved "https://registry.yarnpkg.com/pathe/-/pathe-1.1.2.tgz#6c4cb47a945692e48a1ddd6e4094d170516437ec"
   integrity sha512-whLdWMYL2TwI08hn8/ZqAbrVemu0LNaNNJZX73O6qaIdCTfXutsLhMkjdENX0qhsQ9uIimo4/aQOmXkoon2nDQ==
 
-permissionless@^0.1.26:
-  version "0.1.26"
-  resolved "https://registry.yarnpkg.com/permissionless/-/permissionless-0.1.26.tgz#5491910ac85b6cc1cee596fc33a298f397486e30"
-  integrity sha512-a1BpLM2IRoVMPd3Exd15MeP4DVXUfSjQhzLmQC2V0NXREXKtR4KVZbAqcN2gzxZfzZ8V1nBlE1lEClkJt1zSJA==
+permissionless@^0.1.28:
+  version "0.1.28"
+  resolved "https://registry.yarnpkg.com/permissionless/-/permissionless-0.1.28.tgz#3609b7ee431866eb45821707593651991da65355"
+  integrity sha512-JjE4IofN2B1pqB4L7g/9G325pKXCGuPHfpc390jtVvk4CjnIIVQN1NwO97eb+bAYty+1aoBgYsw6ezxH1WmgWA==
 
 pg-cloudflare@^1.1.1:
   version "1.1.1"
