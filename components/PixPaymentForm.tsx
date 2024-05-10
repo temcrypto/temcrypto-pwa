@@ -4,7 +4,6 @@ import React, {
   type ChangeEvent,
   useCallback,
   useEffect,
-  useRef,
   useState,
 } from 'react';
 import { LuQrCode } from 'react-icons/lu';

@@ -55,7 +55,7 @@ body {
 }
 
 .react-modal-sheet-container {
-  @apply bg-white text-slate-800 dark:bg-slate-800 dark:text-white rounded-t-3xl !important;
+  @apply bg-white text-slate-800 dark:bg-slate-800 dark:text-white rounded-t-3xl w-screen sm:w-[32rem] m-auto !important;
 }
 
 .react-modal-sheet-content {

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { LuQrCode } from 'react-icons/lu';
 import Sheet from 'react-modal-sheet';
 import { QrReader } from 'react-qr-reader';
@@ -11,13 +11,13 @@ interface QRCodeScannerProps {
   onClose?: () => void;
 }
 
-const QRCodeScanner = ({
+const QRCodeScanner = memo(function QRCodeScanner({
   isOpen = false,
   sheetRootId,
   onScan,
   onError,
   onClose,
-}: QRCodeScannerProps) => {
+}: QRCodeScannerProps) {
   const [hasCameraPermission, setHasCameraPermission] = useState(false);
 
   // Component events handlers
@@ -42,6 +42,7 @@ const QRCodeScanner = ({
       if (!!result) {
         // TODO: check if we can get the amount and update the amount input
         const text = result.getText();
+        console.log('QR Code scanned: handleResult ', text);
         onScan(text);
       }
 
@@ -105,9 +106,9 @@ const QRCodeScanner = ({
                 padding: 0,
                 margin: '0 auto',
                 border: '4px solid rgb(236, 72, 153)',
-                borderRadius: '1rem',
-                height: '350px',
-                width: '350px',
+                borderRadius: '1.5rem',
+                height: '300px',
+                width: '300px',
               }}
               videoStyle={{
                 zIndex: -100,
@@ -150,6 +151,6 @@ const QRCodeScanner = ({
       <Sheet.Backdrop onTap={() => false} />
     </Sheet>
   );
-};
+});
 
 export default QRCodeScanner;

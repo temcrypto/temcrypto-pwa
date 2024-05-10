@@ -58,7 +58,7 @@ export default function Header() {
   }, [pathname, router]);
 
   return (
-    <header className="w-full flex animate-background bg-[length:_400%_400%] [animation-duration:_8s] bg-gradient-to-r from-pink-500 dark:from-pink-400/85 via-indigo-400 dark:via-indigo-400/55 to-cyan-400 dark:to-cyan-400/55 pb-1">
+    <header className="w-full flex animate-background bg-[length:_400%_400%] [animation-duration:_8s] bg-gradient-to-r from-pink-500 dark:from-pink-400/85 via-indigo-400 dark:via-indigo-400/55 to-cyan-400 dark:to-cyan-400/55 pb-0">
       <div className="h-16 w-full flex justify-between bg-white dark:bg-slate-800 px-6">
         <div className="flex items-center">
           {isPathWithLogo ? (

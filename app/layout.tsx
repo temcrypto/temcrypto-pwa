@@ -229,7 +229,9 @@ export default async function RootLayout({
           href="splash_screens/8.3__iPad_Mini_portrait.png"
         />
       </head>
-      <body className={`${nunito.className} overflow-hidden`}>
+      <body
+        className={`${nunito.className} w-screen sm:w-[32rem] m-auto overflow-hidden`}
+      >
         <Providers>
           <div
             id="layout-app"

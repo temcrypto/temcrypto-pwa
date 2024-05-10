@@ -2,6 +2,8 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { FaPix } from 'react-icons/fa6';
 
+import PayPix from './PayPix';
+
 type PayType = 'crypto' | 'pix' | null;
 
 export default function PayMenu() {
@@ -59,6 +61,8 @@ export default function PayMenu() {
         </nav>
       ) : (
         <>
+          {payType === 'pix' && <PayPix />}
+
           <button
             type="button"
             className="flex items-center justify-center w-full p-4 mt-4 text-center cursor-pointer"
