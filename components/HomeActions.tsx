@@ -18,14 +18,14 @@ export default function HomeActions() {
   return (
     <>
       <div>
-        <div className="text-center text-3xl text-slate-400 text-pretty text-transparent animate-background bg-[length:_400%_400%] [animation-duration:_4s] bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-pink-400 px-4 py-10">
-          Start exploring what you can do with us
+        <div className="text-left text-3xl text-slate-400 text-pretty text-transparent animate-background bg-[length:_400%_400%] [animation-duration:_4s] bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-pink-400 px-4 py-10">
+          Start exploring what you can do with us...
         </div>
 
-        <nav className="mt-8 flex flex-col space-y-6 safe-m-bottom animate-bounce-from-bottom *:bg-slate-100 *:dark:bg-slate-700 *:rounded-3xl *:p-4">
+        <nav className="mt-8 flex flex-col space-y-6 safe-m-bottom animate-bounce-from-bottom *:p-4 *:text-left *:transition *:bg-slate-100 *:dark:bg-slate-700 *:rounded-3xl">
           <button
             type="button"
-            className="py-2 text-left"
+            className="active:scale-95"
             onClick={() => {
               setSheetOpen('pay');
             }}
@@ -45,7 +45,7 @@ export default function HomeActions() {
 
           <button
             type="button"
-            className="py-2 text-left"
+            className="active:scale-95"
             onClick={() => {
               setSheetOpen('deposit');
             }}
@@ -65,7 +65,7 @@ export default function HomeActions() {
 
           <button
             type="button"
-            className="py-2 text-left"
+            className="active:scale-95"
             onClick={() => {
               setSheetOpen('send');
             }}
