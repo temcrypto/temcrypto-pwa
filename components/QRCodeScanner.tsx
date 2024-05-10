@@ -82,7 +82,6 @@ const QRCodeScanner = memo(
           <Sheet.Content>
             {hasCameraPermission ? (
               <QrReader
-                videoId="pixScan"
                 constraints={{
                   aspectRatio: 1,
                   facingMode: 'environment',
