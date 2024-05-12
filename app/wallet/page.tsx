@@ -232,7 +232,6 @@ const WalletPage = memo(function Wallet() {
             isOpen={!!sheetOpen}
             onClose={() => setSheetOpen(null)}
             detent="content-height"
-            // rootId={sheetRootId}
           >
             <Sheet.Container>
               <Sheet.Header />
