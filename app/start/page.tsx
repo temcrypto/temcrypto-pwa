@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 // import Lottie from 'lottie-react';
 
@@ -69,13 +68,13 @@ export default function StartPage({
               </DynamicConnectButton>
               <p className="text-slate-300 dark:text-slate-500 text-sm py-6 safe-m-bottom text-pretty">
                 By proceeding, you agree to TEMCRYPTO&apos;s{' '}
-                <Link
+                <a
                   href="https://temcrypto.com/terms"
                   className="underline"
                   target="_blank"
                 >
                   Terms of Use
-                </Link>
+                </a>
                 .
               </p>
             </>
