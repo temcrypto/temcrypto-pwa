@@ -18,8 +18,7 @@ export default function StartPage({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const { status: authStatus } = useSession({ required: false });
-  const dynamicContext = useDynamicContext();
-  const { showAuthFlow, isAuthenticated, handleLogOut } = dynamicContext;
+  const { showAuthFlow, isAuthenticated, handleLogOut } = useDynamicContext();
   const prevAuthenticated = useRef(isAuthenticated);
 
   // Check for authentication status and redirect to callbackUrl or log out

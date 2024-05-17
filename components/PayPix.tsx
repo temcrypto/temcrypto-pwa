@@ -26,11 +26,9 @@ const AMOUNT_REGEX =
   /^(?:[5-9]|[1-9]\d|[1-4]\d{2})(?:[.,]\d{1,2})?$|^(500)(?:[.,]0{1,2})?$/;
 
 export default function PayPix() {
+  const { pixPaymentState, setPixPaymentState } = usePixPaymentContext();
   const [openQrScanner, setOpenQrScanner] = useState(false);
   const [openPreview, setOpenPreview] = useState(false);
-  const [sending, setSending] = useState(false);
-  const { pixPaymentState, setPixPaymentState, resetPixPaymentState } =
-    usePixPaymentContext();
   const [amountInputReadOnly, setAmountInputReadOnly] = useState(true);
   const [formattedAmount, setFormattedAmount] = useState('');
   const [canSubmit, setCanSubmit] = useState(false);
@@ -153,11 +151,12 @@ export default function PayPix() {
       const isValid = AMOUNT_REGEX.test(inputValue);
       const amountWithPeriod = inputValue.replace(',', '.');
       const amountSafe = parseFloat(amountWithPeriod);
+      const amountBrl = isNaN(amountSafe) ? 0 : amountSafe;
 
       setFormattedAmount(inputValue); // Update the formatted amount state to show in the UI
       setPixPaymentState((prevState) => ({
         ...prevState,
-        amountBrl: isNaN(amountSafe) ? 0 : amountSafe,
+        amountBrl,
       }));
       setCanSubmit(isValid);
     },
@@ -182,16 +181,16 @@ export default function PayPix() {
             value={pixPaymentState.pixKeyParsed || pixPaymentState.pixKey}
             onChange={handlePixKeyChange}
             required={true}
-            readOnly={sending}
+            readOnly={pixPaymentState.loading}
           />
           <div className="absolute inset-y-0 right-0 pr-4 flex">
             <button
               type="button"
               className="text-pink-500 disabled:text-slate-400 text-base uppercase flex items-center"
               onClick={() => {
-                if (!sending) setOpenQrScanner(true);
+                if (!pixPaymentState.loading) setOpenQrScanner(true);
               }}
-              disabled={sending}
+              disabled={pixPaymentState.loading}
               aria-label="Scan QR button"
             >
               <span className="mr-1 text-lg">
@@ -217,8 +216,8 @@ export default function PayPix() {
             required={true}
             readOnly={
               amountInputReadOnly ||
-              pixPaymentState.pixKey === '' ||
-              pixPaymentState.loading
+              pixPaymentState.loading ||
+              pixPaymentState.pixKey === ''
             }
           />
           <div
@@ -233,11 +232,11 @@ export default function PayPix() {
         <button
           type="submit"
           className={`transition ease-in-out w-full rounded-3xl p-4 mt-8 border-[.2rem] border-pink-500 active:border-pink-700 text-center text-white bg-pink-500 active:bg-pink-700 disabled:text-slate-400 disabled:border-slate-300 disabled:bg-slate-300 cursor-pointer disabled:cursor-not-allowed appearance-none ${
-            sending ? 'animate-pulse' : ''
+            pixPaymentState.loading ? 'animate-pulse' : ''
           }`}
-          disabled={!canSubmit || sending}
+          disabled={!canSubmit || pixPaymentState.loading}
         >
-          {sending ? 'Loading...' : 'Continue'}
+          {pixPaymentState.loading ? 'Loading...' : 'Continue'}
         </button>
       </form>
 

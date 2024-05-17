@@ -54,13 +54,12 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
           EthereumWalletConnectors,
           ZeroDevSmartWalletConnectors,
         ],
-        eventsCallbacks: {
+        events: {
           onAuthSuccess: handleAuthSuccess,
           onLogout: handleOnLogout,
         },
         shadowDOMEnabled: true,
       }}
-      // theme="auto"
       theme="dark"
       locale={locale}
     >

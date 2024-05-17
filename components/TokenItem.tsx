@@ -19,14 +19,14 @@ type TokenItemProps = {
  * @param {Rate} rate - The rate object containing the token's rate in USDT.
  */
 const TokenItem = memo(
-  function TokenItem({ token, rate }: TokenItemProps) {
-    console.log('TokenItem ~ token', token, 'rate', rate);
+  function TokenItem({ token, rate: rateObj }: TokenItemProps) {
+    console.log('TokenItem ~ token', token, 'rateObj', rateObj);
 
     // Memoized component rendering
     const memoizedComponent = useMemo(() => {
       // Calculate the token's value in USDT
       const valueUsdt =
-        (rate.value * parseFloat(token.balance)).toFixed(2) ?? '--';
+        (rateObj.rate * parseFloat(token.balance)).toFixed(2) ?? '--';
 
       console.log('TokenItem ~ valueUsdt', valueUsdt);
 
@@ -55,7 +55,7 @@ const TokenItem = memo(
           </div>
         </div>
       );
-    }, [token, rate]);
+    }, [token, rateObj]);
 
     return memoizedComponent;
   },
@@ -63,7 +63,7 @@ const TokenItem = memo(
   (prevProps, nextProps) => {
     return (
       prevProps.token.balance === nextProps.token.balance &&
-      prevProps.rate.value === nextProps.rate.value
+      prevProps.rate.rate === nextProps.rate.rate
     );
   }
 );

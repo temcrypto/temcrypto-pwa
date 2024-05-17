@@ -1,8 +1,7 @@
 'use client';
 
 import PageWrapper from '@/components/PageWrapper';
-import { useDynamicContext } from '@/lib/dynamicxyz';
-import { FormEventHandler, useState } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 import {
   Account,
   Chain,
@@ -13,14 +12,24 @@ import {
   parseEther,
 } from 'viem';
 
+import {
+  EmbeddedWalletIcon,
+  useDynamicContext,
+  useFunding,
+  useIsLoggedIn,
+} from '@/lib/dynamicxyz';
 import { getChain } from '@dynamic-labs/utils';
 
 export default function Tx() {
-  const { primaryWallet } = useDynamicContext();
+  const { primaryWallet, rpcProviders } = useDynamicContext();
+  const isLoggedIn = useIsLoggedIn();
+  console.log('isLoggedIn', isLoggedIn);
+
+  const { enabled, openFunding } = useFunding();
+  console.log('openFunding enabled', enabled);
 
   const [txnHash, setTxnHash] = useState('');
-
-  if (!primaryWallet) return null;
+  const [balance, setBalance] = useState<string | undefined>();
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -69,8 +78,40 @@ export default function Tx() {
     console.log('signature ~ signer', signer);
   };
 
+  const mainnetProvider = rpcProviders.evmDefaultProvider?.provider;
+  console.log('mainnetProvider ~ ', mainnetProvider);
+
+  console.log('primaryWallet connector key ~ ', primaryWallet?.connector?.key);
+  // const ensAddress = mainnetProvider?.resolveName('myname.eth');
+  // console.log('address for myname.eth', ensAddress);
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      if (primaryWallet) {
+        const value = await primaryWallet.connector.getBalance();
+        console.log('balance ~ value', value);
+        setBalance(value);
+      }
+    };
+    fetchBalance();
+  }, [primaryWallet]);
+
+  if (!primaryWallet) return null;
+
   return (
     <PageWrapper requireSession={true}>
+      <p>{balance}</p>
+
+      <EmbeddedWalletIcon walletKey={primaryWallet?.connector?.key} />
+
+      <div>
+        {enabled && (
+          <button className="onramp-button" onClick={() => openFunding}>
+            Onramp
+          </button>
+        )}
+      </div>
+
       <form onSubmit={onSubmit}>
         <p>Send to ETH address</p>
         <input name="address" type="text" required placeholder="Address" />

@@ -165,7 +165,7 @@ const WalletPage = memo(function Wallet() {
             .map(({ symbol, balance }: TokenData) => {
               const rateObj = rates.find(({ code }) => code === symbol);
               if (rateObj) {
-                return rateObj.value * parseFloat(balance);
+                return rateObj.rate * parseFloat(balance);
               }
               return 0;
             })

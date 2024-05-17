@@ -6,7 +6,7 @@ import {
   isAddress,
 } from 'viem';
 
-import { WalletConnector } from '@/lib/dynamicxyz';
+import { type WalletConnector } from '@/lib/dynamicxyz';
 import allowedTokensList, { type AllowedToken } from '@/utils/allowedTokens';
 
 // Define and export the TokenData type

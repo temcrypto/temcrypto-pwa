@@ -16,7 +16,8 @@ const UPDATE_INTERVAL = 1000 * 10; // 10 seconds
 
 export interface Rate {
   code: string;
-  value: number;
+  name?: string;
+  rate: number;
 }
 
 interface RatesContextType {

@@ -21,7 +21,7 @@ const Spinner = () => (
 export default function Loading({ bounce = false, fullScreen = false }) {
   const animationClass = bounce ? 'animate-bounce' : '';
   const fullScreenClass = fullScreen
-    ? 'h-full h-full items-center justify-center p-8'
+    ? 'h-full items-center justify-center p-8'
     : '';
 
   return (
