@@ -76,19 +76,20 @@ export default function Header() {
         </div>
       )}
 
-      {showAccount && primaryWallet?.address ? (
-        <Link
-          href="/wallet"
-          aria-label={primaryWallet.address}
-          className="animate-bounce-from-bottom transition active:text-slate-300 active:scale-95"
-        >
-          {shortenAddress(primaryWallet.address, 3)}
-        </Link>
-      ) : (
-        <div className="animate-bounce-from-bottom">
-          <LoadingSkeleton className="w-24 h-6" />
-        </div>
-      )}
+      {showAccount &&
+        (primaryWallet?.address ? (
+          <Link
+            href="/wallet"
+            aria-label={primaryWallet.address}
+            className="animate-bounce-from-bottom transition active:text-slate-300 active:scale-95"
+          >
+            {shortenAddress(primaryWallet.address, 3)}
+          </Link>
+        ) : (
+          <div className="animate-bounce-from-bottom">
+            <LoadingSkeleton className="w-24 h-6" />
+          </div>
+        ))}
     </header>
   );
 }
