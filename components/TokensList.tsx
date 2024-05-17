@@ -30,15 +30,15 @@ type TokenListProps = {
 
 const TokensList = memo(function TokensList({ tokens }: TokenListProps) {
   const { walletConnector } = useDynamicContext();
-  const rates = useRates() as Rate[];
+  const ratesList = useRates() as Rate[];
 
   // Memoize the getRateByCode function
   const getRateByCode = useCallback(
     (code: string) => {
-      const rateByCode = rates.find((rate) => rate.code === code);
-      return rateByCode ?? { code, value: 0 };
+      const rateByCode = ratesList.find((rate) => rate.code === code);
+      return rateByCode ?? { code, name: '', rate: 0 };
     },
-    [rates]
+    [ratesList]
   );
 
   // Render the TokenList component only when the wallet is connected and there are balances

@@ -38,7 +38,7 @@ export default function Tx() {
 
     const address = formData.get('address') as string;
     const amount = formData.get('amount') as string;
-    const provider = await primaryWallet.connector.getSigner<
+    const provider = await primaryWallet?.connector.getSigner<
       WalletClient<Transport, Chain, Account>
     >();
 
@@ -48,7 +48,7 @@ export default function Tx() {
     // console.log('balance', balance.toString());
 
     const transaction = {
-      account: primaryWallet.address as Hex,
+      account: primaryWallet?.address as Hex,
       chain: getChain(await provider.getChainId()),
       to: address as Hex,
       value: amount ? parseEther(amount) : undefined,
@@ -58,9 +58,9 @@ export default function Tx() {
     const hash = await provider.sendTransaction(transaction);
 
     const client =
-      await primaryWallet.connector.getPublicClient<PublicClient>();
+      await primaryWallet?.connector.getPublicClient<PublicClient>();
 
-    const { transactionHash } = await client.getTransactionReceipt({
+    const { transactionHash } = await client!.getTransactionReceipt({
       hash,
     });
     setTxnHash(transactionHash);

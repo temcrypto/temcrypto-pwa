@@ -16,7 +16,7 @@ const UPDATE_INTERVAL = 1000 * 10; // 10 seconds
 
 export interface Rate {
   code: string;
-  name?: string;
+  name: string;
   rate: number;
 }
 

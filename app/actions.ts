@@ -19,16 +19,19 @@ export async function fetchRates(): Promise<Rate[]> {
     // Parse the response JSON data
     const { rates }: { rates: Rate[] } = await response.json();
 
-    // Map the rates to the desired format and include only allowed tokens
-    const ratesArray = allowedTokensList.map(({ symbol }) => {
-      const rateObj = rates.find((rate) => rate.code === symbol);
-      if (rateObj) {
-        const value = 1 / rateObj.rate; // Calculate the rate value
-        return { code: symbol, rate: value }; // Return the token and rate
-      } else {
+    // Create a lookup object for faster access
+    const ratesLookup = new Map(rates.map((rate) => [rate.code, rate]));
+
+    const ratesArray = allowedTokensList.map(({ symbol }): Rate => {
+      const rateData = ratesLookup.get(symbol);
+      if (!rateData) {
         console.warn(`No rate found for ${symbol}`); // Log a warning instead of an error
-        return { code: symbol, rate: 0 }; // Return a rate with value 0 for missing tokens
       }
+      return {
+        code: symbol,
+        name: rateData?.name ?? '', // Get the token name from the API response
+        rate: rateData?.rate ? 1 / rateData.rate : 0, // Calculate the token rate value
+      };
     });
 
     return ratesArray;
