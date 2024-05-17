@@ -9,6 +9,9 @@ export async function fetchRates(): Promise<Rate[]> {
     // Fetch rates from the BitPay API
     const response = await fetch('https://api.temcrypto.com/v1/rates/USDT', {
       next: { revalidate: 60 }, // Revalidate the cache every 60 seconds
+      headers: {
+        'User-Agent': 'TEMCRYPTO/1.0 (PWA; rv:42.0)',
+      },
     });
 
     // Check if the response is ok
