@@ -1,5 +1,9 @@
 import LoadingComponent from '@/components/Loading';
 
 export default function Loading() {
-  return <LoadingComponent bounce={true} fullScreen={true} />;
+  return (
+    <main id="loading" className="flex-1">
+      <LoadingComponent bounce={true} fullScreen={true} />
+    </main>
+  );
 }

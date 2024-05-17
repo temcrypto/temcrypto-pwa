@@ -21,11 +21,11 @@ const Spinner = () => (
 export default function Loading({ bounce = false, fullScreen = false }) {
   const animationClass = bounce ? 'animate-bounce' : '';
   const fullScreenClass = fullScreen
-    ? 'h-full items-center justify-center p-8'
+    ? 'h-full w-full items-center justify-center'
     : '';
 
   return (
-    <div className={`flex flex-col ${fullScreenClass}`}>
+    <div className={`flex ${fullScreenClass}`}>
       <div
         className={`flex text-xl text-slate-400 dark:text-slate-300 items-center ${animationClass}`}
       >
