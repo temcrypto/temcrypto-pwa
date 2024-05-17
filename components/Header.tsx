@@ -60,39 +60,33 @@ export default function Header() {
   }, [pathname, router]);
 
   return (
-    <header className="h-16 w-full flex justify-between bg-white dark:bg-slate-800 px-6 *:flex *:items-center">
-      <div>
-        {showLogo ? (
-          <Logo className="animate-bounce-from-bottom" />
-        ) : (
-          <div className="flex animate-bounce-from-bottom">
-            <button
-              type="button"
-              className="text-3xl text-pink-500 transition active:scale-95"
-              onClick={handleGoTo}
-            >
-              <IoMdArrowBack />
-            </button>
-            <span className="ml-3 text-2xl">{currentPathTitle}</span>
-          </div>
-        )}
-      </div>
+    <header className="h-16 w-full flex items-center justify-between bg-white dark:bg-slate-800 px-6">
+      {showLogo ? (
+        <Logo className="animate-bounce-from-bottom" />
+      ) : (
+        <div className="flex animate-bounce-from-bottom">
+          <button
+            type="button"
+            className="text-3xl text-pink-500 transition active:scale-95"
+            onClick={handleGoTo}
+          >
+            <IoMdArrowBack />
+          </button>
+          <span className="ml-3 text-2xl">{currentPathTitle}</span>
+        </div>
+      )}
 
-      {showAccount && (
-        <div>
-          {primaryWallet?.address ? (
-            <Link
-              href="/wallet"
-              aria-label={primaryWallet.address}
-              className="animate-bounce-from-bottom transition active:text-slate-300 active:scale-95"
-            >
-              {shortenAddress(primaryWallet.address, 3)}
-            </Link>
-          ) : (
-            <div className="animate-bounce-from-bottom">
-              <LoadingSkeleton className="w-24 h-5" />
-            </div>
-          )}
+      {showAccount && primaryWallet?.address ? (
+        <Link
+          href="/wallet"
+          aria-label={primaryWallet.address}
+          className="animate-bounce-from-bottom transition active:text-slate-300 active:scale-95"
+        >
+          {shortenAddress(primaryWallet.address, 3)}
+        </Link>
+      ) : (
+        <div className="animate-bounce-from-bottom">
+          <LoadingSkeleton className="w-24 h-6" />
         </div>
       )}
     </header>
