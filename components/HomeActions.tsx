@@ -4,7 +4,7 @@ import {
   TbArrowDownToArc,
   TbInvoice,
 } from 'react-icons/tb';
-import Sheet from 'react-modal-sheet';
+import { Sheet } from 'react-modal-sheet';
 
 import DepositMenu from './DepositMenu';
 import SendMenu from './SendMenu';

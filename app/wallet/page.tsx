@@ -7,7 +7,7 @@ import { BsThreeDots } from 'react-icons/bs';
 import { IoMdLogOut } from 'react-icons/io';
 import { IoAddCircleOutline } from 'react-icons/io5';
 import { LuFileKey } from 'react-icons/lu';
-import Sheet from 'react-modal-sheet';
+import { Sheet } from 'react-modal-sheet';
 import { type Address } from 'viem';
 
 import DepositMenu from '@/components/DepositMenu';

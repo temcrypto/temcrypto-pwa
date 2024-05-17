@@ -4,7 +4,7 @@
 // import { useSession } from 'next-auth/react';
 // import { usePathname } from 'next/navigation';
 // import { FaPix, FaPlus } from 'react-icons/fa6';
-// import Sheet from 'react-modal-sheet';
+// import { Sheet } from 'react-modal-sheet';
 
 // import { useDynamicContext } from '@/lib/dynamicxyz';
 

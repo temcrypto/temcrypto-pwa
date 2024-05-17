@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 import { LuQrCode } from 'react-icons/lu';
-import Sheet from 'react-modal-sheet';
+import { Sheet } from 'react-modal-sheet';
 import { QrReader } from 'react-qr-reader';
 
 interface QRCodeScannerProps {

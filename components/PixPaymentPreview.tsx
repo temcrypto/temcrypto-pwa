@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import Sheet from 'react-modal-sheet';
+import { Sheet } from 'react-modal-sheet';
 
 import { usePixPaymentContext } from '@/context/PixPaymentContext';
 import AmountUSDT from './AmountUSDT';
