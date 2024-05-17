@@ -23,8 +23,7 @@ export async function fetchRates(): Promise<Rate[]> {
     const ratesArray = allowedTokensList.map(({ symbol }) => {
       const rateObj = rates.find((rate) => rate.code === symbol);
       if (rateObj) {
-        const { rate } = rateObj;
-        const value = 1 / rate; // Calculate the rate value
+        const value = 1 / rateObj.rate; // Calculate the rate value
         return { code: symbol, rate: value }; // Return the token and rate
       } else {
         console.warn(`No rate found for ${symbol}`); // Log a warning instead of an error
