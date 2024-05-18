@@ -1,4 +1,4 @@
-// Code assisted by Claude 3 Sonnet, an AI assistant created by Anthropic
+// Code assisted by Claude 3 Sonnet, an AI assistant created by Anthropic.
 
 import { importSPKI, jwtVerify, type JWTPayload, type KeyLike } from 'jose';
 

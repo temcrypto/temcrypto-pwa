@@ -101,10 +101,7 @@ export default function HomeActions() {
           <Sheet.Header />
           <Sheet.Content
             className="safe-m-bottom"
-            style={{
-              paddingBottom: keyboardHeight,
-              marginBottom: keyboardHeight,
-            }}
+            style={{ marginBottom: keyboardHeight }}
           >
             {sheetOpen === 'pay' && <PayMenu />}
             {sheetOpen === 'deposit' && <DepositMenu />}

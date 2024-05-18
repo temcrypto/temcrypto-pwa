@@ -1,48 +1,61 @@
-// Based on: https://github.com/Temzasse/react-modal-sheet/blob/main/example/components/AvoidKeyboard.tsx
+// Inspired on https://github.com/Temzasse/react-modal-sheet/blob/main/example/components/AvoidKeyboard.tsx
+// Code assisted by Claude 3 Sonnet, an AI assistant created by Anthropic.
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { animate, useMotionValue } from 'framer-motion';
 
+// Hook to detect virtual keyboard visibility and height on mobile devices
 function useVirtualKeyboard() {
   const [isKeyboardOpen, setKeyboardOpen] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  // Memoize the event listener callback to improve performance
+  const handleResize = useCallback(() => {
+    // Check if the window object exists to prevent runtime errors
+    if (!window) return;
+
+    const visualViewport = window.visualViewport;
+    const focusedElement = document.activeElement;
+
+    // Type guard to ensure focusedElement is an HTMLElement or null
+    if (!focusedElement || !(focusedElement instanceof HTMLElement)) return;
+
+    const isInputFocused =
+      focusedElement.tagName === 'INPUT' ||
+      focusedElement.tagName === 'TEXTAREA';
+
+    // Virtual keyboard should only be visible if an input is focused
+    if (
+      isInputFocused &&
+      visualViewport &&
+      visualViewport.height < window.innerHeight
+    ) {
+      setKeyboardOpen(true);
+      setKeyboardHeight(window.innerHeight - visualViewport.height);
+    } else if (isKeyboardOpen) {
+      // Reset keyboard height if it was open
+      setKeyboardOpen(false);
+      setKeyboardHeight(0);
+    }
+  }, [isKeyboardOpen]);
 
   useEffect(() => {
     const visualViewport = window.visualViewport;
 
     if (visualViewport) {
-      const onResize = () => {
-        const focusedElement = document.activeElement as HTMLElement | null;
+      visualViewport.addEventListener('resize', handleResize);
 
-        // Bail if no element is focused as that also means no input is focused
-        if (!focusedElement) return;
-
-        const isInputFocused =
-          focusedElement.tagName === 'INPUT' ||
-          focusedElement.tagName === 'TEXTAREA';
-
-        // Virtual keyboard should only be visible if an input is focused
-        if (isInputFocused && visualViewport.height < window.innerHeight) {
-          setKeyboardOpen(true);
-          setKeyboardHeight(window.innerHeight - visualViewport.height);
-        } else if (isKeyboardOpen) {
-          // Reset keyboard height if it was open
-          setKeyboardOpen(false);
-          setKeyboardHeight(0);
-        }
-      };
-
-      visualViewport.addEventListener('resize', onResize);
-
+      // Cleanup function to remove the event listener
       return () => {
-        visualViewport.removeEventListener('resize', onResize);
+        visualViewport.removeEventListener('resize', handleResize);
       };
     }
-  }, [isKeyboardOpen]);
+  }, [handleResize]);
 
   return { keyboardHeight, isKeyboardOpen };
 }
 
+// Hook to animate the virtual keyboard height
 export default function useAnimatedVirtualKeyboard() {
   const { isKeyboardOpen, keyboardHeight } = useVirtualKeyboard();
   const animatedKeyboardHeight = useMotionValue(keyboardHeight);
@@ -53,7 +66,7 @@ export default function useAnimatedVirtualKeyboard() {
     } else {
       void animate(animatedKeyboardHeight, 0);
     }
-  }, [isKeyboardOpen, keyboardHeight]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isKeyboardOpen, keyboardHeight, animatedKeyboardHeight]);
 
   return { keyboardHeight: animatedKeyboardHeight, isKeyboardOpen };
 }
