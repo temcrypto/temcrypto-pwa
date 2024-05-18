@@ -7,7 +7,7 @@
   "scope": "https://app.temcrypto.com/",
   "display": "standalone",
   "theme_color": "#ec4899",
-  "background_color": "#ec4899",
+  "background_color": "#1e293b",
   "orientation": "portrait",
   "dir": "auto",
   "icons": [
