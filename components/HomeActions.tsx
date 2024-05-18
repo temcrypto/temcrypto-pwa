@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   TbArrowDownFromArc,
   TbArrowDownToArc,
   TbInvoice,
 } from 'react-icons/tb';
-import { Sheet } from 'react-modal-sheet';
+import { Sheet, type SheetRef } from 'react-modal-sheet';
+
+import useAnimatedVirtualKeyboard from '@/hooks/useAnimatedVirtualKeyboard';
 
 import DepositMenu from './DepositMenu';
 import SendMenu from './SendMenu';
@@ -14,6 +16,10 @@ type HomeMenuType = 'pay' | 'deposit' | 'send' | null;
 
 export default function HomeActions() {
   const [sheetOpen, setSheetOpen] = useState<HomeMenuType>(null);
+
+  const sheetRef = useRef<SheetRef>();
+
+  const { keyboardHeight } = useAnimatedVirtualKeyboard();
 
   return (
     <>
@@ -86,18 +92,23 @@ export default function HomeActions() {
       </div>
 
       <Sheet
+        ref={sheetRef}
         isOpen={!!sheetOpen}
         onClose={() => setSheetOpen(null)}
         detent="content-height"
       >
         <Sheet.Container>
           <Sheet.Header />
-          <Sheet.Content>
-            <div className="safe-m-bottom">
-              {sheetOpen === 'pay' && <PayMenu />}
-              {sheetOpen === 'deposit' && <DepositMenu />}
-              {sheetOpen === 'send' && <SendMenu />}
-            </div>
+          <Sheet.Content
+            className="safe-m-bottom"
+            style={{
+              paddingBottom: keyboardHeight,
+              marginBottom: keyboardHeight,
+            }}
+          >
+            {sheetOpen === 'pay' && <PayMenu />}
+            {sheetOpen === 'deposit' && <DepositMenu />}
+            {sheetOpen === 'send' && <SendMenu />}
           </Sheet.Content>
         </Sheet.Container>
         <Sheet.Backdrop onTap={() => setSheetOpen(null)} />

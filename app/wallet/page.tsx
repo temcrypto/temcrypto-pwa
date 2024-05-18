@@ -235,11 +235,9 @@ const WalletPage = memo(function Wallet() {
           >
             <Sheet.Container>
               <Sheet.Header />
-              <Sheet.Content>
-                <div className="safe-m-bottom">
-                  {sheetOpen === 'deposit' && <DepositMenu />}
-                  {sheetOpen === 'wallet' && <WalletDetailsMenu />}
-                </div>
+              <Sheet.Content className="safe-m-bottom">
+                {sheetOpen === 'deposit' && <DepositMenu />}
+                {sheetOpen === 'wallet' && <WalletDetailsMenu />}
               </Sheet.Content>
             </Sheet.Container>
             <Sheet.Backdrop onTap={() => setSheetOpen(null)} />
