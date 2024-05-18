@@ -99,13 +99,12 @@ export default function HomeActions() {
       >
         <Sheet.Container>
           <Sheet.Header />
-          <Sheet.Content
-            className="safe-m-bottom"
-            style={{ marginBottom: keyboardHeight }}
-          >
-            {sheetOpen === 'pay' && <PayMenu />}
-            {sheetOpen === 'deposit' && <DepositMenu />}
-            {sheetOpen === 'send' && <SendMenu />}
+          <Sheet.Content style={{ marginBottom: keyboardHeight }}>
+            <div className="safe-m-bottom">
+              {sheetOpen === 'pay' && <PayMenu />}
+              {sheetOpen === 'deposit' && <DepositMenu />}
+              {sheetOpen === 'send' && <SendMenu />}
+            </div>
           </Sheet.Content>
         </Sheet.Container>
         <Sheet.Backdrop onTap={() => setSheetOpen(null)} />
