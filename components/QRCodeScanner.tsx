@@ -80,71 +80,73 @@ const QRCodeScanner = memo(
         <Sheet.Container>
           <Sheet.Header />
           <Sheet.Content>
-            {hasCameraPermission ? (
-              <QrReader
-                constraints={{
-                  aspectRatio: 1,
-                  facingMode: 'environment',
-                }}
-                scanDelay={500}
-                onResult={handleResult}
-                ViewFinder={() => (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      zIndex: 10,
-                    }}
-                  ></div>
-                )}
-                videoContainerStyle={{
-                  position: 'relative',
-                  padding: 0,
-                  margin: '0 auto',
-                  border: '4px solid rgb(236, 72, 153)',
-                  borderRadius: '1.5rem',
-                  height: '300px',
-                  width: '300px',
-                }}
-                videoStyle={{
-                  zIndex: -100,
-                }}
-              />
-            ) : (
-              <>
-                <div className="text-center mb-12">
-                  <div className="relative inline-flex items-center justify-center w-20 h-20 overflow-hidden bg-pink-400 rounded-full mb-12">
-                    <span className="font-medium text-3xl text-white">
-                      <LuQrCode />
-                    </span>
-                  </div>
-                  <h1 className="mb-4 text-2xl">
-                    Do you give us permission to use the camera?
-                  </h1>
-                  <p className="text-md text-slate-500">
-                    This way you can use your QR reader
-                  </p>
-                </div>
-                <button
-                  className="transition ease-in-out w-full mt-8 bg-pink-500 active:bg-pink-700 rounded-3xl p-4 text-center text-white text-xl cursor-pointer disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-400"
-                  onClick={() => {
-                    setHasCameraPermission(true);
+            <div className="safe-m-bottom">
+              {hasCameraPermission ? (
+                <QrReader
+                  constraints={{
+                    aspectRatio: 1,
+                    facingMode: 'environment',
                   }}
-                >
-                  Grant permission
-                </button>
-              </>
-            )}
-            <button
-              type="button"
-              className="flex items-center justify-center w-full p-4 mt-4 text-center cursor-pointer"
-              onClick={handleClose}
-            >
-              Cancel
-            </button>
+                  scanDelay={500}
+                  onResult={handleResult}
+                  ViewFinder={() => (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        zIndex: 10,
+                      }}
+                    ></div>
+                  )}
+                  videoContainerStyle={{
+                    position: 'relative',
+                    padding: 0,
+                    margin: '0 auto',
+                    border: '4px solid rgb(236, 72, 153)',
+                    borderRadius: '1.5rem',
+                    height: '300px',
+                    width: '300px',
+                  }}
+                  videoStyle={{
+                    zIndex: -100,
+                  }}
+                />
+              ) : (
+                <>
+                  <div className="text-center mb-12">
+                    <div className="relative inline-flex items-center justify-center w-20 h-20 overflow-hidden bg-pink-400 rounded-full mb-12">
+                      <span className="font-medium text-3xl text-white">
+                        <LuQrCode />
+                      </span>
+                    </div>
+                    <h1 className="mb-4 text-2xl">
+                      Do you give us permission to use the camera?
+                    </h1>
+                    <p className="text-md text-slate-500">
+                      This way you can use your QR reader
+                    </p>
+                  </div>
+                  <button
+                    className="transition ease-in-out w-full mt-8 bg-pink-500 active:bg-pink-700 rounded-3xl p-4 text-center text-white text-xl cursor-pointer disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-400"
+                    onClick={() => {
+                      setHasCameraPermission(true);
+                    }}
+                  >
+                    Grant permission
+                  </button>
+                </>
+              )}
+              <button
+                type="button"
+                className="flex items-center justify-center w-full p-4 mt-4 text-center cursor-pointer"
+                onClick={handleClose}
+              >
+                Cancel
+              </button>
+            </div>
           </Sheet.Content>
         </Sheet.Container>
         <Sheet.Backdrop onTap={() => false} />
