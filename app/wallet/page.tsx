@@ -176,6 +176,7 @@ const WalletPage = memo(function Wallet() {
           console.log(`Total balance: ${totalUsdt}`, data);
         } catch (err) {
           console.error('Error getting token balances:', err);
+          toast.error('Error fetching token balances');
         }
       }
     };
