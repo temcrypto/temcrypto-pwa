@@ -1,5 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
+
 import { useState } from 'react';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { FaPix } from 'react-icons/fa6';
 
 import PayPix from './PayPix';
@@ -22,12 +24,11 @@ export default function PayMenu() {
           >
             <div className="flex flex-row">
               <div className="flex items-center justify-center text-3xl">
-                <Image
+                <img
                   src="/images/networks/polygon.svg"
                   alt="Pay using Crypto"
                   height={35}
                   width={35}
-                  unoptimized={true}
                 />
               </div>
               <div className="ml-4">
