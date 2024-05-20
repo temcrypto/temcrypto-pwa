@@ -20,8 +20,9 @@ export const viewport: Viewport = {
   userScalable: false,
   viewportFit: 'cover',
   themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#1e293b' }, // INFO: tailwindcss color slate-800
-    { media: '(prefers-color-scheme: light)', color: '#1e293b' }, // INFO: tailwindcss color slate-800
+    { color: '#1e293b' }, // INFO: tailwindcss color slate-800
+    // { media: '(prefers-color-scheme: dark)', color: '#1e293b' }, // INFO: tailwindcss color slate-800
+    // { media: '(prefers-color-scheme: light)', color: '#1e293b' }, // INFO: tailwindcss color slate-800
     // { media: '(prefers-color-scheme: light)', color: '#ffffff' },
   ],
 };

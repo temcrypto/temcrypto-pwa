@@ -51,11 +51,14 @@ body {
 .react-modal-sheet-backdrop {
   -webkit-backdrop-filter: var(--dynamic-modal-backdrop-filter);
   backdrop-filter: var(--dynamic-modal-backdrop-filter);
-  background: var(--dynamic-modal-backdrop-background);
+  /* background: var(--dynamic-modal-backdrop-background); */
+  background: none !important;
 }
 
 .react-modal-sheet-container {
-  @apply bg-white text-slate-800 dark:bg-slate-800 dark:text-white rounded-t-3xl w-screen sm:w-[32rem] m-auto !important;
+  @apply bg-white text-slate-800 dark:bg-slate-800 dark:text-white rounded-t-3xl w-screen sm:w-[32rem] m-auto shadow-sm !important;
+  /* box-shadow: 0px -2px 16px rgba(0, 0, 0, 0.3) !important; */
+  box-shadow: 0px -2px 15px rgb(255 255 255/ 0.08) !important;
 }
 
 .react-modal-sheet-content {
@@ -73,6 +76,8 @@ body {
 
   /* --dynamic-modal-backdrop-filter: blur(5px); */
   /* --dynamic-modal-backdrop-background: rgba(0, 0, 0, 0.7); */
+  /* --dynamic-modal-backdrop-background: 0px -2px 15px rgb(255 255 255/ 0.08) !important; */
+  /* --dynamic-shadow-up-1: 0px -8px 48px -8px rgba(109, 121, 165, 0.16); */
 
   /* --dynamic-font-family-primary: inherit; */
   /* --dynamic-font-family-numbers: 'Roboto Mono', monospace, sans-serif; */
