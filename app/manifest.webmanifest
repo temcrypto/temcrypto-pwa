@@ -1,11 +1,12 @@
 {
-  "id": "https://app.temcrypto.com",
+  "id": "https://app.temcrypto.com/?source=pwa",
   "name": "TEMCRYPTO",
   "short_name": "TEM",
   "description": "Pay and get paid to Pix using crypto.",
-  "start_url": "https://app.temcrypto.com",
+  "start_url": "https://app.temcrypto.com/?source=pwa",
   "scope": "https://app.temcrypto.com/",
   "display": "standalone",
+  "display_override": ["fullscreen", "window-controls-overlay", "minimal-ui"],
   "theme_color": "#1e293b",
   "background_color": "#1e293b",
   "orientation": "portrait",
@@ -23,5 +24,8 @@
       "src": "icon1.png",
       "type": "image/png"
     }
-  ]
+  ],
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  }
 }
