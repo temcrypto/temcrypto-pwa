@@ -1,8 +1,84 @@
-import { useState } from 'react';
+import { type FC, useState, type FormEventHandler } from 'react';
 import Image from 'next/image';
 import { FaPix } from 'react-icons/fa6';
 
+import { useDynamicContext, getChain } from '@/lib/dynamicxyz';
+
+import {
+  type Account,
+  type Chain,
+  type Hex,
+  type Transport,
+  type WalletClient,
+  type PublicClient,
+  parseEther,
+} from 'viem';
+
 type SendType = 'crypto' | 'pix' | null;
+
+export const CryptoSendForm: FC = () => {
+  const { primaryWallet } = useDynamicContext();
+
+  const [txnHash, setTxnHash] = useState('');
+
+  if (!primaryWallet) return null;
+
+  const onSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+
+    const address = formData.get('address') as string;
+    const amount = formData.get('amount') as string;
+    const provider = await primaryWallet.connector.getSigner<
+      WalletClient<Transport, Chain, Account>
+    >();
+    if (!provider) return;
+
+    const transaction = {
+      account: primaryWallet.address as Hex,
+      chain: getChain(await provider.getChainId()),
+      to: address as Hex,
+      // value: amount ? parseEther(amount) : undefined,
+      value: parseEther('0.001'),
+    };
+
+    const hash = await provider.sendTransaction(transaction);
+
+    const client =
+      await primaryWallet.connector.getPublicClient<PublicClient>();
+
+    console.log('transaction', transaction);
+    // console.log('hash', hash);
+
+    // const { transactionHash } = await client.getTransactionReceipt({
+    //   hash,
+    // });
+    // setTxnHash(transactionHash);
+  };
+
+  return (
+    <form onSubmit={onSubmit}>
+      <p>Send to ETH address</p>
+      <input
+        className="w-full text-slate-700"
+        name="address"
+        type="text"
+        required
+        placeholder="Address"
+      />
+      <input
+        className="w-full text-slate-700"
+        name="amount"
+        type="text"
+        required
+        placeholder="0.05"
+      />
+      <button type="submit">Send</button>
+      <span data-testid="transaction-section-result-hash">{txnHash}</span>
+    </form>
+  );
+};
 
 export default function SendMenu() {
   const [sendType, setSendType] = useState<SendType>(null);
@@ -59,6 +135,7 @@ export default function SendMenu() {
         </nav>
       ) : (
         <>
+          {sendType === 'crypto' && <CryptoSendForm />}
           <button
             type="button"
             className="flex items-center justify-center w-full p-4 mt-4 text-center cursor-pointer"
