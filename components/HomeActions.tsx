@@ -16,15 +16,13 @@ type HomeMenuType = 'pay' | 'deposit' | 'send' | null;
 
 export default function HomeActions() {
   const [sheetOpen, setSheetOpen] = useState<HomeMenuType>(null);
-
-  const sheetRef = useRef<SheetRef>();
-
+  // const sheetRef = useRef<SheetRef>();
   const { keyboardHeight } = useAnimatedVirtualKeyboard();
 
   return (
     <>
       <div>
-        <div className="text-left text-3xl text-slate-400 text-pretty text-transparent animate-background bg-[length:_400%_400%] [animation-duration:_4s] bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-pink-400 px-4 py-10">
+        <div className="text-left text-3xl text-slate-400 text-pretty text-transparent animate-background bg-[length:_400%_400%] [animation-duration:_4s] bg-clip-text bg-gradient-to-r from-pink-400 via-indigo-400 to-cyan-400 px-4 py-10">
           Start exploring what you can do with us...
         </div>
 
@@ -92,7 +90,7 @@ export default function HomeActions() {
       </div>
 
       <Sheet
-        ref={sheetRef}
+        // ref={sheetRef}
         isOpen={!!sheetOpen}
         onClose={() => setSheetOpen(null)}
         detent="content-height"

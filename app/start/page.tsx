@@ -50,7 +50,7 @@ export default function StartPage({
             <h2 className="text-2xl text-slate-300 dark:text-slate-400 text-pretty mt-8">
               Explore where digital freedom meets real-world ease.
             </h2>
-            <h3 className="text-sm text-center text-transparent animate-background bg-[length:_400%_400%] [animation-duration:_4s] bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-pink-400 uppercase mt-16 mb-14">
+            <h3 className="text-sm text-center text-transparent animate-background bg-[length:_400%_400%] [animation-duration:_4s] bg-clip-text bg-gradient-to-r from-pink-400 via-indigo-400 to-cyan-400 uppercase mt-16 mb-14">
               <div className="mt-6">Smart • Gasless • Non-Custodial</div>
             </h3>
           </div>
