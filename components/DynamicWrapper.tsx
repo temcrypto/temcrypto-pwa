@@ -2,42 +2,65 @@
 
 import { type ReactNode, useCallback } from 'react';
 import { getCsrfToken, signOut } from 'next-auth/react';
+import toast from 'react-hot-toast';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { http } from 'viem';
+import { polygon, polygonAmoy, polygonMumbai } from 'viem/chains';
+import { createConfig, WagmiProvider } from 'wagmi';
 
 import {
   DynamicContextProvider,
+  DynamicWagmiConnector,
   EthereumWalletConnectors,
   ZeroDevSmartWalletConnectors,
   locale,
   type UserProfile,
 } from '@/lib/dynamicxyz';
 
+// Wagmi Provider configuration
+const wagmiConfig = createConfig({
+  chains: [polygon, polygonAmoy, polygonMumbai],
+  multiInjectedProviderDiscovery: false,
+  transports: {
+    [polygon.id]: http(),
+    [polygonAmoy.id]: http(),
+    [polygonMumbai.id]: http(),
+  },
+});
+
+// Query Client configuration
+const queryClient = new QueryClient();
+
 const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
   // Memoize the handleAuthSuccess function
   const handleAuthSuccess = useCallback(
     async (args: { authToken: string; user: UserProfile }) => {
-      const csrfToken = await getCsrfToken();
+      try {
+        const csrfToken = await getCsrfToken();
 
-      // Send the authToken and CSRF token to the server-side API route
-      await fetch('/api/auth/callback/credentials', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({ csrfToken, token: args.authToken }),
-      })
-        .then(async (res) => {
-          if (res.ok) {
-            // If the user is already authenticated, we can just redirect them to their dashboard.
-            window.location.href = '/';
-          } else {
-            // Handle any errors - maybe show an error message to the user
-            console.error('Failed to log in');
-          }
-        })
-        .catch((error) => {
-          // Handle any exceptions
-          console.error('Error logging in', error);
+        // Send the authToken and CSRF token to the server-side API route
+        const res = await fetch('/api/auth/callback/credentials', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams({ csrfToken, token: args.authToken }),
         });
+
+        if (res.ok) {
+          // If the user is already authenticated, we can just redirect them to their dashboard.
+          window.location.href = '/';
+        } else {
+          // Handle any errors - maybe show an error message to the user
+          const erroMessage = await res.text();
+          console.error('Failed to authenticate user:', erroMessage);
+          toast.error('Failed to authenticate user');
+        }
+      } catch (error) {
+        // Handle any exceptions
+        console.error('Login error in:', error);
+        toast.error('An unexpected error occurred. Please try again later');
+      }
     },
     []
   );
@@ -63,7 +86,11 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
       theme="dark"
       locale={locale}
     >
-      {children}
+      <WagmiProvider config={wagmiConfig}>
+        <QueryClientProvider client={queryClient}>
+          <DynamicWagmiConnector>{children}</DynamicWagmiConnector>
+        </QueryClientProvider>
+      </WagmiProvider>
     </DynamicContextProvider>
   );
 };
