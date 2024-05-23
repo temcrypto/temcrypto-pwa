@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import {
   TbArrowDownFromArc,
   TbArrowDownToArc,
+  TbHistory,
   TbInvoice,
 } from 'react-icons/tb';
 import { Sheet, type SheetRef } from 'react-modal-sheet';
@@ -12,7 +13,7 @@ import DepositMenu from './DepositMenu';
 import SendMenu from './SendMenu';
 import PayMenu from './PayMenu';
 
-type HomeMenuType = 'pay' | 'deposit' | 'send' | null;
+type HomeMenuType = 'pay' | 'deposit' | 'send' | 'movements' | null;
 
 export default function HomeActions() {
   const [sheetOpen, setSheetOpen] = useState<HomeMenuType>(null);
@@ -83,6 +84,26 @@ export default function HomeActions() {
                 <div className="text-xl">Send</div>
                 <div className="text-slate-400 font-light text-sm">
                   Send funds from your account to another.
+                </div>
+              </div>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            className="active:scale-95"
+            onClick={() => {
+              setSheetOpen('movements');
+            }}
+          >
+            <div className="flex flex-row">
+              <div className="flex items-center justify-center text-4xl text-purple-500">
+                <TbHistory />
+              </div>
+              <div className="ml-4">
+                <div className="text-xl">Movements</div>
+                <div className="text-slate-400 font-light text-sm">
+                  See your movements history.
                 </div>
               </div>
             </div>
