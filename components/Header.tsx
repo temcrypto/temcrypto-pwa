@@ -1,13 +1,14 @@
 'use client';
 
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 import { IoMdArrowBack } from 'react-icons/io';
 
+import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
 
-import Link from './Link';
 import LoadingSkeleton from './LoadingSkeleton';
 import Logo from './Logo';
 
@@ -36,8 +37,9 @@ const pathTitles = [
   },
 ];
 
-export default function Header() {
+const Header = memo(function Header() {
   const { primaryWallet } = useDynamicContext();
+  const { copyToClipboard } = useCopyToClipboard();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -78,15 +80,23 @@ export default function Header() {
 
       {showAccount &&
         (primaryWallet?.address ? (
-          <Link
-            href="/wallet"
+          <button
+            type="button"
             aria-label={primaryWallet.address}
             className="animate-bounce-from-bottom transition active:text-slate-300 active:scale-95"
+            onClick={() => {
+              if (pathname === '/wallet') {
+                copyToClipboard(primaryWallet.address);
+                toast.success('Address copied!');
+              } else {
+                router.push('/wallet');
+              }
+            }}
           >
             <span className="text-transparent animate-background bg-[length:_400%_400%] [animation-duration:_4s] bg-clip-text bg-gradient-to-r from-pink-400 via-indigo-400 to-cyan-400">
               {shortenAddress(primaryWallet.address, 3)}
             </span>
-          </Link>
+          </button>
         ) : (
           <div className="animate-bounce-from-bottom">
             <LoadingSkeleton className="w-24 h-6" />
@@ -94,4 +104,6 @@ export default function Header() {
         ))}
     </header>
   );
-}
+});
+
+export default Header;
