@@ -22,11 +22,12 @@ export default function HomeActions() {
   return (
     <>
       <div>
-        <div className="text-left text-3xl text-slate-400 text-pretty text-transparent animate-background bg-[length:_400%_400%] [animation-duration:_4s] bg-clip-text bg-gradient-to-r from-pink-400 via-indigo-400 to-cyan-400 px-4 py-10">
-          Start exploring what you can do with us...
+        {/* <div className="text-left text-lg text-slate-400 text-pretty text-transparent animate-background bg-[length:_400%_400%] [animation-duration:_4s] bg-clip-text bg-gradient-to-r from-pink-400 via-indigo-400 to-cyan-400 px-4 py-6 uppercase"> */}
+        <div className="text-left text-lg text-slate-400 text-pretty px-2 py-4 uppercase">
+          Explore what to do...
         </div>
 
-        <nav className="mt-8 flex flex-col space-y-6 safe-m-bottom animate-bounce-from-bottom *:p-4 *:text-left *:transition *:bg-slate-100 *:dark:bg-slate-700/60 *:rounded-3xl">
+        <nav className="flex flex-col space-y-6 animate-bounce-from-bottom *:p-4 *:text-left *:transition *:bg-slate-100 *:dark:bg-slate-700/60 *:rounded-3xl">
           <button
             type="button"
             className="active:scale-95"
@@ -55,7 +56,7 @@ export default function HomeActions() {
             }}
           >
             <div className="flex flex-row">
-              <div className="flex items-center justify-center text-4xl text-cyan-500">
+              <div className="flex items-center justify-center text-4xl text-green-500">
                 <TbArrowDownToArc />
               </div>
               <div className="ml-4">

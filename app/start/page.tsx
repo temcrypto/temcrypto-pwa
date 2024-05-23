@@ -43,8 +43,8 @@ export default function StartPage({
               <Lottie animationData={StartAnimation} loop={true} />
             </div> */}
             <h1 className="text-4xl font-extrabold mt-20">
-              <span className="text-rose-500">Start</span> living in crypto{' '}
-              <span className="text-cyan-500">with</span>{' '}
+              <span className="text-sky-500">Start</span> living in crypto{' '}
+              <span className="text-rose-500">with</span>{' '}
               <span className="text-amber-500">us</span>!
             </h1>
             <h2 className="text-2xl text-slate-300 dark:text-slate-400 text-pretty mt-8">
