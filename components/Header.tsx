@@ -83,7 +83,9 @@ export default function Header() {
             aria-label={primaryWallet.address}
             className="animate-bounce-from-bottom transition active:text-slate-300 active:scale-95"
           >
-            {shortenAddress(primaryWallet.address, 3)}
+            <span className="text-transparent animate-background bg-[length:_400%_400%] [animation-duration:_4s] bg-clip-text bg-gradient-to-r from-pink-400 via-indigo-400 to-cyan-400">
+              {shortenAddress(primaryWallet.address, 3)}
+            </span>
           </Link>
         ) : (
           <div className="animate-bounce-from-bottom">
