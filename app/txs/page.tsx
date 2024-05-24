@@ -104,6 +104,8 @@ export default function Tx() {
 
       <EmbeddedWalletIcon walletKey={primaryWallet?.connector?.key} />
 
+      <hr />
+
       <div>
         {enabled && (
           <button className="onramp-button" onClick={() => openFunding}>
@@ -111,6 +113,8 @@ export default function Tx() {
           </button>
         )}
       </div>
+
+      <hr />
 
       <form onSubmit={onSubmit}>
         <p>Send to ETH address</p>
