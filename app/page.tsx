@@ -20,9 +20,6 @@ export default function App() {
                 <TbPigMoney />
               </div>
               <div className="ml-4">
-                {/* <div className="text-slate-400 font-light text-sm uppercase">
-                  Total Balance
-                </div> */}
                 <div className="text-xl">
                   <div className="flex items-baseline">
                     <span className="text-4xl font-extrabold me-1 text-white">
