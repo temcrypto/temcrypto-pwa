@@ -1,11 +1,11 @@
-import { useRef, useState } from 'react';
+import { memo, useState } from 'react';
 import {
   TbArrowDownFromArc,
   TbArrowDownToArc,
   TbHistory,
   TbInvoice,
 } from 'react-icons/tb';
-import { Sheet, type SheetRef } from 'react-modal-sheet';
+import { Sheet } from 'react-modal-sheet';
 
 import useAnimatedVirtualKeyboard from '@/hooks/useAnimatedVirtualKeyboard';
 
@@ -15,9 +15,8 @@ import PayMenu from './PayMenu';
 
 type HomeMenuType = 'pay' | 'deposit' | 'send' | 'movements' | null;
 
-export default function HomeActions() {
+const HomeActions = memo(function HomeActions() {
   const [sheetOpen, setSheetOpen] = useState<HomeMenuType>(null);
-  // const sheetRef = useRef<SheetRef>();
   const { keyboardHeight } = useAnimatedVirtualKeyboard();
 
   return (
@@ -103,7 +102,7 @@ export default function HomeActions() {
               <div className="ml-4">
                 <div className="text-xl">Movements</div>
                 <div className="text-slate-400 font-light text-sm">
-                  See your movements history.
+                  Check your movements history and receipts.
                 </div>
               </div>
             </div>
@@ -112,7 +111,6 @@ export default function HomeActions() {
       </div>
 
       <Sheet
-        // ref={sheetRef}
         isOpen={!!sheetOpen}
         onClose={() => setSheetOpen(null)}
         detent="content-height"
@@ -131,4 +129,6 @@ export default function HomeActions() {
       </Sheet>
     </>
   );
-}
+});
+
+export default HomeActions;
