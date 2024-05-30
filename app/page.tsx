@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { IoIosArrowForward } from 'react-icons/io';
 import { TbPigMoney } from 'react-icons/tb';
 
 import HomeActions from '@/components/HomeActions';
@@ -15,11 +16,11 @@ export default function App() {
             href="/wallet"
             className="flex active:scale-95 p-4 text-left transition bg-slate-100 dark:bg-slate-700/60 rounded-3xl"
           >
-            <div className="flex flex-row">
-              <div className="flex items-center justify-center text-4xl text-sky-500">
+            <div className="w-full flex flex-row items-center">
+              <div className="flex text-4xl text-sky-500">
                 <TbPigMoney />
               </div>
-              <div className="ml-4">
+              <div className="flex-1 ml-4">
                 <div className="text-xl">
                   <div className="flex items-baseline">
                     <span className="text-4xl font-extrabold me-1 text-white">
@@ -30,6 +31,10 @@ export default function App() {
                     </span>
                   </div>
                 </div>
+              </div>
+
+              <div className="flex items-center pl-2 text-slate-400 text-extrabold text-2xl">
+                <IoIosArrowForward />
               </div>
             </div>
           </Link>
