@@ -36,6 +36,7 @@ import shortenAddress from '@/utils/shortenAddress';
 import LoadingSkeleton from './LoadingSkeleton';
 import { Spinner } from './Loading';
 import { fetchPixKeyData } from '@/app/send/actions';
+import { IoIosArrowForward } from 'react-icons/io';
 
 // Regex to test if the textTrim is an ENS name ending on '.eth'
 const ENS_REGEX = /^[a-zA-Z0-9]{1,253}\.eth$/;
@@ -157,6 +158,7 @@ const PayMenu = memo(function PayMenu() {
   >([]);
 
   const receiverInputRef = useRef<HTMLInputElement>(null);
+  const currencyInputRef = useRef<HTMLInputElement>(null);
   const amountInputRef = useRef<HTMLInputElement>(null);
 
   const handleScan = useCallback(() => {
@@ -254,6 +256,9 @@ const PayMenu = memo(function PayMenu() {
           type: address ? 'crypto' : null,
           loading: false,
         }));
+        if (currencyInputRef.current) {
+          currencyInputRef.current.focus();
+        }
         // Check if the input is an address and if so, get the ENS data and update the state
       } else if (isAddress(receiverStr)) {
         setReceiverData((prevState) => ({ ...prevState, loading: true }));
@@ -266,6 +271,9 @@ const PayMenu = memo(function PayMenu() {
           type: address ? 'crypto' : null,
           loading: false,
         }));
+        if (currencyInputRef.current) {
+          currencyInputRef.current.focus();
+        }
       }
     };
 
@@ -403,8 +411,13 @@ const PayMenu = memo(function PayMenu() {
                     onClick={() => {
                       setReceiverData(initialReceiverData);
                       setPaymentData(initialPaymentData);
-                      setReceiverText('');
+
+                      // Reset inputs
+                      setFormattedCurrency('');
                       setFormattedAmount('');
+                      setReceiverText('');
+
+                      // Focus on input again
                       if (receiverInputRef.current) {
                         receiverInputRef.current.focus();
                       }
@@ -444,16 +457,16 @@ const PayMenu = memo(function PayMenu() {
               <div className="font-extrabold">
                 {paymentData.currency === null ? (
                   <input
+                    type="text"
+                    ref={currencyInputRef}
+                    className="w-full pr-2 bg-transparent border-none outline-none focus:outline-none placeholder:text-sm caret-pink-500"
                     id="currency"
                     name="currency"
-                    type="text"
-                    className="w-full pr-2 bg-transparent border-none outline-none focus:outline-none text-slate-400 placeholder:text-slate-400 placeholder:text-sm caret-pink-500"
                     aria-label="Select the Currency or Token to send"
                     placeholder="Currency or Token"
                     value={formattedCurrency}
                     onChange={handleCurrencyChange}
                     required={receiverData.type !== null}
-                    readOnly={paymentData.loading}
                   />
                 ) : (
                   <>
@@ -471,7 +484,7 @@ const PayMenu = memo(function PayMenu() {
                           value={formattedAmount}
                           pattern={BRL_AMOUNT_REGEX.source}
                           onChange={handleBrlAmountChange}
-                          required={true}
+                          required={receiverData.type !== null}
                           autoFocus={true}
                         />
                         <div className="transition ease-in-out pointer-events-none absolute inset-y-0 left-0 flex items-center text-white peer-invalid:text-red-500 peer-read-only:text-slate-400">
@@ -483,14 +496,15 @@ const PayMenu = memo(function PayMenu() {
                         type="text"
                         inputMode="decimal"
                         ref={amountInputRef}
-                        className="w-full pr-2 bg-transparent border-none outline-none focus:outline-none text-slate-400 placeholder:text-slate-400 placeholder:text-sm caret-pink-500"
+                        className="w-full pr-2 bg-transparent border-none outline-none focus:outline-none placeholder:text-sm caret-pink-500"
                         id="amountCrypto"
                         name="amountCrypto"
                         aria-label="Amount to pay"
                         placeholder="Amount to pay"
+                        value={formattedAmount}
                         onChange={handleCryptoAmountChange}
                         required={receiverData.type !== null}
-                        readOnly={paymentData.loading}
+                        autoFocus={true}
                       />
                     )}
                   </>
@@ -507,9 +521,10 @@ const PayMenu = memo(function PayMenu() {
 
               {formattedAmount &&
                 paymentData.currency &&
-                paymentData.currency !== 'BRL' && (
+                paymentData.currency !== 'BRL' &&
+                paymentData.amount > 0 && (
                   <div className="text-slate-400 text-sm animate-bounce-from-bottom">
-                    ≈ {(parseFloat(formattedAmount) / 5.1).toFixed(2)} USDT
+                    ≈ {(parseFloat(formattedAmount) * 0.72).toFixed(2)} USDT
                   </div>
                 )}
             </div>
@@ -526,6 +541,7 @@ const PayMenu = memo(function PayMenu() {
                       amount: 0,
                     }));
                     setFormattedAmount('');
+                    setFormattedCurrency('');
                     if (amountInputRef.current) {
                       amountInputRef.current.focus();
                     }
@@ -546,7 +562,9 @@ const PayMenu = memo(function PayMenu() {
                 <div className="flex flex-col h-56 text-slate-500 animate-bounce-from-bottom overflow-y-scroll *:bg-slate-700/60 *:rounded-3xl *:p-4 *:mb-4">
                   {currenciesList
                     .filter(({ name }) =>
-                      name.toLowerCase().includes(formattedCurrency)
+                      name
+                        .toLowerCase()
+                        .includes(formattedCurrency.toLowerCase())
                     )
                     .map((currency) => (
                       <div
@@ -583,17 +601,9 @@ const PayMenu = memo(function PayMenu() {
                           </div>
                         </div>
 
-                        {/* <div className="flex items-center">
-                          <button
-                            type="button"
-                            className="text-2xl text-slate-600 active:scale-95"
-                            onClick={() => {
-                              // setReceiver(true)
-                            }}
-                          >
-                            o
-                          </button>
-                        </div> */}
+                        <div className="flex items-center">
+                          <IoIosArrowForward />
+                        </div>
                       </div>
                     ))}
                 </div>
