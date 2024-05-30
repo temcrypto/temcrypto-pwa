@@ -505,11 +505,13 @@ const PayMenu = memo(function PayMenu() {
                   </div>
                 )}
 
-              {formattedAmount && paymentData.currency && (
-                <div className="text-slate-400 text-sm animate-bounce-from-bottom">
-                  ≈ {(parseFloat(formattedAmount) / 5.1).toFixed(2)} USDT
-                </div>
-              )}
+              {formattedAmount &&
+                paymentData.currency &&
+                paymentData.currency !== 'BRL' && (
+                  <div className="text-slate-400 text-sm animate-bounce-from-bottom">
+                    ≈ {(parseFloat(formattedAmount) / 5.1).toFixed(2)} USDT
+                  </div>
+                )}
             </div>
 
             {paymentData.currency && (
