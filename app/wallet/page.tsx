@@ -227,9 +227,7 @@ const WalletPage = memo(function Wallet() {
                         className="text-amber-400 text-4xl font-extrabold active:scale-95"
                         onClick={() => setSheetOpen('deposit')}
                       >
-                        {/* <TbPlus /> */}
                         <TbCirclePlus />
-                        {/* <FaPlus /> */}
                       </button>
                     </div>
                   </div>

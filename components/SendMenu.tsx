@@ -99,8 +99,8 @@ export default function SendMenu() {
                 <Image
                   src="/images/networks/polygon.svg"
                   alt="Send using Crypto"
-                  height={35}
-                  width={35}
+                  height={36}
+                  width={36}
                   unoptimized={true}
                 />
               </div>
@@ -122,7 +122,7 @@ export default function SendMenu() {
           >
             <div className="flex flex-row">
               <div className="flex items-center justify-center text-3xl">
-                <FaPix className="text-[#32BCAD]" />
+                <FaPix className="w-9 h-9 rounded-full bg-white p-[5px] text-[#32BCAD]" />
               </div>
               <div className="ml-4">
                 <div className="text-xl">Send using Pix</div>
