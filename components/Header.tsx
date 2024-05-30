@@ -35,6 +35,10 @@ const pathTitles = [
     prefix: '/txs',
     title: 'Transaction Details',
   },
+  {
+    prefix: '/payments',
+    title: 'New Payment',
+  },
 ];
 
 const Header = memo(function Header() {

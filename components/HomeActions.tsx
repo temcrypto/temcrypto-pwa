@@ -117,7 +117,7 @@ const HomeActions = memo(function HomeActions() {
       >
         <Sheet.Container>
           <Sheet.Header />
-          <Sheet.Content style={{ marginBottom: keyboardHeight }}>
+          <Sheet.Content style={{ marginBottom: keyboardHeight ?? 'auto' }}>
             <div className="safe-m-bottom">
               {sheetOpen === 'pay' && <PayMenu />}
               {sheetOpen === 'deposit' && <DepositMenu />}
