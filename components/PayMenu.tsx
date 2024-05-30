@@ -10,6 +10,7 @@ import {
 import Image from 'next/image';
 import { CgCloseO } from 'react-icons/cg';
 import { FaPix } from 'react-icons/fa6';
+import { IoIosArrowForward } from 'react-icons/io';
 import { QrReader } from 'react-qr-reader';
 import { useDebounce } from 'use-debounce';
 import { type Address, isAddress } from 'viem';
@@ -28,6 +29,7 @@ import {
   http,
 } from '@wagmi/core';
 
+import { fetchPixKeyData } from '@/app/send/actions';
 import { useDynamicContext } from '@/lib/dynamicxyz';
 import { getTokensData } from '@/utils/getTokensData';
 import randomEmoji from '@/utils/randomEmoji';
@@ -35,8 +37,6 @@ import shortenAddress from '@/utils/shortenAddress';
 
 import LoadingSkeleton from './LoadingSkeleton';
 import { Spinner } from './Loading';
-import { fetchPixKeyData } from '@/app/send/actions';
-import { IoIosArrowForward } from 'react-icons/io';
 
 // Regex to test if the textTrim is an ENS name ending on '.eth'
 const ENS_REGEX = /^[a-zA-Z0-9]{1,253}\.eth$/;
@@ -54,6 +54,39 @@ Explanation:
 */
 const BRL_AMOUNT_REGEX =
   /^(?:[5-9]|[1-9]\d|[1-4]\d{2})(?:[.,]\d{1,2})?$|^(500)(?:[.,]0{1,2})?$/;
+
+// Regular Expression to Validate Crypto Currency Amounts
+/*
+Description:
+This regular expression is designed to validate crypto currency values with different decimal precision requirements for regular cryptocurrencies and stablecoins.
+
+Regular Cryptocurrencies:
+- Allows values with up to 18 digits before the decimal point.
+- Allows up to 8 decimal places after the decimal point.
+- Accepts values like: 12.34567890, 0.00000001, 123456789012345.67890000
+
+Stablecoins:
+- Allows values with up to 6 digits before the decimal point.
+- Allows up to 2 decimal places after the decimal point.
+- Accepts trailing zeros (up to 6) after the decimal places.
+- Accepts values like: 12.34, 0.01, 123.45000000
+
+Pattern:
+^                      # Start of string
+(?:                    # Non-capturing group for alternatives
+ (?:0|[1-9]\d{0,17})  # Match regular cryptocurrencies
+ (?:\.\d{1,8})?       # Optional decimal part with 1 to 8 digits
+|                      # OR
+ (?:0|[1-9]\d{0,5})   # Match stablecoins
+ (?:\.\d{1,2})?       # Optional decimal part with 1 or 2 digits
+ 0{0,6}               # Match up to 6 trailing zeros
+)
+$                      # End of string
+
+This regular expression ensures precise validation of crypto currency amounts by separating the requirements for regular cryptocurrencies and stablecoins, allowing for different decimal precision requirements while maintaining a consistent format.
+*/
+const CRYPTO_AMOUNT_REGEX =
+  /^(?:(?:0|[1-9]\d{0,17})(?:\.\d{1,8})?|(?:0|[1-9]\d{0,5})(?:\.\d{1,2})?0{0,6})$/;
 
 // Wagmi Config for Mainnet
 const wagmiConfigMainnet = createConfig({
@@ -386,6 +419,7 @@ const PayMenu = memo(function PayMenu() {
                         required={true}
                         readOnly={receiverData.loading}
                         autoFocus={true}
+                        autoComplete="off"
                       />
                     )}
               </div>
@@ -463,10 +497,12 @@ const PayMenu = memo(function PayMenu() {
                     id="currency"
                     name="currency"
                     aria-label="Select the Currency or Token to send"
-                    placeholder="Currency or Token"
+                    placeholder="Select the Currency or Token"
                     value={formattedCurrency}
                     onChange={handleCurrencyChange}
                     required={receiverData.type !== null}
+                    disabled={receiverData.type === null}
+                    autoComplete="off"
                   />
                 ) : (
                   <>
@@ -479,33 +515,41 @@ const PayMenu = memo(function PayMenu() {
                           className="transition ease-in-out block w-full pl-8 bg-transparent border-none outline-none focus:outline-none invalid:focus:text-red-500 peer caret-pink-500"
                           id="amountBrl"
                           name="amountBrl"
-                          aria-label="Enter the payment amount between 5,00 and 500,00"
+                          aria-label="Enter the amount to pay. It must be between 5,00 and 500,00"
                           placeholder="5,00 - 500,00"
                           value={formattedAmount}
                           pattern={BRL_AMOUNT_REGEX.source}
                           onChange={handleBrlAmountChange}
                           required={receiverData.type !== null}
                           autoFocus={true}
+                          autoComplete="off"
                         />
                         <div className="transition ease-in-out pointer-events-none absolute inset-y-0 left-0 flex items-center text-white peer-invalid:text-red-500 peer-read-only:text-slate-400">
                           R$
                         </div>
                       </div>
                     ) : (
-                      <input
-                        type="text"
-                        inputMode="decimal"
-                        ref={amountInputRef}
-                        className="w-full pr-2 bg-transparent border-none outline-none focus:outline-none placeholder:text-sm caret-pink-500"
-                        id="amountCrypto"
-                        name="amountCrypto"
-                        aria-label="Amount to pay"
-                        placeholder="Amount to pay"
-                        value={formattedAmount}
-                        onChange={handleCryptoAmountChange}
-                        required={receiverData.type !== null}
-                        autoFocus={true}
-                      />
+                      <div className="relative">
+                        <input
+                          type="text"
+                          inputMode="decimal"
+                          ref={amountInputRef}
+                          className="transition ease-in-out block w-full bg-transparent border-none outline-none focus:outline-none invalid:focus:text-red-500 peer caret-pink-500"
+                          id="amountCrypto"
+                          name="amountCrypto"
+                          aria-label="Enter the amount to pay"
+                          placeholder="Amount to pay"
+                          value={formattedAmount}
+                          pattern={CRYPTO_AMOUNT_REGEX.source}
+                          onChange={handleCryptoAmountChange}
+                          required={receiverData.type !== null}
+                          autoFocus={true}
+                          autoComplete="off"
+                        />
+                        <div className="transition ease-in-out pointer-events-none absolute inset-y-0 right-0 mr-4 flex items-center text-white peer-invalid:text-red-500 peer-read-only:text-slate-400">
+                          {paymentData.currency}
+                        </div>
+                      </div>
                     )}
                   </>
                 )}
@@ -554,7 +598,7 @@ const PayMenu = memo(function PayMenu() {
           </div>
 
           {receiverData.type === 'crypto' && paymentData.currency === null && (
-            <div>
+            <div className="mt-4">
               <h2 className="text-xl font-bold text-slate-500 mt-4 mb-2 ml-1">
                 Tokens
               </h2>
