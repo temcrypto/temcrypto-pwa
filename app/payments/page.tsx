@@ -538,8 +538,7 @@ export default function Payments() {
                           <div className="relative">
                             <input
                               type="text"
-                              // inputMode="decimal"
-                              inputMode="numeric"
+                              inputMode="decimal"
                               ref={amountInputRef}
                               className="transition ease-in-out block w-full bg-transparent border-none outline-none focus:outline-none invalid:focus:text-rose-500 peer caret-pink-500"
                               id="amountCrypto"
