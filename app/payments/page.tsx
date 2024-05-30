@@ -61,35 +61,36 @@ const BRL_AMOUNT_REGEX =
 // Regular Expression to Validate Crypto Currency Amounts
 /*
 Description:
-This regular expression is designed to validate crypto currency values with different decimal precision requirements for regular cryptocurrencies and stablecoins.
+This regular expression is designed to validate crypto currency values with different decimal precision requirements for regular cryptocurrencies and stablecoins. It supports both period (.) and comma (,) as decimal separators to accommodate English and Spanish keyboard layouts.
 
 Regular Cryptocurrencies:
-- Allows values with up to 18 digits before the decimal point.
-- Allows up to 8 decimal places after the decimal point.
-- Accepts values like: 12.34567890, 0.00000001, 123456789012345.67890000
+- Allows values with up to 18 digits before the decimal separator.
+- Allows up to 8 decimal places after the decimal separator.
+- Accepts values like: 12.34567890, 12,34567890, 0.00000001, 0,00000001, 123456789012345.67890000, 123456789012345,67890000
 
 Stablecoins:
-- Allows values with up to 6 digits before the decimal point.
-- Allows up to 2 decimal places after the decimal point.
+- Allows values with up to 6 digits before the decimal separator.
+- Allows up to 2 decimal places after the decimal separator.
 - Accepts trailing zeros (up to 6) after the decimal places.
-- Accepts values like: 12.34, 0.01, 123.45000000
+- Accepts values like: 12.34, 12,34, 0.01, 0,01, 123.45000000, 123,45000000
 
 Pattern:
-^                      # Start of string
-(?:                    # Non-capturing group for alternatives
- (?:0|[1-9]\d{0,17})  # Match regular cryptocurrencies
- (?:\.\d{1,8})?       # Optional decimal part with 1 to 8 digits
-|                      # OR
- (?:0|[1-9]\d{0,5})   # Match stablecoins
- (?:\.\d{1,2})?       # Optional decimal part with 1 or 2 digits
- 0{0,6}               # Match up to 6 trailing zeros
+^                          # Start of string
+(?:                        # Non-capturing group for alternatives
+  (?:0|[1-9]\d{0,17})      # Match regular cryptocurrencies
+  (?:[.,]\d{1,8})?         # Optional decimal part with 1 to 8 digits, allowing period or comma as separator
+|                          # OR
+  (?:0|[1-9]\d{0,5})       # Match stablecoins
+  (?:[.,]\d{1,2})?         # Optional decimal part with 1 or 2 digits, allowing period or comma as separator
+  0{0,6}                   # Match up to 6 trailing zeros
 )
-$                      # End of string
+$                          # End of string
 
-This regular expression ensures precise validation of crypto currency amounts by separating the requirements for regular cryptocurrencies and stablecoins, allowing for different decimal precision requirements while maintaining a consistent format.
+This regular expression ensures precise validation of crypto currency amounts by separating the requirements for regular cryptocurrencies and stablecoins, allowing for different decimal precision requirements while maintaining a consistent format. It also supports both period (.) and comma (,) as decimal separators to accommodate English and Spanish keyboard layouts.
 */
 const CRYPTO_AMOUNT_REGEX =
-  /^(?:(?:0|[1-9]\d{0,17})(?:\.\d{1,8})?|(?:0|[1-9]\d{0,5})(?:\.\d{1,2})?0{0,6})$/;
+  /^(?:(?:0|[1-9]\d{0,17})(?:[.,]\d{1,8})?|(?:0|[1-9]\d{0,5})(?:[.,]\d{1,2})?0{0,6})$/;
+// /^(?:(?:0|[1-9]\d{0,17})(?:\.\d{1,8})?|(?:0|[1-9]\d{0,5})(?:\.\d{1,2})?0{0,6})$/;
 
 // Wagmi Config for Mainnet
 const wagmiConfigMainnet = createConfig({
@@ -144,15 +145,6 @@ const fetchAddrsData = async (
   }
 };
 
-type PaymentState = {
-  to?: string;
-  loading: boolean;
-};
-
-const initialPaymentState: PaymentState = {
-  loading: false,
-};
-
 type ReceiverData = {
   avatar?: string | null;
   alias?: string | null;
@@ -187,7 +179,7 @@ export default function Payments() {
   const [formattedAmount, setFormattedAmount] = useState('');
   const [formattedCurrency, setFormattedCurrency] = useState('');
   const [receiverText, setReceiverText] = useState('');
-  const [receiverStr] = useDebounce(receiverText, 500);
+  const [receiverStr] = useDebounce(receiverText, 300);
 
   const [currenciesList, setCurrenciesList] = useState<
     { symbol: string; name: string }[]
@@ -377,6 +369,7 @@ export default function Payments() {
           onSubmit={handleFormSubmit}
           className="w-full animate-bounce-from-bottom"
         >
+          <div className="text-xl text-slate-500 ml-2">To</div>
           <div className="flex flex-row items-center bg-slate-700/60 rounded-3xl h-20 p-4">
             {receiverData.loading ? (
               <LoadingSkeleton className="w-10 h-10 !rounded-full me-3" />
@@ -416,8 +409,8 @@ export default function Payments() {
                         type="text"
                         ref={receiverInputRef}
                         className="w-full pr-2 bg-transparent border-none outline-none focus:outline-none text-slate-400 placeholder:text-slate-400 placeholder:text-sm caret-pink-500"
-                        aria-label="Enter an ENS name, Wallet Address or a Chave Pix such as CPF, CNPJ, phone number, or email"
-                        placeholder="ENS, Wallet Address or Chave Pix"
+                        aria-label="Enter a Chave Pix, ENS name or Wallet Address"
+                        placeholder="Chave Pix, Wallet Address or ENS"
                         value={
                           isAddress(receiverText)
                             ? shortenAddress(receiverText, 6)
@@ -451,7 +444,7 @@ export default function Payments() {
                 receiverData.type && (
                   <button
                     type="button"
-                    className="text-2xl text-slate-500 active:scale-95"
+                    className="text-2xl text-slate-200 active:scale-95"
                     onClick={() => {
                       setReceiverData(initialReceiverData);
                       setPaymentData(initialPaymentData);
@@ -474,208 +467,220 @@ export default function Payments() {
             </div>
           </div>
 
-          <div className="flex flex-row items-center bg-slate-700/60 rounded-3xl min-h-20 p-4 mt-4">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center me-3 bg-slate-600">
-              {paymentData.currency && (
-                <>
-                  {paymentData.currency === 'BRL' ? (
-                    <Image
-                      src="/images/flags/brazil.png"
-                      alt={paymentData.currency}
-                      width={40}
-                      height={40}
-                    />
-                  ) : (
-                    <Image
-                      src={`/images/tokens/${paymentData.currency.toLowerCase()}.svg`}
-                      alt={paymentData.currency}
-                      width={40}
-                      height={40}
-                    />
+          {receiverData.type && receiverData.name && (
+            <>
+              <div className="flex flex-row items-center bg-slate-700/60 rounded-3xl min-h-20 p-4 mt-4 animate-bounce-from-bottom">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center me-3 bg-slate-600">
+                  {paymentData.currency && (
+                    <>
+                      {paymentData.currency === 'BRL' ? (
+                        <Image
+                          src="/images/flags/brazil.png"
+                          alt={paymentData.currency}
+                          width={40}
+                          height={40}
+                        />
+                      ) : (
+                        <Image
+                          src={`/images/tokens/${paymentData.currency.toLowerCase()}.svg`}
+                          alt={paymentData.currency}
+                          width={40}
+                          height={40}
+                        />
+                      )}
+                    </>
                   )}
-                </>
-              )}
-            </div>
+                </div>
 
-            <div className="flex-1">
-              <div className="font-extrabold">
-                {paymentData.currency === null ? (
-                  <input
-                    type="text"
-                    ref={currencyInputRef}
-                    className="w-full pr-2 bg-transparent border-none outline-none focus:outline-none placeholder:text-sm caret-pink-500"
-                    id="currency"
-                    name="currency"
-                    aria-label="Select the Currency or Token to send"
-                    placeholder="Select the Currency or Token"
-                    value={formattedCurrency}
-                    onChange={handleCurrencyChange}
-                    required={receiverData.type !== null}
-                    disabled={receiverData.type === null}
-                    autoComplete="off"
-                  />
-                ) : (
-                  <>
-                    {paymentData.currency === 'BRL' ? (
-                      <div className="relative">
-                        <input
-                          type="text"
-                          inputMode="decimal"
-                          ref={amountInputRef}
-                          className="transition ease-in-out block w-full pl-8 bg-transparent border-none outline-none focus:outline-none invalid:focus:text-red-500 peer caret-pink-500"
-                          id="amountBrl"
-                          name="amountBrl"
-                          aria-label="Enter the amount to pay. It must be between 5,00 and 500,00"
-                          placeholder="5,00 - 500,00"
-                          value={formattedAmount}
-                          pattern={BRL_AMOUNT_REGEX.source}
-                          onChange={handleBrlAmountChange}
-                          required={receiverData.type !== null}
-                          autoFocus={true}
-                          autoComplete="off"
-                        />
-                        <div className="transition ease-in-out pointer-events-none absolute inset-y-0 left-0 flex items-center text-white peer-invalid:text-red-500 peer-read-only:text-slate-400">
-                          R$
-                        </div>
-                      </div>
+                <div className="flex-1">
+                  <div className="font-extrabold">
+                    {paymentData.currency === null ? (
+                      <input
+                        type="text"
+                        ref={currencyInputRef}
+                        className="w-full pr-2 bg-transparent border-none outline-none focus:outline-none placeholder:text-sm caret-pink-500"
+                        id="currency"
+                        name="currency"
+                        aria-label="Select the Currency or Token to send"
+                        placeholder="Select the Currency or Token"
+                        value={formattedCurrency}
+                        onChange={handleCurrencyChange}
+                        required={receiverData.type !== null}
+                        disabled={receiverData.type === null}
+                        autoFocus={true}
+                        autoComplete="off"
+                      />
                     ) : (
-                      <div className="relative">
-                        <input
-                          type="text"
-                          inputMode="decimal"
-                          ref={amountInputRef}
-                          className="transition ease-in-out block w-full bg-transparent border-none outline-none focus:outline-none invalid:focus:text-red-500 peer caret-pink-500"
-                          id="amountCrypto"
-                          name="amountCrypto"
-                          aria-label="Enter the amount to pay"
-                          placeholder="Amount to pay"
-                          value={formattedAmount}
-                          pattern={CRYPTO_AMOUNT_REGEX.source}
-                          onChange={handleCryptoAmountChange}
-                          required={receiverData.type !== null}
-                          autoFocus={true}
-                          autoComplete="off"
-                        />
-                        <div className="transition ease-in-out pointer-events-none absolute inset-y-0 right-0 mr-4 flex items-center text-white peer-invalid:text-red-500 peer-read-only:text-slate-400">
-                          {paymentData.currency}
-                        </div>
+                      <>
+                        {paymentData.currency === 'BRL' ? (
+                          <div className="relative">
+                            <input
+                              type="text"
+                              inputMode="decimal"
+                              ref={amountInputRef}
+                              className="transition ease-in-out block w-full pl-8 bg-transparent border-none outline-none focus:outline-none invalid:focus:text-rose-500 peer caret-pink-500"
+                              id="amountBrl"
+                              name="amountBrl"
+                              aria-label="Enter the amount to pay. It must be between 5,00 and 500,00"
+                              placeholder="5,00 - 500,00"
+                              value={formattedAmount}
+                              pattern={BRL_AMOUNT_REGEX.source}
+                              onChange={handleBrlAmountChange}
+                              required={receiverData.type !== null}
+                              autoFocus={true}
+                              autoComplete="off"
+                            />
+                            <div className="transition ease-in-out pointer-events-none absolute inset-y-0 left-0 flex items-center text-white peer-invalid:text-rose-500 peer-read-only:text-slate-400">
+                              R$
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="relative">
+                            <input
+                              type="text"
+                              // inputMode="decimal"
+                              inputMode="numeric"
+                              ref={amountInputRef}
+                              className="transition ease-in-out block w-full bg-transparent border-none outline-none focus:outline-none invalid:focus:text-rose-500 peer caret-pink-500"
+                              id="amountCrypto"
+                              name="amountCrypto"
+                              aria-label="Enter the amount to pay"
+                              placeholder="Amount to pay"
+                              value={formattedAmount}
+                              pattern={CRYPTO_AMOUNT_REGEX.source}
+                              onChange={handleCryptoAmountChange}
+                              required={receiverData.type !== null}
+                              autoFocus={true}
+                              autoComplete="off"
+                            />
+                            <div className="transition ease-in-out pointer-events-none absolute inset-y-0 right-0 mr-4 flex items-center text-white peer-invalid:text-rose-500 peer-read-only:text-slate-400">
+                              {paymentData.currency}
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+
+                  {formattedAmount &&
+                    paymentData.currency === 'BRL' &&
+                    paymentData.amount > 0 && (
+                      <div className="text-slate-400 text-sm animate-bounce-from-bottom">
+                        ≈ {(parseFloat(formattedAmount) / 5.1).toFixed(2)} USDT
                       </div>
                     )}
-                  </>
-                )}
-              </div>
 
-              {formattedAmount &&
-                paymentData.currency === 'BRL' &&
-                paymentData.amount > 0 && (
-                  <div className="text-slate-400 text-sm animate-bounce-from-bottom">
-                    ≈ {(parseFloat(formattedAmount) / 5.1).toFixed(2)} USDT
-                  </div>
-                )}
-
-              {formattedAmount &&
-                paymentData.currency &&
-                paymentData.currency !== 'BRL' &&
-                paymentData.amount > 0 && (
-                  <div className="text-slate-400 text-sm animate-bounce-from-bottom">
-                    ≈ {(parseFloat(formattedAmount) * 0.72).toFixed(2)} USDT
-                  </div>
-                )}
-            </div>
-
-            {paymentData.currency && (
-              <div className="flex items-center">
-                <button
-                  type="button"
-                  className="text-2xl text-slate-500 active:scale-95"
-                  onClick={() => {
-                    setPaymentData((prevState) => ({
-                      ...prevState,
-                      currency: paymentData.currency === 'BRL' ? 'BRL' : null,
-                      amount: 0,
-                    }));
-                    setFormattedAmount('');
-                    setFormattedCurrency('');
-                    if (amountInputRef.current) {
-                      amountInputRef.current.focus();
-                    }
-                  }}
-                >
-                  <CgCloseO />
-                </button>
-              </div>
-            )}
-          </div>
-
-          {receiverData.type === 'crypto' && paymentData.currency === null && (
-            <div className="mt-4">
-              <h2 className="text-xl font-bold text-slate-500 mt-4 mb-2 ml-1">
-                Tokens
-              </h2>
-              {currenciesList.length > 0 && (
-                <div className="flex flex-col h-56 text-slate-500 animate-bounce-from-bottom overflow-y-scroll *:bg-slate-700/60 *:rounded-3xl *:p-4 *:mb-4">
-                  {currenciesList
-                    .filter(({ name }) =>
-                      name
-                        .toLowerCase()
-                        .includes(formattedCurrency.toLowerCase())
-                    )
-                    .map((currency) => (
-                      <div
-                        className="flex flex-row items-center"
-                        key={currency.symbol}
-                        onClick={() => {
-                          setPaymentData((prevState) => ({
-                            ...prevState,
-                            currency: currency.symbol,
-                          }));
-                          if (amountInputRef.current) {
-                            amountInputRef.current.focus();
-                          }
-                        }}
-                      >
-                        <div className="me-3">
-                          <div className="w-10 h-10 flex rounded-full items-center justify-center">
-                            <Image
-                              src={`/images/tokens/${currency.symbol.toLowerCase()}.svg`}
-                              alt={'Matic'}
-                              height={40}
-                              width={40}
-                              unoptimized={true} // Set unoptimized for local images
-                            />
-                          </div>
-                        </div>
-
-                        <div className="flex-1">
-                          <div className="font-extrabold text-white">
-                            {currency.name}
-                          </div>
-                          <div className="text-slate-500 text-sm">
-                            15.239128 available
-                          </div>
-                        </div>
-
-                        <div className="flex items-center">
-                          <IoIosArrowForward />
-                        </div>
+                  {formattedAmount &&
+                    paymentData.currency &&
+                    paymentData.currency !== 'BRL' &&
+                    paymentData.amount > 0 && (
+                      <div className="text-slate-400 text-sm animate-bounce-from-bottom">
+                        ≈ {(parseFloat(formattedAmount) * 0.72).toFixed(2)} USDT
                       </div>
-                    ))}
+                    )}
                 </div>
-              )}
-            </div>
+
+                {paymentData.currency && (
+                  <div className="flex items-center">
+                    <button
+                      type="button"
+                      className="text-2xl text-slate-200 active:scale-95"
+                      onClick={() => {
+                        setPaymentData((prevState) => ({
+                          ...prevState,
+                          currency:
+                            paymentData.currency === 'BRL' ? 'BRL' : null,
+                          amount: 0,
+                        }));
+                        setFormattedAmount('');
+                        setFormattedCurrency('');
+                        if (amountInputRef.current) {
+                          amountInputRef.current.focus();
+                        }
+                      }}
+                    >
+                      <CgCloseO />
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {receiverData.type === 'crypto' &&
+                paymentData.currency === null && (
+                  <div className="mt-4">
+                    <h2 className="text-xl font-bold text-slate-500 mt-4 mb-2 ml-1">
+                      Tokens
+                    </h2>
+                    {currenciesList.length > 0 && (
+                      <div className="flex flex-col max-h-fit text-slate-500 animate-bounce-from-bottom overflow-y-scroll *:bg-slate-700/60 *:rounded-3xl *:p-4 *:mb-4">
+                        {currenciesList
+                          .filter(({ name }) =>
+                            name
+                              .toLowerCase()
+                              .includes(formattedCurrency.toLowerCase())
+                          )
+                          .map((currency) => (
+                            <div
+                              className="flex flex-row items-center"
+                              key={currency.symbol}
+                              onClick={() => {
+                                setPaymentData((prevState) => ({
+                                  ...prevState,
+                                  currency: currency.symbol,
+                                }));
+                                if (amountInputRef.current) {
+                                  amountInputRef.current.focus();
+                                }
+                              }}
+                            >
+                              <div className="me-3">
+                                <div className="w-10 h-10 flex rounded-full items-center justify-center">
+                                  <Image
+                                    src={`/images/tokens/${currency.symbol.toLowerCase()}.svg`}
+                                    alt={'Matic'}
+                                    height={40}
+                                    width={40}
+                                    unoptimized={true} // Set unoptimized for local images
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="flex-1">
+                                <div className="font-extrabold text-white">
+                                  {currency.name}
+                                </div>
+                                <div className="text-slate-500 text-sm">
+                                  15.239128 available
+                                </div>
+                              </div>
+
+                              <div className="flex items-center">
+                                <IoIosArrowForward />
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+            </>
           )}
 
           <button
             type="submit"
             className={`transition ease-in-out w-full rounded-3xl p-4 mt-8 border-[.2rem] border-pink-500 active:border-pink-700 text-center text-white bg-pink-500 active:bg-pink-700 disabled:text-slate-400 disabled:border-slate-300 disabled:bg-slate-300 cursor-pointer disabled:cursor-not-allowed appearance-none ${
-              paymentData.loading && 'animate-pulse'
+              (receiverData.loading || paymentData.loading) && 'animate-pulse'
             }`}
             disabled={
               receiverData.loading ||
-              (receiverData.type !== null && paymentData.amount === 0)
+              (receiverData.type !== null && paymentData.amount === 0) ||
+              receiverText === '' ||
+              receiverData.name == ''
             }
           >
-            {paymentData.loading ? 'Loading...' : 'Continue'}
+            {receiverData.loading || paymentData.loading
+              ? 'Loading...'
+              : 'Continue'}
           </button>
         </form>
       )}
