@@ -5,8 +5,8 @@ import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { BsThreeDots } from 'react-icons/bs';
 import { IoMdLogOut } from 'react-icons/io';
-import { IoAddCircleOutline } from 'react-icons/io5';
 import { LuFileKey } from 'react-icons/lu';
+import { TbCirclePlus, TbPigMoney, TbPlus, TbWallet } from 'react-icons/tb';
 import { Sheet } from 'react-modal-sheet';
 import { type Address } from 'viem';
 
@@ -18,6 +18,7 @@ import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
 import { getTokensData, type TokenData } from '@/utils/getTokensData';
 import shortenAddress from '@/utils/shortenAddress';
+import { FaPlus } from 'react-icons/fa6';
 
 // Define the prop types for the SectionHeader component
 type SectionHeaderProps = {
@@ -190,40 +191,58 @@ const WalletPage = memo(function Wallet() {
         <>
           <div className="text-left">
             <div>
-              <div className="flex flex-row justify-end items-center mb-3">
+              {/* <div className="flex flex-row justify-end items-center mb-3">
                 <button
                   className="flex items-center transition active:scale-95"
                   onClick={() => setSheetOpen('wallet')}
                 >
                   <BsThreeDots className="text-slate-400 w-5 h-5" />
                 </button>
-              </div>
-              <div className="flex items-baseline justify-center pb-4">
-                <span className="text-4xl font-extrabold me-1 text-white">
-                  {totalBalance.toFixed(2)}
-                </span>
+              </div> */}
 
-                <button
-                  className="flex items-center text-slate-400 transition active:scale-95"
-                  onClick={() => setSheetOpen('deposit')}
-                >
-                  USDT
-                  {/* <IoChevronDownOutline className="inline me-1 w-4 h-4" /> */}
-                </button>
+              <div className="flex p-4 text-left transition bg-slate-100 dark:bg-slate-700/60 rounded-3xl">
+                <div className="flex flex-row w-full">
+                  <div className="flex items-center justify-center text-4xl text-sky-500">
+                    {/* <TbPigMoney /> */}
+                    <TbWallet />
+                  </div>
+                  <div className="w-full ml-4">
+                    <div className="flex flex-row items-center justify-between">
+                      <div className="flex items-baseline">
+                        <span className="text-4xl font-extrabold me-1 text-white">
+                          {totalBalance.toFixed(2)}
+                        </span>
+                        <button
+                          className="flex items-center text-slate-400"
+                          // className="flex items-center text-slate-400 transition active:scale-95"
+                          // onClick={() => setSheetOpen('deposit')}
+                        >
+                          USDT
+                          {/* <IoChevronDownOutline className="inline me-1 w-4 h-4" /> */}
+                        </button>
+                      </div>
+
+                      <button
+                        type="button"
+                        className="text-amber-400 text-4xl font-extrabold active:scale-95"
+                        onClick={() => setSheetOpen('deposit')}
+                      >
+                        {/* <TbPlus /> */}
+                        <TbCirclePlus />
+                        {/* <FaPlus /> */}
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div className="mt-6">
               <div className="flex flex-row justify-between items-center mb-3">
-                <SectionHeader>Tokens</SectionHeader>
-
-                <button
-                  className="flex items-center transition active:scale-95"
-                  onClick={() => setSheetOpen('deposit')}
-                >
-                  <IoAddCircleOutline className="text-rose-500 inline me-1 w-5 h-5" />
-                  Deposit
-                </button>
+                <SectionHeader>
+                  Tokens
+                  <span className="ml-1">({tokensData.length})</span>
+                </SectionHeader>
               </div>
               <TokensList tokens={tokensData} />
             </div>
