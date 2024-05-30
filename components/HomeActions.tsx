@@ -12,6 +12,7 @@ import useAnimatedVirtualKeyboard from '@/hooks/useAnimatedVirtualKeyboard';
 import DepositMenu from './DepositMenu';
 import SendMenu from './SendMenu';
 import PayMenu from './PayMenu';
+import Link from 'next/link';
 
 type HomeMenuType = 'pay' | 'deposit' | 'send' | 'movements' | null;
 
@@ -88,7 +89,7 @@ const HomeActions = memo(function HomeActions() {
             </div>
           </button>
 
-          <button
+          {/* <button
             type="button"
             className="active:scale-95"
             onClick={() => {
@@ -106,7 +107,21 @@ const HomeActions = memo(function HomeActions() {
                 </div>
               </div>
             </div>
-          </button>
+          </button> */}
+
+          <Link href="/payments">
+            <div className="flex flex-row">
+              <div className="flex items-center justify-center text-4xl text-purple-500">
+                <TbHistory />
+              </div>
+              <div className="ml-4">
+                <div className="text-xl">Movements</div>
+                <div className="text-slate-400 font-light text-sm">
+                  Check your movements history and receipts.
+                </div>
+              </div>
+            </div>
+          </Link>
         </nav>
       </div>
 
