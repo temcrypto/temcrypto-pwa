@@ -3,7 +3,6 @@
 import { memo, useCallback } from 'react';
 
 import { type Rate, useRates } from '@/context/RatesContext';
-import { useDynamicContext } from '@/lib/dynamicxyz';
 import { type TokenData } from '@/utils/getTokensData';
 
 import TokenItem from './TokenItem';
@@ -29,7 +28,6 @@ type TokenListProps = {
 };
 
 const TokensList = memo(function TokensList({ tokens }: TokenListProps) {
-  const { walletConnector } = useDynamicContext();
   const ratesList = useRates() as Rate[];
 
   // Memoize the getRateByCode function
@@ -42,7 +40,7 @@ const TokensList = memo(function TokensList({ tokens }: TokenListProps) {
   );
 
   // Render the TokenList component only when the wallet is connected and there are balances
-  if (!walletConnector || tokens.length === 0) {
+  if (tokens.length === 0) {
     return <LoadingSkeleton />;
   }
 
