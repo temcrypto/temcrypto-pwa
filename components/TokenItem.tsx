@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import Image from 'next/image';
 
 import { useWalletContext } from '@/context/WalletContext';
@@ -16,49 +16,40 @@ const TokenItem = memo(
   function TokenItem({ token }: { token: AllowedToken }) {
     const { balances, balancesInCurrency, baseCurrency } = useWalletContext();
 
-    const balance = useMemo(
-      () => balances.get(token.symbol) ?? 0,
-      [balances, token.symbol]
-    );
-    const balanceInFiat = useMemo(
-      () => (balancesInCurrency.get(token.symbol) ?? 0).toFixed(2),
-      [balancesInCurrency, token.symbol]
+    const balance = balances.get(token.symbol) ?? 0;
+    const balanceInFiat = (balancesInCurrency.get(token.symbol) ?? 0).toFixed(
+      2
     );
 
     console.log('TokenItem ~', token.symbol, balance, balanceInFiat);
 
-    // Memoized component rendering
-    const memoizedComponent = useMemo(() => {
-      return (
-        <div className="flex flex-row justify-between items-center">
-          <div>
-            <div className="flex flex-row">
-              <Image
-                // src={`/images/tokens/${token.logoURI}`}
-                src={token.logoURI}
-                alt={token.name}
-                height={40}
-                width={40}
-                className="mr-2"
-                unoptimized={true} // Set unoptimized for local images
-              />
-              <div>
-                <div className="font-extrabold">{token.name}</div>
-                <div className="text-slate-500 text-sm">{token.symbol}</div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="font-extrabold">{balance}</div>
-            <div className="text-slate-500 text-sm">
-              {balanceInFiat} {baseCurrency}
+    return (
+      <div className="flex flex-row justify-between items-center">
+        <div>
+          <div className="flex flex-row">
+            <Image
+              // src={`/images/tokens/${token.logoURI}`}
+              src={token.logoURI}
+              alt={token.name}
+              height={40}
+              width={40}
+              className="mr-2"
+              unoptimized={true} // Set unoptimized for local images
+            />
+            <div>
+              <div className="font-extrabold">{token.name}</div>
+              <div className="text-slate-500 text-sm">{token.symbol}</div>
             </div>
           </div>
         </div>
-      );
-    }, [token]);
-
-    return memoizedComponent;
+        <div>
+          <div className="font-extrabold">{balance}</div>
+          <div className="text-slate-500 text-sm">
+            {balanceInFiat} {baseCurrency}
+          </div>
+        </div>
+      </div>
+    );
   },
   // Proper equality check for memoization
   (prevProps, nextProps) => {
