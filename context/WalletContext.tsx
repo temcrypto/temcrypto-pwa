@@ -110,7 +110,6 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     fetchRates(baseCurrency);
     const interval = setInterval(() => {
-      console.log('useEffect ~ interval');
       fetchRates(baseCurrency);
     }, UPDATE_INTERVAL);
     return () => clearInterval(interval);
