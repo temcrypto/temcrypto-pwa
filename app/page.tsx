@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import Link from 'next/link';
 import {
   TbArrowDownFromArc,
@@ -16,8 +16,21 @@ import DepositMenu from '@/components/DepositMenu';
 import PageWrapper from '@/components/PageWrapper';
 import PayMenu from '@/components/PayMenu';
 import SendMenu from '@/components/SendMenu';
+import { useWalletContext } from '@/context/WalletContext';
 
 type HomeMenuType = 'pay' | 'deposit' | 'send' | 'movements' | null;
+
+const TotalBalance = memo(function TotalBalance() {
+  const { baseCurrency, totalBalance } = useWalletContext();
+  return (
+    <div className="flex items-baseline">
+      <span className="text-4xl font-extrabold me-1 text-white">
+        {totalBalance.toFixed(2)}
+      </span>
+      <span className="flex items-center text-slate-400">{baseCurrency}</span>
+    </div>
+  );
+});
 
 export default function App() {
   const [sheetOpen, setSheetOpen] = useState<HomeMenuType>(null);
@@ -31,12 +44,7 @@ export default function App() {
               <TbPigMoney />
             </div>
             <div className="flex-1 ml-4">
-              <div className="flex items-baseline">
-                <span className="text-4xl font-extrabold me-1 text-white">
-                  {(15.89).toFixed(2)}
-                </span>
-                <span className="flex items-center text-slate-400">USDT</span>
-              </div>
+              <TotalBalance />
             </div>
 
             <button
