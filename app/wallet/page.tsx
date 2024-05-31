@@ -1,24 +1,23 @@
 'use client';
 
-import { memo, useEffect, useState, type ReactNode } from 'react';
+import { memo, useState, type ReactNode } from 'react';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { BsThreeDots } from 'react-icons/bs';
 import { IoMdLogOut } from 'react-icons/io';
 import { LuFileKey } from 'react-icons/lu';
-import { TbCirclePlus, TbPigMoney, TbPlus, TbWallet } from 'react-icons/tb';
+import { TbCirclePlus, TbWallet } from 'react-icons/tb';
 import { Sheet } from 'react-modal-sheet';
 import { type Address } from 'viem';
 
 import DepositMenu from '@/components/DepositMenu';
 import PageWrapper from '@/components/PageWrapper';
-import TokensList from '@/components/TokensList';
-import { useRates } from '@/context/RatesContext';
+import { useWalletContext } from '@/context/WalletContext';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
-import { getTokensData, type TokenData } from '@/utils/getTokensData';
+import allowedTokensList from '@/utils/allowedTokens';
 import shortenAddress from '@/utils/shortenAddress';
-import { FaPlus } from 'react-icons/fa6';
+import TokenItem from '@/components/TokenItem';
 
 // Define the prop types for the SectionHeader component
 type SectionHeaderProps = {
@@ -138,52 +137,14 @@ const WalletDetailsMenu = memo(function WalletDetailsMenu() {
 type WalletMenuType = 'deposit' | 'wallet' | null;
 
 const WalletPage = memo(function Wallet() {
-  const { primaryWallet, walletConnector } = useDynamicContext();
-  const [tokensData, setTokensData] = useState<TokenData[]>([]);
+  const {
+    userAddress: userWalletAddress,
+    baseCurrency,
+    totalBalance,
+  } = useWalletContext();
   const [sheetOpen, setSheetOpen] = useState<WalletMenuType>(null);
-  const [totalBalance, setTotalBalance] = useState<number>(0);
-  const rates = useRates();
-
-  // Set the wallet address to the user's primary wallet if they have one
-  // Otherwise, set it to their email
-  const userWalletAddress = primaryWallet?.address;
 
   console.log('Wallet Page', userWalletAddress);
-
-  // Move the fetchBalance logic to a separate effect
-  useEffect(() => {
-    const fetchBalance = async () => {
-      if (userWalletAddress && walletConnector && Array.isArray(rates)) {
-        try {
-          const data = await getTokensData({
-            address: userWalletAddress,
-            walletConnector,
-          });
-          setTokensData(data ?? []);
-
-          // Calculate the total balance using rates and data from tokenData. Show it in USDT format.
-          const totalUsdt = data
-            .map(({ symbol, balance }: TokenData) => {
-              const rateObj = rates.find(({ code }) => code === symbol);
-              if (rateObj) {
-                return rateObj.rate * parseFloat(balance);
-              }
-              return 0;
-            })
-            .reduce((acc: number, curr: number) => acc + curr, 0);
-
-          setTotalBalance(totalUsdt);
-
-          console.log(`Total balance: ${totalUsdt}`, data);
-        } catch (err) {
-          console.error('Error getting token balances:', err);
-          toast.error('Error fetching token balances');
-        }
-      }
-    };
-
-    fetchBalance();
-  }, [userWalletAddress, walletConnector, rates]);
 
   return (
     <PageWrapper id="page-wallet" requireSession={true}>
@@ -191,15 +152,6 @@ const WalletPage = memo(function Wallet() {
         <>
           <div className="text-left">
             <div>
-              {/* <div className="flex flex-row justify-end items-center mb-3">
-                <button
-                  className="flex items-center transition active:scale-95"
-                  onClick={() => setSheetOpen('wallet')}
-                >
-                  <BsThreeDots className="text-slate-400 w-5 h-5" />
-                </button>
-              </div> */}
-
               <div className="flex p-4 text-left transition bg-slate-100 dark:bg-slate-700/60 rounded-3xl">
                 <div className="flex flex-row w-full">
                   <div className="flex items-center justify-center text-4xl text-sky-500">
@@ -217,7 +169,7 @@ const WalletPage = memo(function Wallet() {
                           // className="flex items-center text-slate-400 transition active:scale-95"
                           // onClick={() => setSheetOpen('deposit')}
                         >
-                          USDT
+                          {baseCurrency}
                           {/* <IoChevronDownOutline className="inline me-1 w-4 h-4" /> */}
                         </button>
                       </div>
@@ -239,10 +191,21 @@ const WalletPage = memo(function Wallet() {
               <div className="flex flex-row justify-between items-center mb-3">
                 <SectionHeader>
                   Tokens
-                  <span className="ml-1">({tokensData.length})</span>
+                  {/* <span className="ml-1">({tokensData.length})</span> */}
                 </SectionHeader>
+                <button
+                  className="flex items-center transition active:scale-95"
+                  onClick={() => setSheetOpen('wallet')}
+                >
+                  <BsThreeDots className="text-slate-400 w-5 h-5" />
+                </button>
               </div>
-              <TokensList tokens={tokensData} />
+
+              <div className="flex flex-col space-y-3 *:h-20">
+                {allowedTokensList.map((token) => (
+                  <TokenItem key={token.address} token={token} />
+                ))}
+              </div>
             </div>
           </div>
 

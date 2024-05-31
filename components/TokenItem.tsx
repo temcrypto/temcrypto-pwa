@@ -1,41 +1,41 @@
 import { memo, useMemo } from 'react';
 import Image from 'next/image';
 
-import { type TokenData } from '@/utils/getTokensData';
-import { Rate } from '@/context/RatesContext';
-
-type TokenItemProps = {
-  token: TokenData;
-  rate: Rate;
-};
+import { useWalletContext } from '@/context/WalletContext';
+import { type AllowedToken } from '@/utils/allowedTokens';
 
 /**
  * TokenItem component
  *
- * Displays a single token item with its logo, name, symbol, balance, and rate.
+ * Displays a single token item with its logo, name, symbol, balance, and balance converted to the baseCurrency.
  * Memoized component with a proper equality check.
  *
- * @param {TokenData} token - The token data to display.
- * @param {Rate} rate - The rate object containing the token's rate in USDT.
+ * @param {AllowedToken} token - The token data to display.
  */
 const TokenItem = memo(
-  function TokenItem({ token, rate: rateObj }: TokenItemProps) {
-    console.log('TokenItem ~ token', token, 'rateObj', rateObj);
+  function TokenItem({ token }: { token: AllowedToken }) {
+    const { balances, balancesInCurrency, baseCurrency } = useWalletContext();
+
+    const balance = useMemo(
+      () => balances.get(token.symbol) ?? 0,
+      [balances, token.symbol]
+    );
+    const balanceInFiat = useMemo(
+      () => (balancesInCurrency.get(token.symbol) ?? 0).toFixed(2),
+      [balancesInCurrency, token.symbol]
+    );
+
+    console.log('TokenItem ~', token.symbol, balance, balanceInFiat);
 
     // Memoized component rendering
     const memoizedComponent = useMemo(() => {
-      // Calculate the token's value in USDT
-      const valueUsdt =
-        (rateObj.rate * parseFloat(token.balance)).toFixed(2) ?? '--';
-
-      console.log('TokenItem ~ valueUsdt', valueUsdt);
-
       return (
         <div className="flex flex-row justify-between items-center">
           <div>
             <div className="flex flex-row">
               <Image
-                src={`/images/tokens/${token.logoFile}`}
+                // src={`/images/tokens/${token.logoURI}`}
+                src={token.logoURI}
                 alt={token.name}
                 height={40}
                 width={40}
@@ -49,22 +49,20 @@ const TokenItem = memo(
             </div>
           </div>
           <div>
-            <div className="font-extrabold">{token.balance}</div>
-            {/* valueUsdt represents the token's value in USDT */}
-            <div className="text-slate-500 text-sm">{valueUsdt} USDT</div>
+            <div className="font-extrabold">{balance}</div>
+            <div className="text-slate-500 text-sm">
+              {balanceInFiat} {baseCurrency}
+            </div>
           </div>
         </div>
       );
-    }, [token, rateObj]);
+    }, [token]);
 
     return memoizedComponent;
   },
   // Proper equality check for memoization
   (prevProps, nextProps) => {
-    return (
-      prevProps.token.balance === nextProps.token.balance &&
-      prevProps.rate.rate === nextProps.rate.rate
-    );
+    return prevProps.token.address === nextProps.token.address;
   }
 );
 
