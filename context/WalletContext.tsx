@@ -101,11 +101,6 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
       const convertedBalance = balance / currencyRate;
       newBalancesInCurrency.set(symbol, convertedBalance);
       totalBalance += convertedBalance;
-      console.log(
-        `Converting ${symbol} to ${baseCurrency}`,
-        balance,
-        convertedBalance
-      );
     });
     setBalancesInCurrency(newBalancesInCurrency);
     setTotalBalance(totalBalance);
