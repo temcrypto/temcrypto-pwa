@@ -31,6 +31,7 @@ interface WalletContextType {
   rates: Map<string, number>;
   baseCurrency: string;
   setBaseCurrency: (currency: string) => void;
+  totalBalance: number;
 }
 
 // Create the WalletContext with a default value
@@ -128,7 +129,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [isConnected, userAddress, rates, fetchBalances]);
 
   // Memoized context value to avoid unnecessary re-renders
-  const contextValue = useMemo(
+  const contextValue: WalletContextType = useMemo(
     () => ({
       userAddress,
       balances,
