@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import {
   TbArrowDownFromArc,
+  TbArrowDownToArc,
   TbCirclePlus,
   TbHistory,
   TbInvoice,
@@ -72,11 +73,31 @@ export default function App() {
               type="button"
               className="active:scale-95"
               onClick={() => {
-                setSheetOpen('send');
+                setSheetOpen('deposit');
               }}
             >
               <div className="flex flex-row">
                 <div className="flex items-center justify-center text-4xl text-green-500">
+                  <TbArrowDownToArc />
+                </div>
+                <div className="ml-4">
+                  <div className="text-xl">Receive</div>
+                  <div className="text-slate-400 font-light text-sm">
+                    Receive payments in your account.
+                  </div>
+                </div>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              className="active:scale-95"
+              onClick={() => {
+                setSheetOpen('send');
+              }}
+            >
+              <div className="flex flex-row">
+                <div className="flex items-center justify-center text-4xl text-amber-500">
                   <TbArrowDownFromArc />
                 </div>
                 <div className="ml-4">
