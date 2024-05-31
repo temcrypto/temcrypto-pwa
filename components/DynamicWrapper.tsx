@@ -4,9 +4,6 @@ import { type ReactNode, useCallback } from 'react';
 import { getCsrfToken, signOut } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { http } from 'viem';
-import { polygon, polygonAmoy, polygonMumbai } from 'viem/chains';
-import { createConfig, WagmiProvider } from 'wagmi';
 
 import {
   DynamicContextProvider,
@@ -16,17 +13,7 @@ import {
   locale,
   type UserProfile,
 } from '@/lib/dynamicxyz';
-
-// Wagmi Provider configuration
-const wagmiConfig = createConfig({
-  chains: [polygon, polygonAmoy, polygonMumbai],
-  multiInjectedProviderDiscovery: false,
-  transports: {
-    [polygon.id]: http(),
-    [polygonAmoy.id]: http(),
-    [polygonMumbai.id]: http(),
-  },
-});
+import { wagmiConfig, WagmiProvider } from '@/lib/wagmi';
 
 // Query Client configuration
 const queryClient = new QueryClient();
