@@ -21,22 +21,21 @@ import {
   type GetEnsNameReturnType,
   normalize,
 } from 'viem/ens';
-import {
-  createConfig,
-  getEnsAddress,
-  getEnsAvatar,
-  getEnsName,
-  http,
-} from '@wagmi/core';
 
 import { fetchPixKeyData } from '@/app/send/actions';
 import { useDynamicContext } from '@/lib/dynamicxyz';
+import {
+  getEnsAddress,
+  getEnsAvatar,
+  getEnsName,
+  wagmiConfigMainnet,
+} from '@/lib/wagmi';
 import { getTokensData } from '@/utils/getTokensData';
 import randomEmoji from '@/utils/randomEmoji';
 import shortenAddress from '@/utils/shortenAddress';
 
-import LoadingSkeleton from './LoadingSkeleton';
 import { Spinner } from './Loading';
+import LoadingSkeleton from './LoadingSkeleton';
 
 // Regex to test if the textTrim is an ENS name ending on '.eth'
 const ENS_REGEX = /^[a-zA-Z0-9]{1,253}\.eth$/;
@@ -87,13 +86,6 @@ This regular expression ensures precise validation of crypto currency amounts by
 */
 const CRYPTO_AMOUNT_REGEX =
   /^(?:(?:0|[1-9]\d{0,17})(?:\.\d{1,8})?|(?:0|[1-9]\d{0,5})(?:\.\d{1,2})?0{0,6})$/;
-
-// Wagmi Config for Mainnet
-const wagmiConfigMainnet = createConfig({
-  chains: [mainnet],
-  multiInjectedProviderDiscovery: false,
-  transports: { [mainnet.id]: http() },
-});
 
 // Fetch ENS data from Mainnet
 const fetchEnsData = async (
@@ -146,10 +138,6 @@ type PaymentState = {
   loading: boolean;
 };
 
-const initialPaymentState: PaymentState = {
-  loading: false,
-};
-
 type ReceiverData = {
   avatar?: string | null;
   alias?: string | null;
@@ -177,7 +165,7 @@ const initialPaymentData: PaymentData = {
 };
 
 const PayMenu = memo(function PayMenu() {
-  const { primaryWallet, walletConnector } = useDynamicContext();
+  const { primaryWallet } = useDynamicContext();
   const [showQrReader, setShowQrReader] = useState(false);
   const [receiverData, setReceiverData] = useState(initialReceiverData);
   const [paymentData, setPaymentData] = useState(initialPaymentData);
@@ -260,18 +248,15 @@ const PayMenu = memo(function PayMenu() {
 
   useEffect(() => {
     const fetchTokensList = async () => {
-      if (primaryWallet?.address && walletConnector) {
-        const data = await getTokensData({
-          address: primaryWallet.address,
-          walletConnector,
-        });
+      if (primaryWallet?.address) {
+        const data = await getTokensData({ address: primaryWallet.address });
         console.log('fetchTokensData', data);
         setCurrenciesList(data as []);
       }
     };
     console.log('useEffect');
     fetchTokensList();
-  }, [primaryWallet, walletConnector]);
+  }, [primaryWallet]);
 
   useEffect(() => {
     const fetchReceiverData = async () => {
