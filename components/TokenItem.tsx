@@ -58,8 +58,8 @@ const TokenItem = memo(
             </div>
           </div>
         </div>
-        <div>
-          <div className="font-extrabold">{balance}</div>
+        <div className="text-right">
+          <div className="font-extrabold">{balance.toFixed(8)}</div>
           <div className="text-slate-500 text-sm">
             {balanceInFiat} {baseCurrency}
           </div>
