@@ -612,9 +612,16 @@ export default function Payments() {
                 {receiverData.type === 'crypto' && paymentData.amount > 0 && (
                   <div className="flex flex-row items-center text-slate-500 ml-2 mt-2 animate-bounce-from-bottom">
                     <TbGasStation />
-                    <span className="text-sm ml-1">
-                      estimated gas: {estimatedGas}
-                    </span>
+                    <div className="flex flex-row items-center text-sm ml-1">
+                      estimated gas:
+                      <span className="ml-1">
+                        {estimatedGas === '' ? (
+                          <LoadingSkeleton className="h-[10px] w-16" />
+                        ) : (
+                          estimatedGas
+                        )}
+                      </span>
+                    </div>
                   </div>
                 )}
 
