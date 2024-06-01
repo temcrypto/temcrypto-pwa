@@ -17,6 +17,7 @@ import PageWrapper from '@/components/PageWrapper';
 import PayMenu from '@/components/PayMenu';
 import SendMenu from '@/components/SendMenu';
 import { useWalletContext } from '@/context/WalletContext';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 type HomeMenuType = 'pay' | 'deposit' | 'send' | 'movements' | null;
 
@@ -25,9 +26,15 @@ const TotalBalance = memo(function TotalBalance() {
   return (
     <div className="flex items-baseline">
       <span className="text-4xl font-extrabold me-1 text-white">
-        {totalBalance.toFixed(2)}
+        {totalBalance ? (
+          totalBalance.toFixed(2)
+        ) : (
+          <LoadingSkeleton className="h-6 w-24" />
+        )}
       </span>
-      <span className="flex items-center text-slate-400">{baseCurrency}</span>
+      <span className="flex items-center text-slate-400">
+        {baseCurrency ?? ''}
+      </span>
     </div>
   );
 });
