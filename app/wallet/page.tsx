@@ -12,12 +12,12 @@ import { type Address } from 'viem';
 
 import DepositMenu from '@/components/DepositMenu';
 import PageWrapper from '@/components/PageWrapper';
+import TokenItem from '@/components/TokenItem';
 import { useWalletContext } from '@/context/WalletContext';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
 import allowedTokensList from '@/utils/allowedTokens';
 import shortenAddress from '@/utils/shortenAddress';
-import TokenItem from '@/components/TokenItem';
 
 // Define the prop types for the SectionHeader component
 type SectionHeaderProps = {
@@ -152,10 +152,9 @@ const WalletPage = memo(function Wallet() {
         <>
           <div className="text-left">
             <div>
-              <div className="flex p-4 text-left transition bg-slate-100 dark:bg-slate-700/60 rounded-3xl">
-                <div className="flex flex-row w-full">
+              <div className="flex min-h-20 p-4 text-left transition bg-slate-100 dark:bg-slate-700/60 rounded-3xl">
+                <div className="flex flex-row items-center w-full">
                   <div className="flex items-center justify-center text-4xl text-sky-500">
-                    {/* <TbPigMoney /> */}
                     <TbWallet />
                   </div>
                   <div className="w-full ml-4">
@@ -189,10 +188,7 @@ const WalletPage = memo(function Wallet() {
 
             <div className="mt-6">
               <div className="flex flex-row justify-between items-center mb-3">
-                <SectionHeader>
-                  Tokens
-                  {/* <span className="ml-1">({tokensData.length})</span> */}
-                </SectionHeader>
+                <SectionHeader>Tokens</SectionHeader>
                 <button
                   className="flex items-center transition active:scale-95"
                   onClick={() => setSheetOpen('wallet')}
