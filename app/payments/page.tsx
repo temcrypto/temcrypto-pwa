@@ -27,16 +27,16 @@ import {
 import { fetchPixKeyData } from '@/app/send/actions';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { Spinner } from '@/components/Loading';
-import { useDynamicContext } from '@/lib/dynamicxyz';
+import { useWalletContext } from '@/context/WalletContext';
 import {
   getEnsAddress,
   getEnsAvatar,
   getEnsName,
   wagmiConfigMainnet,
 } from '@/lib/wagmi';
-import { getTokensData } from '@/utils/getTokensData';
 import randomEmoji from '@/utils/randomEmoji';
 import shortenAddress from '@/utils/shortenAddress';
+import allowedTokensList from '@/utils/allowedTokens';
 
 // Regex to test if the textTrim is an ENS name ending on '.eth'
 const ENS_REGEX = /^[a-zA-Z0-9]{1,253}\.eth$/;
@@ -161,7 +161,7 @@ const initialPaymentData: PaymentData = {
 };
 
 export default function Payments() {
-  const { primaryWallet } = useDynamicContext();
+  const { balances } = useWalletContext();
   const [showQrReader, setShowQrReader] = useState(false);
   const [receiverData, setReceiverData] = useState(initialReceiverData);
   const [paymentData, setPaymentData] = useState(initialPaymentData);
@@ -169,10 +169,6 @@ export default function Payments() {
   const [formattedCurrency, setFormattedCurrency] = useState('');
   const [receiverText, setReceiverText] = useState('');
   const [receiverStr] = useDebounce(receiverText, 300);
-
-  const [currenciesList, setCurrenciesList] = useState<
-    { symbol: string; name: string }[]
-  >([]);
 
   const receiverInputRef = useRef<HTMLInputElement>(null);
   const currencyInputRef = useRef<HTMLInputElement>(null);
@@ -241,18 +237,6 @@ export default function Payments() {
     },
     [receiverData.type, receiverStr]
   );
-
-  useEffect(() => {
-    const fetchTokensList = async () => {
-      if (primaryWallet?.address) {
-        const data = await getTokensData({ address: primaryWallet.address });
-        console.log('fetchTokensData', data);
-        setCurrenciesList(data as []);
-      }
-    };
-    console.log('useEffect');
-    fetchTokensList();
-  }, [primaryWallet]);
 
   useEffect(() => {
     const fetchReceiverData = async () => {
@@ -599,56 +583,57 @@ export default function Payments() {
                       <h2 className="text-xl font-bold text-slate-500 mt-4 mb-2 ml-1">
                         Tokens
                       </h2>
-                      {currenciesList.length > 0 && (
-                        <div className="flex flex-col max-h-fit text-slate-500 animate-bounce-from-bottom overflow-y-scroll *:bg-slate-700/60 *:rounded-3xl *:p-4 *:mb-4">
-                          {currenciesList
-                            .filter(({ name }) =>
-                              name
-                                .toLowerCase()
-                                .includes(formattedCurrency.toLowerCase())
-                            )
-                            .map((currency) => (
-                              <div
-                                className="flex flex-row items-center"
-                                key={currency.symbol}
-                                onClick={() => {
-                                  setPaymentData((prevState) => ({
-                                    ...prevState,
-                                    currency: currency.symbol,
-                                  }));
-                                  if (amountInputRef.current) {
-                                    amountInputRef.current.focus();
-                                  }
-                                }}
-                              >
-                                <div className="me-3">
-                                  <div className="w-10 h-10 flex rounded-full items-center justify-center">
-                                    <Image
-                                      src={`/images/tokens/${currency.symbol.toLowerCase()}.svg`}
-                                      alt={'Matic'}
-                                      height={40}
-                                      width={40}
-                                      unoptimized={true} // Set unoptimized for local images
-                                    />
-                                  </div>
-                                </div>
-
-                                <div className="flex-1">
-                                  <div className="font-extrabold text-white">
-                                    {currency.name}
-                                  </div>
-                                  <div className="text-slate-500 text-sm">
-                                    15.239128 available
-                                  </div>
-                                </div>
-
-                                <div className="flex items-center">
-                                  <IoIosArrowForward />
+                      {/* {currenciesList.length > 0 && ( */}
+                      <div className="flex flex-col max-h-fit text-slate-500 animate-bounce-from-bottom overflow-y-scroll *:bg-slate-700/60 *:rounded-3xl *:p-4 *:mb-4">
+                        {allowedTokensList
+                          .filter(({ name }) =>
+                            name
+                              .toLowerCase()
+                              .includes(formattedCurrency.toLowerCase())
+                          )
+                          .map((currency) => (
+                            <div
+                              className="flex flex-row items-center"
+                              key={currency.symbol}
+                              onClick={() => {
+                                setPaymentData((prevState) => ({
+                                  ...prevState,
+                                  currency: currency.symbol,
+                                }));
+                                if (amountInputRef.current) {
+                                  amountInputRef.current.focus();
+                                }
+                              }}
+                            >
+                              <div className="me-3">
+                                <div className="w-10 h-10 flex rounded-full items-center justify-center">
+                                  <Image
+                                    src={`/images/tokens/${currency.symbol.toLowerCase()}.svg`}
+                                    alt={'Matic'}
+                                    height={40}
+                                    width={40}
+                                    unoptimized={true} // Set unoptimized for local images
+                                  />
                                 </div>
                               </div>
-                            ))}
-                        </div>
-                      )}
+
+                              <div className="flex-1">
+                                <div className="font-extrabold text-white">
+                                  {currency.name}
+                                </div>
+                                <div className="text-slate-500 text-sm">
+                                  {balances.get(currency.symbol) ?? 0}{' '}
+                                  {currency.symbol} available
+                                </div>
+                              </div>
+
+                              <div className="flex items-center">
+                                <IoIosArrowForward />
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                      {/* )} */}
                     </div>
                   )}
               </>
