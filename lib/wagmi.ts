@@ -3,6 +3,7 @@ import { createConfig, http } from '@wagmi/core';
 
 export { WagmiProvider, useAccount } from 'wagmi';
 export {
+  estimateGas,
   getEnsAddress,
   getEnsAvatar,
   getEnsName,

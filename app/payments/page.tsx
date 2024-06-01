@@ -12,9 +12,10 @@ import {
 import Image from 'next/image';
 import { CgCloseO } from 'react-icons/cg';
 import { FaPix } from 'react-icons/fa6';
+import { TbGasStation } from 'react-icons/tb';
 import { QrReader } from 'react-qr-reader';
 import { useDebounce } from 'use-debounce';
-import { type Address, isAddress, parseEther } from 'viem';
+import { type Address, isAddress, parseEther, formatUnits } from 'viem';
 import { mainnet } from 'viem/chains';
 import {
   type GetEnsAddressReturnType,
@@ -30,9 +31,11 @@ import { Spinner } from '@/components/Loading';
 import TokenItem from '@/components/TokenItem';
 import { useWalletContext } from '@/context/WalletContext';
 import {
+  estimateGas,
   getEnsAddress,
   getEnsAvatar,
   getEnsName,
+  wagmiConfig,
   wagmiConfigMainnet,
 } from '@/lib/wagmi';
 import randomEmoji from '@/utils/randomEmoji';
@@ -284,33 +287,39 @@ export default function Payments() {
     }
   }, [receiverStr]);
 
-  // useEffect(() => {
-  //   const fetchEstimatedGas = () => {
-  //     const { data } = useEstimateGas({
-  //       account: userAddress,
-  //       to: receiverData.alias as Address,
-  //       value: parseEther(paymentData.amount.toString()),
-  //     });
-  //     if (data) {
-  //       setEstimatedGas(data);
-  //     }
-  //   };
-  //   if (
-  //     receiverData.type === 'crypto' &&
-  //     receiverData.alias &&
-  //     paymentData.amount
-  //   ) {
-  //     fetchEstimatedGas();
-  //   }
-  // }, [userAddress, receiverData, paymentData]);
+  useEffect(() => {
+    const fetchEstimatedGas = async () => {
+      const result = await estimateGas(wagmiConfig, {
+        to: receiverData.alias as Address,
+        value: parseEther(paymentData.amount.toFixed(8)),
+      });
+      console.log('result', result);
+      // if (result) {
+      //   // setEstimatedGas(formatUnits(, 8));
+      // }
+    };
+    if (
+      receiverData.type === 'crypto' &&
+      receiverData.alias &&
+      paymentData.amount
+    ) {
+      fetchEstimatedGas();
+    }
+  }, [userAddress, receiverData, paymentData]);
 
-  const result = useEstimateGas({
-    account: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
-    to: '0xd2135CfB216b74109775236E36d4b433F1DF507B',
-    value: parseEther('0.01'),
-  });
+  // const result = useEstimateGas({
+  //   config: wagmiConfig,
+  //   account: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
+  //   to: '0xd2135CfB216b74109775236E36d4b433F1DF507B',
+  //   value: parseEther('0.01'),
+  // });
 
-  console.log('result useEstimateGas', result, 'paymentData', paymentData);
+  // console.log(
+  //   'result useEstimateGas',
+  //   formatUnits(result.data!, 8),
+  //   'paymentData',
+  //   paymentData
+  // );
 
   return (
     <PageWrapper id="page-payments" requireSession={true}>
@@ -606,7 +615,16 @@ export default function Payments() {
                     </div>
                   )}
                 </div>
-                ----{estimatedGas}----
+
+                {receiverData.type === 'crypto' && paymentData.amount > 0 && (
+                  <div className="flex flex-row items-center text-slate-500 ml-2 mt-2 animate-bounce-from-bottom">
+                    <TbGasStation />
+                    <span className="text-sm ml-1">
+                      estimated gas: {estimatedGas ?? (0).toFixed(8)}
+                    </span>
+                  </div>
+                )}
+
                 {receiverData.type === 'crypto' &&
                   paymentData.currency === null && (
                     <div className="mt-4">
