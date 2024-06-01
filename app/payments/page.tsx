@@ -14,7 +14,7 @@ import { CgCloseO } from 'react-icons/cg';
 import { FaPix } from 'react-icons/fa6';
 import { QrReader } from 'react-qr-reader';
 import { useDebounce } from 'use-debounce';
-import { type Address, isAddress } from 'viem';
+import { type Address, isAddress, parseEther } from 'viem';
 import { mainnet } from 'viem/chains';
 import {
   type GetEnsAddressReturnType,
@@ -22,6 +22,7 @@ import {
   type GetEnsNameReturnType,
   normalize,
 } from 'viem/ens';
+import { useEstimateGas } from 'wagmi';
 
 import { fetchPixKeyData } from '@/app/send/actions';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
@@ -161,7 +162,7 @@ const initialPaymentData: PaymentData = {
 };
 
 export default function Payments() {
-  const { balances } = useWalletContext();
+  const { balances, userAddress } = useWalletContext();
   const [showQrReader, setShowQrReader] = useState(false);
   const [receiverData, setReceiverData] = useState(initialReceiverData);
   const [paymentData, setPaymentData] = useState(initialPaymentData);
@@ -169,6 +170,8 @@ export default function Payments() {
   const [formattedCurrency, setFormattedCurrency] = useState('');
   const [receiverText, setReceiverText] = useState('');
   const [receiverStr] = useDebounce(receiverText, 300);
+  const [estimatedGas, setEstimatedGas] = useState<bigint | null>(null);
+  // const [estimatedGasPrice, setEstimatedGasPrice] = useState<bigint | null>(null);
 
   const receiverInputRef = useRef<HTMLInputElement>(null);
   const currencyInputRef = useRef<HTMLInputElement>(null);
@@ -281,6 +284,34 @@ export default function Payments() {
     }
   }, [receiverStr]);
 
+  // useEffect(() => {
+  //   const fetchEstimatedGas = () => {
+  //     const { data } = useEstimateGas({
+  //       account: userAddress,
+  //       to: receiverData.alias as Address,
+  //       value: parseEther(paymentData.amount.toString()),
+  //     });
+  //     if (data) {
+  //       setEstimatedGas(data);
+  //     }
+  //   };
+  //   if (
+  //     receiverData.type === 'crypto' &&
+  //     receiverData.alias &&
+  //     paymentData.amount
+  //   ) {
+  //     fetchEstimatedGas();
+  //   }
+  // }, [userAddress, receiverData, paymentData]);
+
+  const result = useEstimateGas({
+    account: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
+    to: '0xd2135CfB216b74109775236E36d4b433F1DF507B',
+    value: parseEther('0.01'),
+  });
+
+  console.log('result useEstimateGas', result, 'paymentData', paymentData);
+
   return (
     <PageWrapper id="page-payments" requireSession={true}>
       {/* <div className="mb-8">
@@ -289,8 +320,6 @@ export default function Payments() {
           email.
         </p>
       </div> */}
-
-      {/* <div className="mb-6">New Payment</div> */}
 
       {showQrReader ? (
         <div className="animate-bounce-from-bottom">
@@ -438,9 +467,10 @@ export default function Payments() {
               </div>
             </div>
 
-            {receiverData.type && receiverData.name && (
+            {receiverData.type && (receiverData.name || receiverData.alias) && (
               <>
-                <div className="flex flex-row items-center bg-slate-700/60 rounded-3xl min-h-20 p-4 mt-4 animate-bounce-from-bottom">
+                <div className="text-xl text-slate-500 ml-2 mt-4">Send</div>
+                <div className="flex flex-row items-center bg-slate-700/60 rounded-3xl min-h-20 p-4 animate-bounce-from-bottom">
                   <div className="w-10 h-10 rounded-full flex items-center justify-center me-3 bg-slate-600">
                     {paymentData.currency && (
                       <>
@@ -576,7 +606,7 @@ export default function Payments() {
                     </div>
                   )}
                 </div>
-
+                ----{estimatedGas}----
                 {receiverData.type === 'crypto' &&
                   paymentData.currency === null && (
                     <div className="mt-4">
