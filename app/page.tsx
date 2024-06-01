@@ -25,16 +25,18 @@ const TotalBalance = memo(function TotalBalance() {
   const { baseCurrency, totalBalance } = useWalletContext();
   return (
     <div className="flex items-baseline">
-      <span className="text-4xl font-extrabold me-1 text-white">
-        {totalBalance ? (
-          totalBalance.toFixed(2)
-        ) : (
-          <LoadingSkeleton className="h-6 w-24" />
-        )}
-      </span>
-      <span className="flex items-center text-slate-400">
-        {baseCurrency ?? ''}
-      </span>
+      {totalBalance ? (
+        <>
+          <span className="text-4xl font-extrabold me-1 text-white">
+            {totalBalance.toFixed(2)}
+          </span>
+          <span className="flex items-center text-slate-400">
+            {baseCurrency}
+          </span>
+        </>
+      ) : (
+        <LoadingSkeleton className="h-8 w-32" />
+      )}
     </div>
   );
 });
