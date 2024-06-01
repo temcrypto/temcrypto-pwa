@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import Image from 'next/image';
 
 import { useWalletContext } from '@/context/WalletContext';
@@ -13,8 +13,21 @@ import { type AllowedToken } from '@/utils/allowedTokens';
  * @param {AllowedToken} token - The token data to display.
  */
 const TokenItem = memo(
-  function TokenItem({ token }: { token: AllowedToken }) {
+  function TokenItem({
+    token,
+    onClick,
+  }: {
+    token: AllowedToken;
+    onClick?: () => void;
+  }) {
     const { balances, balancesInCurrency, baseCurrency } = useWalletContext();
+
+    const handleClick = useCallback(() => {
+      console.log('TokenItem ~', token.symbol, 'clicked');
+      if (onClick) {
+        onClick();
+      }
+    }, [onClick]);
 
     const balance = balances.get(token.symbol) ?? 0;
     const balanceInFiat = (balancesInCurrency.get(token.symbol) ?? 0).toFixed(
@@ -24,7 +37,10 @@ const TokenItem = memo(
     console.log('TokenItem ~', token.symbol, balance, balanceInFiat);
 
     return (
-      <div className="flex flex-row justify-between items-center">
+      <div
+        className="flex flex-row justify-between items-center"
+        onClick={handleClick}
+      >
         <div>
           <div className="flex flex-row">
             <Image

@@ -591,7 +591,19 @@ export default function Payments() {
                               .includes(formattedCurrency.toLowerCase())
                           )
                           .map((token) => (
-                            <TokenItem key={token.address} token={token} />
+                            <TokenItem
+                              key={token.address}
+                              token={token}
+                              onClick={() => {
+                                setPaymentData((prevState) => ({
+                                  ...prevState,
+                                  currency: token.symbol,
+                                }));
+                                if (amountInputRef.current) {
+                                  amountInputRef.current.focus();
+                                }
+                              }}
+                            />
                           ))}
                       </div>
                     </div>
