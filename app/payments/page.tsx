@@ -12,7 +12,6 @@ import {
 import Image from 'next/image';
 import { CgCloseO } from 'react-icons/cg';
 import { FaPix } from 'react-icons/fa6';
-import { IoIosArrowForward } from 'react-icons/io';
 import { QrReader } from 'react-qr-reader';
 import { useDebounce } from 'use-debounce';
 import { type Address, isAddress } from 'viem';
@@ -27,6 +26,7 @@ import {
 import { fetchPixKeyData } from '@/app/send/actions';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { Spinner } from '@/components/Loading';
+import TokenItem from '@/components/TokenItem';
 import { useWalletContext } from '@/context/WalletContext';
 import {
   getEnsAddress,
@@ -583,57 +583,17 @@ export default function Payments() {
                       <h2 className="text-xl font-bold text-slate-500 mt-4 mb-2 ml-1">
                         Tokens
                       </h2>
-                      {/* {currenciesList.length > 0 && ( */}
-                      <div className="flex flex-col max-h-fit text-slate-500 animate-bounce-from-bottom overflow-y-scroll *:bg-slate-700/60 *:rounded-3xl *:p-4 *:mb-4">
+                      <div className="flex flex-col space-y-3 animate-bounce-from-bottom overflow-y-scroll *:bg-slate-700/60 *:rounded-3xl *:p-4 *:h-20">
                         {allowedTokensList
                           .filter(({ name }) =>
                             name
                               .toLowerCase()
                               .includes(formattedCurrency.toLowerCase())
                           )
-                          .map((currency) => (
-                            <div
-                              className="flex flex-row items-center"
-                              key={currency.symbol}
-                              onClick={() => {
-                                setPaymentData((prevState) => ({
-                                  ...prevState,
-                                  currency: currency.symbol,
-                                }));
-                                if (amountInputRef.current) {
-                                  amountInputRef.current.focus();
-                                }
-                              }}
-                            >
-                              <div className="me-3">
-                                <div className="w-10 h-10 flex rounded-full items-center justify-center">
-                                  <Image
-                                    src={`/images/tokens/${currency.symbol.toLowerCase()}.svg`}
-                                    alt={'Matic'}
-                                    height={40}
-                                    width={40}
-                                    unoptimized={true} // Set unoptimized for local images
-                                  />
-                                </div>
-                              </div>
-
-                              <div className="flex-1">
-                                <div className="font-extrabold text-white">
-                                  {currency.name}
-                                </div>
-                                <div className="text-slate-500 text-sm">
-                                  {balances.get(currency.symbol) ?? 0}{' '}
-                                  {currency.symbol} available
-                                </div>
-                              </div>
-
-                              <div className="flex items-center">
-                                <IoIosArrowForward />
-                              </div>
-                            </div>
+                          .map((token) => (
+                            <TokenItem key={token.address} token={token} />
                           ))}
                       </div>
-                      {/* )} */}
                     </div>
                   )}
               </>

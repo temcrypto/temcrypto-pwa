@@ -20,24 +20,20 @@ const pathsWithLogo = ['/', '/start'];
 // TODO: Find a better way to do this.
 const pathTitles = [
   {
-    prefix: '/send',
-    title: 'Send Pix',
-  },
-  {
-    prefix: '/receive',
-    title: 'Receive Pix',
+    prefix: '/payments',
+    title: 'New Payment',
   },
   {
     prefix: '/wallet',
     title: 'My Wallet',
   },
   {
-    prefix: '/txs',
-    title: 'Transaction Details',
+    prefix: '/receive',
+    title: 'Receive',
   },
   {
-    prefix: '/payments',
-    title: 'New Payment',
+    prefix: '/txs',
+    title: 'Transaction Details',
   },
 ];
 
