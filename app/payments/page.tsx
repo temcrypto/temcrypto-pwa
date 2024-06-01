@@ -165,16 +165,16 @@ const initialPaymentData: PaymentData = {
 };
 
 export default function Payments() {
-  const { balances, userAddress } = useWalletContext();
+  const { baseCurrency, rates, userAddress } = useWalletContext();
   const [showQrReader, setShowQrReader] = useState(false);
   const [receiverData, setReceiverData] = useState(initialReceiverData);
   const [paymentData, setPaymentData] = useState(initialPaymentData);
   const [formattedAmount, setFormattedAmount] = useState('');
   const [formattedCurrency, setFormattedCurrency] = useState('');
+  const [amountInCurrency, setAmountInCurrency] = useState('');
   const [receiverText, setReceiverText] = useState('');
   const [receiverStr] = useDebounce(receiverText, 300);
-  const [estimatedGas, setEstimatedGas] = useState<bigint | null>(null);
-  // const [estimatedGasPrice, setEstimatedGasPrice] = useState<bigint | null>(null);
+  const [estimatedGas, setEstimatedGas] = useState<string | null>(null);
 
   const receiverInputRef = useRef<HTMLInputElement>(null);
   const currencyInputRef = useRef<HTMLInputElement>(null);
@@ -293,10 +293,10 @@ export default function Payments() {
         to: receiverData.alias as Address,
         value: parseEther(paymentData.amount.toFixed(8)),
       });
-      console.log('result', result);
-      // if (result) {
-      //   // setEstimatedGas(formatUnits(, 8));
-      // }
+      if (result) {
+        console.log('result', result);
+        setEstimatedGas(formatUnits(result, 8));
+      }
     };
     if (
       receiverData.type === 'crypto' &&
@@ -305,21 +305,16 @@ export default function Payments() {
     ) {
       fetchEstimatedGas();
     }
-  }, [userAddress, receiverData, paymentData]);
+  }, [receiverData.type, receiverData.alias, paymentData.amount]);
 
-  // const result = useEstimateGas({
-  //   config: wagmiConfig,
-  //   account: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
-  //   to: '0xd2135CfB216b74109775236E36d4b433F1DF507B',
-  //   value: parseEther('0.01'),
-  // });
-
-  // console.log(
-  //   'result useEstimateGas',
-  //   formatUnits(result.data!, 8),
-  //   'paymentData',
-  //   paymentData
-  // );
+  useEffect(() => {
+    if (paymentData.currency) {
+      const currencyRate = rates.get(paymentData.currency) ?? 1;
+      const amountSafe = paymentData.amount ?? 0;
+      const amount = (amountSafe / currencyRate).toFixed(2);
+      setAmountInCurrency(amount);
+    }
+  }, [paymentData.currency, paymentData.amount]);
 
   return (
     <PageWrapper id="page-payments" requireSession={true}>
@@ -575,8 +570,7 @@ export default function Payments() {
                       paymentData.currency === 'BRL' &&
                       paymentData.amount > 0 && (
                         <div className="text-slate-400 text-sm animate-bounce-from-bottom">
-                          ≈ {(parseFloat(formattedAmount) / 5.1).toFixed(2)}{' '}
-                          USDT
+                          ≈ {amountInCurrency} {baseCurrency}
                         </div>
                       )}
 
@@ -585,8 +579,7 @@ export default function Payments() {
                       paymentData.currency !== 'BRL' &&
                       paymentData.amount > 0 && (
                         <div className="text-slate-400 text-sm animate-bounce-from-bottom">
-                          ≈ {(parseFloat(formattedAmount) * 0.72).toFixed(2)}{' '}
-                          USDT
+                          ≈ {amountInCurrency} {baseCurrency}
                         </div>
                       )}
                   </div>
@@ -620,7 +613,7 @@ export default function Payments() {
                   <div className="flex flex-row items-center text-slate-500 ml-2 mt-2 animate-bounce-from-bottom">
                     <TbGasStation />
                     <span className="text-sm ml-1">
-                      estimated gas: {estimatedGas ?? (0).toFixed(8)}
+                      estimated gas: {estimatedGas}
                     </span>
                   </div>
                 )}
