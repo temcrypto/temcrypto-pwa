@@ -46,7 +46,7 @@ export default function App() {
     <PageWrapper id="page-app" requireSession={true}>
       <section className="flex flex-col space-y-4">
         <div>
-          <div className="w-full flex flex-row items-center p-4 text-left bg-slate-100 dark:bg-slate-700/60 rounded-3xl">
+          <div className="w-full min-h-20 p-4 flex flex-row items-center text-left bg-slate-100 dark:bg-slate-700/60 rounded-3xl">
             <div className="flex text-4xl text-sky-500">
               <TbPigMoney />
             </div>
