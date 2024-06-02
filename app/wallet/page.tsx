@@ -63,7 +63,6 @@ const WalletDetailsMenu = memo(function WalletDetailsMenu() {
               height={20}
               width={20}
               className="inline me-2"
-              unoptimized={true}
             />
             <button
               className="transition active:text-slate-300 active:scale-95"

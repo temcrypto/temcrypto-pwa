@@ -101,7 +101,6 @@ export default function SendMenu() {
                   alt="Send using Crypto"
                   height={36}
                   width={36}
-                  unoptimized={true}
                 />
               </div>
               <div className="ml-4">

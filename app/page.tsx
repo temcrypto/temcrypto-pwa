@@ -14,7 +14,6 @@ import { Sheet } from 'react-modal-sheet';
 
 import DepositMenu from '@/components/DepositMenu';
 import PageWrapper from '@/components/PageWrapper';
-import PayMenu from '@/components/PayMenu';
 import SendMenu from '@/components/SendMenu';
 import { useWalletContext } from '@/context/WalletContext';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
@@ -130,7 +129,7 @@ export default function App() {
               type="button"
               className="active:scale-95"
               onClick={() => {
-                setSheetOpen('pay');
+                setSheetOpen('movements');
               }}
             >
               <div className="flex flex-row">
@@ -158,7 +157,6 @@ export default function App() {
           <Sheet.Header />
           <Sheet.Content>
             <div className="safe-m-bottom">
-              {sheetOpen === 'pay' && <PayMenu />}
               {sheetOpen === 'deposit' && <DepositMenu />}
               {sheetOpen === 'send' && <SendMenu />}
             </div>

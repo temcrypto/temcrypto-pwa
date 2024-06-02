@@ -481,23 +481,16 @@ export default function Payments() {
                 <div className="flex flex-row items-center bg-slate-700/60 rounded-3xl min-h-20 p-4 animate-bounce-from-bottom">
                   <div className="w-10 h-10 rounded-full flex items-center justify-center me-3 bg-slate-600">
                     {paymentData.currency && (
-                      <>
-                        {paymentData.currency === 'BRL' ? (
-                          <Image
-                            src="/images/flags/brazil.png"
-                            alt={paymentData.currency}
-                            width={40}
-                            height={40}
-                          />
-                        ) : (
-                          <Image
-                            src={`/images/tokens/${paymentData.currency.toLowerCase()}.svg`}
-                            alt={paymentData.currency}
-                            width={40}
-                            height={40}
-                          />
-                        )}
-                      </>
+                      <Image
+                        src={
+                          paymentData.currency === 'BRL'
+                            ? '/images/flags/brazil.png'
+                            : `/images/tokens/${paymentData.currency.toLowerCase()}.svg`
+                        }
+                        alt={paymentData.currency}
+                        width={40}
+                        height={40}
+                      />
                     )}
                   </div>
 

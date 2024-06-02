@@ -28,7 +28,6 @@ export default function DepositMenu() {
                   alt="Deposit using Crypto"
                   height={36}
                   width={36}
-                  unoptimized={true}
                 />
               </div>
               <div className="ml-4">

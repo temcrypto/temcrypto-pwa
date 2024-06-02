@@ -49,7 +49,6 @@ const TokenItem = memo(
               height={40}
               width={40}
               className="mr-2"
-              // unoptimized={true} // Set unoptimized for local images
             />
             <div>
               <div className="font-extrabold">{token.name}</div>
