@@ -16,14 +16,13 @@ import { TbGasStation } from 'react-icons/tb';
 import { QrReader } from 'react-qr-reader';
 import { useDebounce } from 'use-debounce';
 import { type Address, isAddress, parseEther, formatUnits } from 'viem';
-import { mainnet } from 'viem/chains';
+import { mainnet, polygon } from 'viem/chains';
 import {
   type GetEnsAddressReturnType,
   type GetEnsAvatarReturnType,
   type GetEnsNameReturnType,
   normalize,
 } from 'viem/ens';
-import { useEstimateGas } from 'wagmi';
 
 import { fetchPixKeyData } from '@/app/send/actions';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
@@ -173,8 +172,8 @@ export default function Payments() {
   const [formattedCurrency, setFormattedCurrency] = useState('');
   const [amountInCurrency, setAmountInCurrency] = useState('');
   const [receiverText, setReceiverText] = useState('');
-  const [receiverStr] = useDebounce(receiverText, 300);
   const [estimatedGas, setEstimatedGas] = useState<string | null>(null);
+  const [receiverStr] = useDebounce(receiverText, 300);
 
   const receiverInputRef = useRef<HTMLInputElement>(null);
   const currencyInputRef = useRef<HTMLInputElement>(null);
@@ -289,13 +288,18 @@ export default function Payments() {
 
   useEffect(() => {
     const fetchEstimatedGas = async () => {
-      const result = await estimateGas(wagmiConfig, {
-        to: receiverData.alias as Address,
-        value: parseEther(paymentData.amount.toFixed(8)),
-      });
-      if (result) {
-        console.log('result', result);
-        setEstimatedGas(formatUnits(result, 8));
+      try {
+        setEstimatedGas(null);
+        const result = await estimateGas(wagmiConfig, {
+          account: userAddress,
+          to: receiverData.alias as Address,
+          value: parseEther(paymentData.amount.toFixed(8)),
+        });
+        if (result) {
+          setEstimatedGas(formatUnits(result, 8));
+        }
+      } catch (error) {
+        console.log('Error in estimate gas', error);
       }
     };
     if (
@@ -615,7 +619,7 @@ export default function Payments() {
                     <div className="flex flex-row items-center text-sm ml-1">
                       estimated gas:
                       <span className="ml-1">
-                        {estimatedGas === '' ? (
+                        {estimatedGas === null ? (
                           <LoadingSkeleton className="h-[10px] w-16" />
                         ) : (
                           estimatedGas
