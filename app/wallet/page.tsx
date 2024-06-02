@@ -16,8 +16,8 @@ import TokenItem from '@/components/TokenItem';
 import { useWalletContext } from '@/context/WalletContext';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
-import allowedTokensList from '@/utils/allowedTokens';
 import shortenAddress from '@/utils/shortenAddress';
+import supportedTokensList from '@/utils/tokenList';
 
 // Define the prop types for the SectionHeader component
 type SectionHeaderProps = {
@@ -198,7 +198,7 @@ const WalletPage = memo(function Wallet() {
               </div>
 
               <div className="flex flex-col space-y-3 *:h-20">
-                {allowedTokensList.map((token) => (
+                {supportedTokensList.map((token) => (
                   <TokenItem key={token.address} token={token} />
                 ))}
               </div>

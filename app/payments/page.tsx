@@ -39,7 +39,7 @@ import {
 } from '@/lib/wagmi';
 import randomEmoji from '@/utils/randomEmoji';
 import shortenAddress from '@/utils/shortenAddress';
-import allowedTokensList from '@/utils/allowedTokens';
+import supportedTokensList from '@/utils/tokenList';
 
 // Regex to test if the textTrim is an ENS name ending on '.eth'
 const ENS_REGEX = /^[a-zA-Z0-9]{1,253}\.eth$/;
@@ -636,7 +636,7 @@ export default function Payments() {
                         Tokens
                       </h2>
                       <div className="flex flex-col space-y-3 animate-bounce-from-bottom overflow-y-scroll *:bg-slate-700/60 *:rounded-3xl *:p-4 *:h-20">
-                        {allowedTokensList
+                        {supportedTokensList
                           .filter(({ name }) =>
                             name
                               .toLowerCase()

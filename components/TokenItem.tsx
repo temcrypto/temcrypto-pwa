@@ -2,7 +2,7 @@ import { memo, useCallback } from 'react';
 import Image from 'next/image';
 
 import { useWalletContext } from '@/context/WalletContext';
-import { type AllowedToken } from '@/utils/allowedTokens';
+import { type SupportedToken } from '@/utils/tokenList';
 
 /**
  * TokenItem component
@@ -10,14 +10,14 @@ import { type AllowedToken } from '@/utils/allowedTokens';
  * Displays a single token item with its logo, name, symbol, balance, and balance converted to the baseCurrency.
  * Memoized component with a proper equality check.
  *
- * @param {AllowedToken} token - The token data to display.
+ * @param {SupportedToken} token - The token data to display.
  */
 const TokenItem = memo(
   function TokenItem({
     token,
     onClick,
   }: {
-    token: AllowedToken;
+    token: SupportedToken;
     onClick?: () => void;
   }) {
     const { balances, balancesInCurrency, baseCurrency } = useWalletContext();
@@ -44,13 +44,12 @@ const TokenItem = memo(
         <div>
           <div className="flex flex-row">
             <Image
-              // src={`/images/tokens/${token.logoURI}`}
-              src={token.logoURI}
+              src={`/images/tokens/${token.symbol.toLowerCase()}.svg`}
               alt={token.name}
               height={40}
               width={40}
               className="mr-2"
-              unoptimized={true} // Set unoptimized for local images
+              // unoptimized={true} // Set unoptimized for local images
             />
             <div>
               <div className="font-extrabold">{token.name}</div>
