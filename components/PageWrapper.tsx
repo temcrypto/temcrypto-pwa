@@ -40,7 +40,7 @@ export default function PageWrapper({
   return (
     <main
       id="main"
-      className="flex-1 overflow-y-scroll scroll-smooth p-6 overflow-hidden"
+      className="flex-1 overflow-hidden overflow-y-scroll scroll-smooth p-6"
     >
       {!isMounted || authStatus === 'loading' ? (
         <Loading bounce={true} fullScreen={true} />

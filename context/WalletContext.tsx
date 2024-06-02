@@ -60,7 +60,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
           headers: {
             'User-Agent': 'TEMCRYPTO/1.0 (PWA; rv:42.0)',
           },
-        }
+        },
       );
       if (!response.ok) {
         throw new Error('Failed to fetch rates');
@@ -70,7 +70,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
         Object.entries(rates).map(([key, value]) => [
           key,
           parseFloat(value as string),
-        ])
+        ]),
       );
 
       setRates(ratesMap);
@@ -85,7 +85,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const tokensData = await getTokensData({ address: userAddress });
       const newBalances = new Map<string, number>(
-        tokensData.map((token: TokenData) => [token.symbol, token.balance])
+        tokensData.map((token: TokenData) => [token.symbol, token.balance]),
       );
       setBalances(newBalances);
     } catch (error) {
@@ -144,7 +144,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
       rates,
       baseCurrency,
       totalBalance,
-    ]
+    ],
   );
 
   return (

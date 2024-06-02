@@ -36,21 +36,21 @@ export default function StartPage({
 
   return (
     <PageWrapper id="page-start" className="flex h-full">
-      <div className="flex flex-col w-full">
+      <div className="flex w-full flex-col">
         <div className="flex grow items-center text-left">
           <div className="w-full px-2">
             {/* <div className="m-auto w-40">
               <Lottie animationData={StartAnimation} loop={true} />
             </div> */}
-            <h1 className="text-4xl font-extrabold mt-20">
+            <h1 className="mt-20 text-4xl font-extrabold">
               <span className="text-sky-500">Start</span> living in crypto{' '}
               <span className="text-rose-500">with</span>{' '}
               <span className="text-amber-500">us</span>!
             </h1>
-            <h2 className="text-2xl text-slate-300 dark:text-slate-400 text-pretty mt-8">
+            <h2 className="mt-8 text-pretty text-2xl text-slate-300 dark:text-slate-400">
               Explore where digital freedom meets real-world ease.
             </h2>
-            <h3 className="text-sm text-center text-transparent animate-background bg-[length:_400%_400%] [animation-duration:_4s] bg-clip-text bg-gradient-to-r from-pink-400 via-indigo-400 to-cyan-400 uppercase mt-16 mb-14">
+            <h3 className="mb-14 mt-16 animate-background bg-gradient-to-r from-pink-400 via-indigo-400 to-cyan-400 bg-[length:_400%_400%] bg-clip-text text-center text-sm uppercase text-transparent [animation-duration:_4s]">
               <div className="mt-6">Smart • Gasless • Non-Custodial</div>
             </h3>
           </div>
@@ -58,7 +58,7 @@ export default function StartPage({
 
         <div className="flex-none text-center">
           {isAuthenticated && !showAuthFlow ? (
-            <div className="flex justify-center items-center p-4 text-xl ">
+            <div className="flex items-center justify-center p-4 text-xl">
               <Loading bounce={true} />
             </div>
           ) : (
@@ -66,7 +66,7 @@ export default function StartPage({
               <DynamicConnectButton buttonClassName="w-full justify-center items-center p-4 text-xl text-white bg-pink-500 active:bg-pink-700 rounded-3xl">
                 Continue
               </DynamicConnectButton>
-              <p className="text-slate-300 dark:text-slate-500 text-sm py-6 safe-m-bottom text-pretty">
+              <p className="safe-m-bottom text-pretty py-6 text-sm text-slate-300 dark:text-slate-500">
                 By proceeding, you agree to TEMCRYPTO&apos;s{' '}
                 <a
                   href="https://temcrypto.com/terms"

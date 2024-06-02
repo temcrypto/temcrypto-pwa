@@ -8,12 +8,12 @@ import Animation404 from '@/lottie/404.json';
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col h-full items-center justify-center p-8">
+    <div className="flex h-full flex-col items-center justify-center p-8">
       <div className="w-8/12 max-w-sm">
         <Lottie animationData={Animation404} />
       </div>
-      <h1 className="text-2xl mt-8">Page Not Found</h1>
-      <p className="text-xl text-slate-400 text-center mt-4">
+      <h1 className="mt-8 text-2xl">Page Not Found</h1>
+      <p className="mt-4 text-center text-xl text-slate-400">
         Could not find the requested resource
       </p>
       <Link href="/" className="mt-10 text-pink-500">

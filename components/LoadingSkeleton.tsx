@@ -7,7 +7,7 @@ const LoadingSkeleton = memo(function LoadingSkeleton({
 }) {
   return (
     <div
-      className={`animate-pulse bg-slate-100 dark:bg-slate-700 rounded-md ${className}`}
+      className={`animate-pulse rounded-md bg-slate-100 dark:bg-slate-700 ${className}`}
     />
   );
 });

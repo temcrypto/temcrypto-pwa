@@ -2,7 +2,7 @@ export const Spinner = () => (
   <svg
     aria-hidden="true"
     role="status"
-    className="inline w-5 h-5 animate-spin text-slate-400 dark:text-slate-500 fill-pink-500"
+    className="inline h-5 w-5 animate-spin fill-pink-500 text-slate-400 dark:text-slate-500"
     viewBox="0 0 100 101"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +27,7 @@ export default function Loading({ bounce = false, fullScreen = false }) {
   return (
     <div className={`flex ${fullScreenClass}`}>
       <div
-        className={`flex text-xl text-slate-400 dark:text-slate-300 items-center space-x-2 ${animationClass}`}
+        className={`flex items-center space-x-2 text-xl text-slate-400 dark:text-slate-300 ${animationClass}`}
       >
         <Spinner />
         <span>Loading...</span>

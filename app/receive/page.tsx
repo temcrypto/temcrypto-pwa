@@ -27,11 +27,11 @@ export default function Receive() {
       </div>
 
       <form>
-        <div className="relative rounded-2xl text-xl mt-8">
+        <div className="relative mt-8 rounded-2xl text-xl">
           <input
             type="text"
             inputMode="decimal"
-            className="transition ease-in-out block w-full rounded-2xl border-0 p-4 pl-12 text-slate-800 placeholder:text-slate-400 ring ring-slate-200 focus:ring-pink-500 focus:outline-none read-only:bg-slate-300 read-only:text-slate-400 read-only:ring-slate-300 read-only:focus:ring-slate-300 invalid:focus:ring-red-500 invalid:focus:text-red-500 invalid:focus:bg-red-100 peer appearance-none"
+            className="peer block w-full appearance-none rounded-2xl border-0 p-4 pl-12 text-slate-800 ring ring-slate-200 transition ease-in-out placeholder:text-slate-400 read-only:bg-slate-300 read-only:text-slate-400 read-only:ring-slate-300 focus:outline-none focus:ring-pink-500 invalid:focus:bg-red-100 invalid:focus:text-red-500 invalid:focus:ring-red-500 read-only:focus:ring-slate-300"
             id="amount"
             name="amount"
             aria-label="Enter the transaction amount between 5,00 and 500,00"
@@ -44,7 +44,7 @@ export default function Receive() {
           />
           <div
             className={
-              'transition ease-in-out pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-800  peer-invalid:text-slate-400 peer-invalid:peer-focus:text-red-500 peer-read-only:text-slate-400'
+              'pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-800 transition ease-in-out peer-invalid:text-slate-400 peer-read-only:text-slate-400 peer-invalid:peer-focus:text-red-500'
             }
           >
             R$
@@ -53,7 +53,7 @@ export default function Receive() {
 
         <input
           type="submit"
-          className="w-full bg-pink-500 rounded-2xl p-4 text-center text-white text-xl mt-8"
+          className="mt-8 w-full rounded-2xl bg-pink-500 p-4 text-center text-xl text-white"
           value="Continue"
         />
       </form>

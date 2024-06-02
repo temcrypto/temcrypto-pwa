@@ -62,7 +62,7 @@ const Header = memo(function Header() {
   }, [pathname, router]);
 
   return (
-    <header className="h-16 w-full flex items-center justify-between bg-white dark:bg-slate-800 px-6">
+    <header className="flex h-16 w-full items-center justify-between bg-white px-6 dark:bg-slate-800">
       {showLogo ? (
         <Logo className="animate-bounce-from-bottom" />
       ) : (
@@ -83,7 +83,7 @@ const Header = memo(function Header() {
           <button
             type="button"
             aria-label={primaryWallet.address}
-            className="animate-bounce-from-bottom transition active:text-slate-300 active:scale-95"
+            className="animate-bounce-from-bottom transition active:scale-95 active:text-slate-300"
             onClick={() => {
               if (pathname === '/wallet') {
                 copyToClipboard(primaryWallet.address);
@@ -93,13 +93,13 @@ const Header = memo(function Header() {
               }
             }}
           >
-            <span className="text-transparent animate-background bg-[length:_400%_400%] [animation-duration:_4s] bg-clip-text bg-gradient-to-r from-pink-400 via-indigo-400 to-cyan-400">
+            <span className="animate-background bg-gradient-to-r from-pink-400 via-indigo-400 to-cyan-400 bg-[length:_400%_400%] bg-clip-text text-transparent [animation-duration:_4s]">
               {shortenAddress(primaryWallet.address, 3)}
             </span>
           </button>
         ) : (
           <div className="animate-bounce-from-bottom">
-            <LoadingSkeleton className="w-24 h-6" />
+            <LoadingSkeleton className="h-6 w-24" />
           </div>
         ))}
     </header>

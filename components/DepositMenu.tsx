@@ -13,7 +13,7 @@ export default function DepositMenu() {
   return (
     <>
       {depositType === null ? (
-        <nav className="flex flex-col space-y-6 animate-bounce-from-bottom">
+        <nav className="flex animate-bounce-from-bottom flex-col space-y-6">
           <button
             type="button"
             className="py-2 text-left"
@@ -32,7 +32,7 @@ export default function DepositMenu() {
               </div>
               <div className="ml-4">
                 <div className="text-xl">Deposit using Crypto</div>
-                <div className="text-slate-400 font-light text-sm">
+                <div className="text-sm font-light text-slate-400">
                   Receive crypto assets in your account.
                 </div>
               </div>
@@ -48,11 +48,11 @@ export default function DepositMenu() {
           >
             <div className="flex flex-row">
               <div className="flex items-center justify-center text-3xl">
-                <FaPix className="w-9 h-9 rounded-full bg-white p-[5px] text-[#32BCAD]" />
+                <FaPix className="h-9 w-9 rounded-full bg-white p-[5px] text-[#32BCAD]" />
               </div>
               <div className="ml-4">
                 <div className="text-xl">Deposit using Pix</div>
-                <div className="text-slate-400 font-light text-sm">
+                <div className="text-sm font-light text-slate-400">
                   Convert Reais to USDT in your account.
                 </div>
               </div>
@@ -66,7 +66,7 @@ export default function DepositMenu() {
 
           <button
             type="button"
-            className="flex items-center justify-center w-full p-4 mt-4 text-center cursor-pointer"
+            className="mt-4 flex w-full cursor-pointer items-center justify-center p-4 text-center"
             onClick={() => setDepositType(null)}
           >
             Close

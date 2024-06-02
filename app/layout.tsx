@@ -231,12 +231,12 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${nunito.className} w-screen sm:w-[32rem] m-auto overflow-hidden`}
+        className={`${nunito.className} m-auto w-screen overflow-hidden sm:w-[32rem]`}
       >
         <Providers>
           <div
             id="layout-app"
-            className="flex flex-col min-h-svh h-svh max-h-svh overflow-hidden"
+            className="flex h-svh max-h-svh min-h-svh flex-col overflow-hidden"
           >
             <Header />
             {children}

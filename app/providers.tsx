@@ -11,9 +11,7 @@ const Providers = async ({ children }: { children: ReactNode }) => {
   return (
     <SessionProvider session={session}>
       <DynamicProviderWrapper>
-        <WalletProvider>
-          {children}
-        </WalletProvider>
+        <WalletProvider>{children}</WalletProvider>
       </DynamicProviderWrapper>
     </SessionProvider>
   );

@@ -11,10 +11,10 @@ export default function DepositCrypto() {
   const { copyToClipboard } = useCopyToClipboard();
 
   return (
-    <div className="flex flex-col items-center animate-bounce-from-bottom">
+    <div className="flex animate-bounce-from-bottom flex-col items-center">
       {primaryWallet?.address && (
         <>
-          <div className="text-xl mb-6">Deposit Crypto</div>
+          <div className="mb-6 text-xl">Deposit Crypto</div>
           <QRCodeSVG
             value={primaryWallet.address}
             size={250}
@@ -30,26 +30,26 @@ export default function DepositCrypto() {
               width: 40,
               excavate: true,
             }}
-            className="rounded-3xl p-2 bg-white dark:bg-white border-8 border-pink-500"
+            className="rounded-3xl border-8 border-pink-500 bg-white p-2 dark:bg-white"
           />
 
           <div className="mt-6">
             <button
               type="button"
               aria-label={primaryWallet.address}
-              className="flex items-center text-lg transition active:text-slate-300 active:scale-95"
+              className="flex items-center text-lg transition active:scale-95 active:text-slate-300"
               onClick={() => {
                 copyToClipboard(primaryWallet.address);
                 toast.success('Address copied!');
               }}
             >
-              <TbCopy className="text-pink-500 mr-2" />
+              <TbCopy className="mr-2 text-pink-500" />
               {shortenAddress(primaryWallet.address, 10)}
             </button>
           </div>
 
-          <div className="flex items-center mt-2">
-            <p className="transition text-sm text-slate-400 text-pretty text-center">
+          <div className="mt-2 flex items-center">
+            <p className="text-pretty text-center text-sm text-slate-400 transition">
               Only send Polygon assets to this account
             </p>
           </div>

@@ -33,23 +33,23 @@ export default function Txs({
         'No data available'
       ) : (
         <>
-          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
-            <div className="text-sm text-slate-400 font-light uppercase">
+          <div className="mb-4 w-full rounded-2xl bg-slate-100 p-4 dark:bg-slate-700">
+            <div className="text-sm font-light uppercase text-slate-400">
               To
             </div>
-            <p className="dark:text-white break-words">{txData.pixName}</p>
+            <p className="break-words dark:text-white">{txData.pixName}</p>
 
-            <div className="text-sm text-slate-400 font-light uppercase mt-4">
+            <div className="mt-4 text-sm font-light uppercase text-slate-400">
               Chave Pix
             </div>
-            <p className="dark:text-white break-words">{txData.pixKeyParsed}</p>
+            <p className="break-words dark:text-white">{txData.pixKeyParsed}</p>
           </div>
 
-          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
-            <div className="text-sm text-slate-400 font-light uppercase">
+          <div className="mb-4 w-full rounded-2xl bg-slate-100 p-4 dark:bg-slate-700">
+            <div className="text-sm font-light uppercase text-slate-400">
               Amount
             </div>
-            <p className="dark:text-white break-words">
+            <p className="break-words dark:text-white">
               <span>
                 <AmountBRL amount={txData.amount as number} />
               </span>
@@ -58,55 +58,55 @@ export default function Txs({
               </span>
             </p>
 
-            <div className="text-sm text-slate-400 font-light uppercase mt-4">
+            <div className="mt-4 text-sm font-light uppercase text-slate-400">
               Rate
             </div>
-            <p className="dark:text-white break-words">
+            <p className="break-words dark:text-white">
               <AmountUSDT amount={1} /> ={' '}
               <AmountBRL amount={txData.amountRate as number} />
             </p>
           </div>
 
-          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
-            <div className="text-sm text-slate-400 font-light uppercase">
+          <div className="mb-4 w-full rounded-2xl bg-slate-100 p-4 dark:bg-slate-700">
+            <div className="text-sm font-light uppercase text-slate-400">
               TX ID
             </div>
-            <p className="dark:text-white break-words">{txId}</p>
+            <p className="break-words dark:text-white">{txId}</p>
           </div>
 
-          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
-            <div className="text-sm text-slate-400 font-light uppercase">
+          <div className="mb-4 w-full rounded-2xl bg-slate-100 p-4 dark:bg-slate-700">
+            <div className="text-sm font-light uppercase text-slate-400">
               TX ID
             </div>
-            <p className="dark:text-white break-words">{txId}</p>
+            <p className="break-words dark:text-white">{txId}</p>
           </div>
 
-          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
-            <div className="text-sm text-slate-400 font-light uppercase">
+          <div className="mb-4 w-full rounded-2xl bg-slate-100 p-4 dark:bg-slate-700">
+            <div className="text-sm font-light uppercase text-slate-400">
               TX ID
             </div>
-            <p className="dark:text-white break-words">{txId}</p>
+            <p className="break-words dark:text-white">{txId}</p>
           </div>
 
-          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
-            <div className="text-sm text-slate-400 font-light uppercase">
+          <div className="mb-4 w-full rounded-2xl bg-slate-100 p-4 dark:bg-slate-700">
+            <div className="text-sm font-light uppercase text-slate-400">
               TX ID
             </div>
-            <p className="dark:text-white break-words">{txId}</p>
+            <p className="break-words dark:text-white">{txId}</p>
           </div>
 
-          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
-            <div className="text-sm text-slate-400 font-light uppercase">
+          <div className="mb-4 w-full rounded-2xl bg-slate-100 p-4 dark:bg-slate-700">
+            <div className="text-sm font-light uppercase text-slate-400">
               TX ID
             </div>
-            <p className="dark:text-white break-words">{txId}</p>
+            <p className="break-words dark:text-white">{txId}</p>
           </div>
 
-          <div className="w-full p-4 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700">
-            <div className="text-sm text-slate-400 font-light uppercase">
+          <div className="mb-4 w-full rounded-2xl bg-slate-100 p-4 dark:bg-slate-700">
+            <div className="text-sm font-light uppercase text-slate-400">
               TX ID
             </div>
-            <p className="dark:text-white break-words">{txId}</p>
+            <p className="break-words dark:text-white">{txId}</p>
           </div>
         </>
       )}

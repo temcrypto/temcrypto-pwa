@@ -49,7 +49,7 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
         toast.error('An unexpected error occurred. Please try again later');
       }
     },
-    []
+    [],
   );
 
   const handleOnLogout = useCallback(async () => {

@@ -34,7 +34,7 @@ const QRCodeScanner = memo(
           onError(error);
         }
       },
-      [onError]
+      [onError],
     );
 
     // Handle result after scan
@@ -53,7 +53,7 @@ const QRCodeScanner = memo(
           handleClose();
         }
       },
-      [handleClose, handleQrError, onScan]
+      [handleClose, handleQrError, onScan],
     );
 
     // Check Camera permission
@@ -115,9 +115,9 @@ const QRCodeScanner = memo(
               />
             ) : (
               <>
-                <div className="text-center mb-12">
-                  <div className="relative inline-flex items-center justify-center w-20 h-20 overflow-hidden bg-pink-400 rounded-full mb-12">
-                    <span className="font-medium text-3xl text-white">
+                <div className="mb-12 text-center">
+                  <div className="relative mb-12 inline-flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-pink-400">
+                    <span className="text-3xl font-medium text-white">
                       <LuQrCode />
                     </span>
                   </div>
@@ -129,7 +129,7 @@ const QRCodeScanner = memo(
                   </p>
                 </div>
                 <button
-                  className="transition ease-in-out w-full mt-8 bg-pink-500 active:bg-pink-700 rounded-3xl p-4 text-center text-white text-xl cursor-pointer disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-400"
+                  className="mt-8 w-full cursor-pointer rounded-3xl bg-pink-500 p-4 text-center text-xl text-white transition ease-in-out active:bg-pink-700 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-400"
                   onClick={() => {
                     setHasCameraPermission(true);
                   }}
@@ -140,7 +140,7 @@ const QRCodeScanner = memo(
             )}
             <button
               type="button"
-              className="flex items-center justify-center w-full p-4 mt-4 text-center cursor-pointer"
+              className="mt-4 flex w-full cursor-pointer items-center justify-center p-4 text-center"
               onClick={handleClose}
             >
               Cancel
@@ -152,7 +152,7 @@ const QRCodeScanner = memo(
     );
   },
   // Proper equality check for memoization
-  (prevProps, nextProps) => prevProps.isOpen === nextProps.isOpen
+  (prevProps, nextProps) => prevProps.isOpen === nextProps.isOpen,
 );
 
 export default QRCodeScanner;

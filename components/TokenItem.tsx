@@ -30,14 +30,14 @@ const TokenItem = memo(
 
     const balance = balances.get(token.symbol) ?? 0;
     const balanceInFiat = (balancesInCurrency.get(token.symbol) ?? 0).toFixed(
-      2
+      2,
     );
 
     console.log('TokenItem ~', token.symbol, balance, balanceInFiat);
 
     return (
       <div
-        className="flex flex-row justify-between items-center"
+        className="flex flex-row items-center justify-between"
         onClick={handleClick}
       >
         <div>
@@ -51,13 +51,13 @@ const TokenItem = memo(
             />
             <div>
               <div className="font-extrabold">{token.name}</div>
-              <div className="text-slate-500 text-sm">{token.symbol}</div>
+              <div className="text-sm text-slate-500">{token.symbol}</div>
             </div>
           </div>
         </div>
         <div className="text-right">
           <div className="font-extrabold">{balance.toFixed(8)}</div>
-          <div className="text-slate-500 text-sm">
+          <div className="text-sm text-slate-500">
             {balanceInFiat} {baseCurrency}
           </div>
         </div>
@@ -67,7 +67,7 @@ const TokenItem = memo(
   // Proper equality check for memoization
   (prevProps, nextProps) => {
     return prevProps.token.address === nextProps.token.address;
-  }
+  },
 );
 
 export default TokenItem;

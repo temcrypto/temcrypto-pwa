@@ -38,9 +38,10 @@ export default function Tx() {
 
     const address = formData.get('address') as string;
     const amount = formData.get('amount') as string;
-    const provider = await primaryWallet?.connector.getSigner<
-      WalletClient<Transport, Chain, Account>
-    >();
+    const provider =
+      await primaryWallet?.connector.getSigner<
+        WalletClient<Transport, Chain, Account>
+      >();
 
     if (!provider) return;
 

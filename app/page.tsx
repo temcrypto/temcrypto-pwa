@@ -26,7 +26,7 @@ const TotalBalance = memo(function TotalBalance() {
     <div className="flex items-baseline">
       {totalBalance ? (
         <>
-          <span className="text-4xl font-extrabold me-1 text-white">
+          <span className="me-1 text-4xl font-extrabold text-white">
             {totalBalance.toFixed(2)}
           </span>
           <span className="flex items-center text-slate-400">
@@ -47,17 +47,17 @@ export default function App() {
     <PageWrapper id="page-app" requireSession={true}>
       <section className="flex flex-col space-y-4">
         <div>
-          <div className="w-full min-h-20 p-4 flex flex-row items-center text-left bg-slate-100 dark:bg-slate-700/60 rounded-3xl">
+          <div className="flex min-h-20 w-full flex-row items-center rounded-3xl bg-slate-100 p-4 text-left dark:bg-slate-700/60">
             <div className="flex text-4xl text-sky-500">
               <TbPigMoney />
             </div>
-            <div className="flex-1 ml-4">
+            <div className="ml-4 flex-1">
               <TotalBalance />
             </div>
 
             <button
               type="button"
-              className="text-amber-400 text-4xl font-extrabold active:scale-95"
+              className="text-4xl font-extrabold text-amber-400 active:scale-95"
               onClick={() => setSheetOpen('deposit')}
             >
               <TbCirclePlus />
@@ -66,11 +66,11 @@ export default function App() {
         </div>
 
         <div>
-          <div className="text-left text-lg text-slate-400 text-pretty px-2 py-4 uppercase">
+          <div className="text-pretty px-2 py-4 text-left text-lg uppercase text-slate-400">
             Explore what to do...
           </div>
 
-          <nav className="flex flex-col space-y-6 animate-bounce-from-bottom *:p-4 *:text-left *:transition *:bg-slate-100 *:dark:bg-slate-700/60 *:rounded-3xl">
+          <nav className="flex animate-bounce-from-bottom flex-col space-y-6 *:rounded-3xl *:bg-slate-100 *:p-4 *:text-left *:transition *:dark:bg-slate-700/60">
             <Link href="/payments">
               <div className="flex flex-row">
                 <div className="flex items-center justify-center text-4xl text-rose-500">
@@ -78,7 +78,7 @@ export default function App() {
                 </div>
                 <div className="ml-4">
                   <div className="text-xl">Pay</div>
-                  <div className="text-slate-400 font-light text-sm">
+                  <div className="text-sm font-light text-slate-400">
                     Make a payment using your crypto wallet.
                   </div>
                 </div>
@@ -98,7 +98,7 @@ export default function App() {
                 </div>
                 <div className="ml-4">
                   <div className="text-xl">Receive</div>
-                  <div className="text-slate-400 font-light text-sm">
+                  <div className="text-sm font-light text-slate-400">
                     Receive payments in your account.
                   </div>
                 </div>
@@ -118,7 +118,7 @@ export default function App() {
                 </div>
                 <div className="ml-4">
                   <div className="text-xl">Send</div>
-                  <div className="text-slate-400 font-light text-sm">
+                  <div className="text-sm font-light text-slate-400">
                     Send funds from your account to another.
                   </div>
                 </div>
@@ -138,7 +138,7 @@ export default function App() {
                 </div>
                 <div className="ml-4">
                   <div className="text-xl">Movements</div>
-                  <div className="text-slate-400 font-light text-sm">
+                  <div className="text-sm font-light text-slate-400">
                     Check your movements history and receipts.
                   </div>
                 </div>

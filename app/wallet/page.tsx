@@ -29,7 +29,7 @@ const SectionHeader = memo(function SectionHeader({
   children,
 }: SectionHeaderProps) {
   return (
-    <h2 className="text-md text-slate-400 font-light uppercase">{children}</h2>
+    <h2 className="text-md font-light uppercase text-slate-400">{children}</h2>
   );
 });
 
@@ -52,20 +52,20 @@ const WalletDetailsMenu = memo(function WalletDetailsMenu() {
   return (
     <>
       <div>
-        <div className="flex flex-row justify-between items-center mb-3">
+        <div className="mb-3 flex flex-row items-center justify-between">
           <SectionHeader>Wallet</SectionHeader>
         </div>
-        <div className="flex flex-col space-y-6 dark:text-white break-words">
-          <div className="flex item-center">
+        <div className="flex flex-col space-y-6 break-words dark:text-white">
+          <div className="item-center flex">
             <Image
               src="/images/networks/polygon.svg"
               alt={userWalletAddress}
               height={20}
               width={20}
-              className="inline me-2"
+              className="me-2 inline"
             />
             <button
-              className="transition active:text-slate-300 active:scale-95"
+              className="transition active:scale-95 active:text-slate-300"
               onClick={() => {
                 copyToClipboard(userWalletAddress);
                 toast.success('Address copied!');
@@ -76,10 +76,10 @@ const WalletDetailsMenu = memo(function WalletDetailsMenu() {
           </div>
 
           {isEmailAccount && (
-            <div className="flex item-center">
-              <LuFileKey className="inline me-2 items-center text-rose-500 w-5 h-5" />
+            <div className="item-center flex">
+              <LuFileKey className="me-2 inline h-5 w-5 items-center text-rose-500" />
               <button
-                className="transition active:text-slate-300 active:scale-95"
+                className="transition active:scale-95 active:text-slate-300"
                 onClick={() => initExportProcess()}
               >
                 Export Key
@@ -90,23 +90,23 @@ const WalletDetailsMenu = memo(function WalletDetailsMenu() {
       </div>
 
       <div className="mt-6">
-        <div className="flex flex-row justify-between items-center mb-3">
+        <div className="mb-3 flex flex-row items-center justify-between">
           <SectionHeader>Connected with</SectionHeader>
         </div>
         <div className="flex flex-row justify-between dark:text-white">
-          <div className="flex item-center">
+          <div className="item-center flex">
             <Image
               src={`/images/sprite.svg#${userWalletType}`}
               alt={userAuthenticatedWith}
               height={20}
               width={20}
-              className="inline me-2"
+              className="me-2 inline"
               unoptimized={true}
             />
             <button
               className={
                 isEmailAccount
-                  ? 'transition active:text-slate-300 active:scale-95'
+                  ? 'transition active:scale-95 active:text-slate-300'
                   : ''
               }
               onClick={() => {
@@ -121,10 +121,10 @@ const WalletDetailsMenu = memo(function WalletDetailsMenu() {
           </div>
 
           <button
-            className="flex items-center text-rose-400 text-sm"
+            className="flex items-center text-sm text-rose-400"
             onClick={() => handleLogOut()}
           >
-            <IoMdLogOut className="inline me-1 w-4 h-4" />
+            <IoMdLogOut className="me-1 inline h-4 w-4" />
             Sign Out
           </button>
         </div>
@@ -151,15 +151,15 @@ const WalletPage = memo(function Wallet() {
         <>
           <div className="text-left">
             <div>
-              <div className="flex min-h-20 p-4 text-left transition bg-slate-100 dark:bg-slate-700/60 rounded-3xl">
-                <div className="flex flex-row items-center w-full">
+              <div className="flex min-h-20 rounded-3xl bg-slate-100 p-4 text-left transition dark:bg-slate-700/60">
+                <div className="flex w-full flex-row items-center">
                   <div className="flex items-center justify-center text-4xl text-sky-500">
                     <TbWallet />
                   </div>
-                  <div className="w-full ml-4">
+                  <div className="ml-4 w-full">
                     <div className="flex flex-row items-center justify-between">
                       <div className="flex items-baseline">
-                        <span className="text-4xl font-extrabold me-1 text-white">
+                        <span className="me-1 text-4xl font-extrabold text-white">
                           {totalBalance.toFixed(2)}
                         </span>
                         <button
@@ -174,7 +174,7 @@ const WalletPage = memo(function Wallet() {
 
                       <button
                         type="button"
-                        className="text-amber-400 text-4xl font-extrabold active:scale-95"
+                        className="text-4xl font-extrabold text-amber-400 active:scale-95"
                         onClick={() => setSheetOpen('deposit')}
                       >
                         <TbCirclePlus />
@@ -186,13 +186,13 @@ const WalletPage = memo(function Wallet() {
             </div>
 
             <div className="mt-6">
-              <div className="flex flex-row justify-between items-center mb-3">
+              <div className="mb-3 flex flex-row items-center justify-between">
                 <SectionHeader>Tokens</SectionHeader>
                 <button
                   className="flex items-center transition active:scale-95"
                   onClick={() => setSheetOpen('wallet')}
                 >
-                  <BsThreeDots className="text-slate-400 w-5 h-5" />
+                  <BsThreeDots className="h-5 w-5 text-slate-400" />
                 </button>
               </div>
 

@@ -93,7 +93,7 @@ const CRYPTO_AMOUNT_REGEX =
 
 // Fetch ENS data from Mainnet
 const fetchEnsData = async (
-  ensName: string
+  ensName: string,
 ): Promise<{
   address: GetEnsAddressReturnType;
   avatar: GetEnsAvatarReturnType;
@@ -116,7 +116,7 @@ const fetchEnsData = async (
 };
 
 const fetchAddrsData = async (
-  address: Address
+  address: Address,
 ): Promise<{
   address: GetEnsAddressReturnType;
   avatar: GetEnsAvatarReturnType;
@@ -188,7 +188,7 @@ export default function Payments() {
       const textTrim = e.target.value.trim();
       setFormattedCurrency(textTrim ?? '');
     },
-    []
+    [],
   );
 
   // Validate and update amount
@@ -203,7 +203,7 @@ export default function Payments() {
       }
       setFormattedAmount(inputValue ?? ''); // Update the formatted amount state to show in the UI
     },
-    []
+    [],
   );
 
   const handleCryptoAmountChange = useCallback(
@@ -214,7 +214,7 @@ export default function Payments() {
       setPaymentData((prevState) => ({ ...prevState, amount: amountSafe }));
       setFormattedAmount(inputValue ?? ''); // Update the formatted amount state to show in the UI
     },
-    []
+    [],
   );
 
   const handleFormSubmit = useCallback(
@@ -240,7 +240,7 @@ export default function Payments() {
         }
       }
     },
-    [receiverData.type, receiverStr]
+    [receiverData.type, receiverStr],
   );
 
   useEffect(() => {
@@ -365,7 +365,7 @@ export default function Payments() {
           />
           <button
             type="button"
-            className="w-full p-4 mt-6"
+            className="mt-6 w-full p-4"
             onClick={() => setShowQrReader(false)}
           >
             Close
@@ -377,14 +377,14 @@ export default function Payments() {
             onSubmit={handleFormSubmit}
             className="w-full animate-bounce-from-bottom"
           >
-            <div className="text-xl text-slate-500 ml-2">To</div>
-            <div className="flex flex-row items-center bg-slate-700/60 rounded-3xl h-20 p-4">
+            <div className="ml-2 text-xl text-slate-500">To</div>
+            <div className="flex h-20 flex-row items-center rounded-3xl bg-slate-700/60 p-4">
               {receiverData.loading ? (
-                <LoadingSkeleton className="w-10 h-10 !rounded-full me-3" />
+                <LoadingSkeleton className="me-3 h-10 w-10 !rounded-full" />
               ) : (
-                <div className="w-10 h-10 rounded-full flex items-center justify-center me-3 bg-slate-600">
+                <div className="me-3 flex h-10 w-10 items-center justify-center rounded-full bg-slate-600">
                   {receiverData.type === 'pix' && (
-                    <FaPix className="w-10 h-10 rounded-full bg-white p-[5px] text-[#32BCAD]" />
+                    <FaPix className="h-10 w-10 rounded-full bg-white p-[5px] text-[#32BCAD]" />
                   )}
                   {receiverData.type === 'crypto' && (
                     <>
@@ -393,10 +393,10 @@ export default function Payments() {
                         <img
                           src={receiverData.avatar}
                           alt={receiverData.name ?? 'Avatar'}
-                          className="w-10 h-10 rounded-full"
+                          className="h-10 w-10 rounded-full"
                         />
                       ) : (
-                        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white">
                           {randomEmoji()}
                         </div>
                       )}
@@ -416,7 +416,7 @@ export default function Payments() {
                           name="receiver"
                           type="text"
                           ref={receiverInputRef}
-                          className="w-full pr-2 bg-transparent border-none outline-none focus:outline-none text-slate-400 placeholder:text-slate-400 placeholder:text-sm caret-pink-500"
+                          className="w-full border-none bg-transparent pr-2 text-slate-400 caret-pink-500 outline-none placeholder:text-sm placeholder:text-slate-400 focus:outline-none"
                           aria-label="Enter a Chave Pix, ENS name or Wallet Address"
                           placeholder="Chave Pix, Wallet Address or ENS"
                           value={
@@ -436,7 +436,7 @@ export default function Payments() {
                 </div>
                 <>
                   {receiverData.name && receiverData.alias && (
-                    <div className="text-slate-400 text-sm animate-bounce-from-bottom">
+                    <div className="animate-bounce-from-bottom text-sm text-slate-400">
                       {isAddress(receiverData.alias)
                         ? shortenAddress(receiverData.alias, 8)
                         : receiverData.alias}
@@ -477,9 +477,9 @@ export default function Payments() {
 
             {receiverData.type && (receiverData.name || receiverData.alias) && (
               <>
-                <div className="text-xl text-slate-500 ml-2 mt-4">Send</div>
-                <div className="flex flex-row items-center bg-slate-700/60 rounded-3xl min-h-20 p-4 animate-bounce-from-bottom">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center me-3 bg-slate-600">
+                <div className="ml-2 mt-4 text-xl text-slate-500">Send</div>
+                <div className="flex min-h-20 animate-bounce-from-bottom flex-row items-center rounded-3xl bg-slate-700/60 p-4">
+                  <div className="me-3 flex h-10 w-10 items-center justify-center rounded-full bg-slate-600">
                     {paymentData.currency && (
                       <Image
                         src={
@@ -500,7 +500,7 @@ export default function Payments() {
                         <input
                           type="text"
                           ref={currencyInputRef}
-                          className="w-full pr-2 bg-transparent border-none outline-none focus:outline-none placeholder:text-sm caret-pink-500"
+                          className="w-full border-none bg-transparent pr-2 caret-pink-500 outline-none placeholder:text-sm focus:outline-none"
                           id="currency"
                           name="currency"
                           aria-label="Select the Currency or Token to send"
@@ -520,7 +520,7 @@ export default function Payments() {
                                 type="text"
                                 inputMode="decimal"
                                 ref={amountInputRef}
-                                className="transition ease-in-out block w-full pl-8 bg-transparent border-none outline-none focus:outline-none invalid:focus:text-rose-500 peer caret-pink-500"
+                                className="peer block w-full border-none bg-transparent pl-8 caret-pink-500 outline-none transition ease-in-out focus:outline-none invalid:focus:text-rose-500"
                                 id="amountBrl"
                                 name="amountBrl"
                                 aria-label="Enter the amount to pay. It must be between 5,00 and 500,00"
@@ -532,7 +532,7 @@ export default function Payments() {
                                 autoFocus={true}
                                 autoComplete="off"
                               />
-                              <div className="transition ease-in-out pointer-events-none absolute inset-y-0 left-0 flex items-center text-white peer-invalid:text-rose-500 peer-read-only:text-slate-400">
+                              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center text-white transition ease-in-out peer-invalid:text-rose-500 peer-read-only:text-slate-400">
                                 R$
                               </div>
                             </div>
@@ -542,7 +542,7 @@ export default function Payments() {
                                 type="text"
                                 inputMode="decimal"
                                 ref={amountInputRef}
-                                className="transition ease-in-out block w-full bg-transparent border-none outline-none focus:outline-none invalid:focus:text-rose-500 peer caret-pink-500"
+                                className="peer block w-full border-none bg-transparent caret-pink-500 outline-none transition ease-in-out focus:outline-none invalid:focus:text-rose-500"
                                 id="amountCrypto"
                                 name="amountCrypto"
                                 aria-label="Enter the amount to pay"
@@ -554,7 +554,7 @@ export default function Payments() {
                                 autoFocus={true}
                                 autoComplete="off"
                               />
-                              <div className="transition ease-in-out pointer-events-none absolute inset-y-0 right-0 mr-4 flex items-center text-white peer-invalid:text-rose-500 peer-read-only:text-slate-400">
+                              <div className="pointer-events-none absolute inset-y-0 right-0 mr-4 flex items-center text-white transition ease-in-out peer-invalid:text-rose-500 peer-read-only:text-slate-400">
                                 {paymentData.currency}
                               </div>
                             </div>
@@ -566,7 +566,7 @@ export default function Payments() {
                     {formattedAmount &&
                       paymentData.currency === 'BRL' &&
                       paymentData.amount > 0 && (
-                        <div className="text-slate-400 text-sm animate-bounce-from-bottom">
+                        <div className="animate-bounce-from-bottom text-sm text-slate-400">
                           ≈ {amountInCurrency} {baseCurrency}
                         </div>
                       )}
@@ -575,7 +575,7 @@ export default function Payments() {
                       paymentData.currency &&
                       paymentData.currency !== 'BRL' &&
                       paymentData.amount > 0 && (
-                        <div className="text-slate-400 text-sm animate-bounce-from-bottom">
+                        <div className="animate-bounce-from-bottom text-sm text-slate-400">
                           ≈ {amountInCurrency} {baseCurrency}
                         </div>
                       )}
@@ -607,9 +607,9 @@ export default function Payments() {
                 </div>
 
                 {receiverData.type === 'crypto' && paymentData.amount > 0 && (
-                  <div className="flex flex-row items-center text-slate-500 ml-2 mt-2 animate-bounce-from-bottom">
+                  <div className="ml-2 mt-2 flex animate-bounce-from-bottom flex-row items-center text-slate-500">
                     <TbGasStation />
-                    <div className="flex flex-row items-center text-sm ml-1">
+                    <div className="ml-1 flex flex-row items-center text-sm">
                       estimated gas:
                       <span className="ml-1">
                         {estimatedGas === null ? (
@@ -625,15 +625,15 @@ export default function Payments() {
                 {receiverData.type === 'crypto' &&
                   paymentData.currency === null && (
                     <div className="mt-4">
-                      <h2 className="text-xl font-bold text-slate-500 mt-4 mb-2 ml-1">
+                      <h2 className="mb-2 ml-1 mt-4 text-xl font-bold text-slate-500">
                         Tokens
                       </h2>
-                      <div className="flex flex-col space-y-3 animate-bounce-from-bottom overflow-y-scroll *:bg-slate-700/60 *:rounded-3xl *:p-4 *:h-20">
+                      <div className="flex animate-bounce-from-bottom flex-col space-y-3 overflow-y-scroll *:h-20 *:rounded-3xl *:bg-slate-700/60 *:p-4">
                         {supportedTokensList
                           .filter(({ name }) =>
                             name
                               .toLowerCase()
-                              .includes(formattedCurrency.toLowerCase())
+                              .includes(formattedCurrency.toLowerCase()),
                           )
                           .map((token) => (
                             <TokenItem
@@ -658,7 +658,7 @@ export default function Payments() {
 
             <button
               type="submit"
-              className={`transition ease-in-out w-full rounded-3xl p-4 mt-8 border-[.2rem] border-pink-500 active:border-pink-700 text-center text-white bg-pink-500 active:bg-pink-700 disabled:text-slate-400 disabled:border-slate-300 disabled:bg-slate-300 cursor-pointer disabled:cursor-not-allowed appearance-none ${
+              className={`mt-8 w-full cursor-pointer appearance-none rounded-3xl border-[.2rem] border-pink-500 bg-pink-500 p-4 text-center text-white transition ease-in-out active:border-pink-700 active:bg-pink-700 disabled:cursor-not-allowed disabled:border-slate-300 disabled:bg-slate-300 disabled:text-slate-400 ${
                 (receiverData.loading || paymentData.loading) && 'animate-pulse'
               }`}
               disabled={
