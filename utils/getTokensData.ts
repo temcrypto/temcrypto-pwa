@@ -1,7 +1,7 @@
 import { type Address, parseAbi, formatUnits, isAddress } from 'viem';
 
 import { wagmiConfig, multicall } from '@/lib/wagmi';
-import allowedTokensList, { type AllowedToken } from '@/utils/allowedTokens';
+import supportedTokensList, { type SupportedToken } from '@/utils/tokenList';
 
 // Define and export the TokenData type
 export type TokenData = {
@@ -13,10 +13,10 @@ export type TokenData = {
 
 export async function getTokensData({
   address,
-  allowedTokens = allowedTokensList,
+  supportedTokens = supportedTokensList,
 }: {
   address: string;
-  allowedTokens?: AllowedToken[];
+  supportedTokens?: SupportedToken[];
 }): Promise<TokenData[]> {
   try {
     // Check that the address is valid before querying the tokens
@@ -25,7 +25,7 @@ export async function getTokensData({
     }
 
     // Get the token balances for each token
-    const calls = allowedTokens.map((token) => {
+    const calls = supportedTokens.map((token) => {
       return {
         address: token.address as Address,
         abi: parseAbi(['function balanceOf(address) view returns (uint256)']),
@@ -38,7 +38,7 @@ export async function getTokensData({
 
     // Format the balances for each token
     const tokensData = balancesData.map((balance, index) => {
-      const token = allowedTokens[index];
+      const token = supportedTokens[index];
       const tokenItemData: TokenData = {
         name: token.name,
         symbol: token.symbol,
