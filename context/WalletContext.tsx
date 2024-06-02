@@ -14,7 +14,7 @@ import { useAccount } from '@/lib/wagmi';
 import { type TokenData, getTokensData } from '@/utils/getTokensData';
 
 const UPDATE_INTERVAL = 1000 * 10; // 10 seconds in milliseconds
-const BASE_CURRENCY = 'USDT';
+const BASE_CURRENCY = 'USD';
 
 // Define the structure for currency rates
 interface CurrencyRate {
@@ -66,9 +66,13 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
         throw new Error('Failed to fetch rates');
       }
       const { rates } = await response.json();
-      const ratesMap = new Map<string, number>(
-        rates.map(({ code, rate }: CurrencyRate) => [code, rate])
+      const ratesMap: Map<string, number> = new Map(
+        Object.entries(rates).map(([key, value]) => [
+          key,
+          parseFloat(value as string),
+        ])
       );
+
       setRates(ratesMap);
     } catch (error) {
       console.error('Failed to fetch rates:', error);
