@@ -309,7 +309,7 @@ export default function Payments() {
     ) {
       fetchEstimatedGas();
     }
-  }, [receiverData.type, receiverData.alias, paymentData.amount]);
+  }, [receiverData.type, receiverData.alias, paymentData.amount, userAddress]);
 
   useEffect(() => {
     if (paymentData.currency) {
@@ -318,7 +318,7 @@ export default function Payments() {
       const amount = (amountSafe / currencyRate).toFixed(2);
       setAmountInCurrency(amount);
     }
-  }, [paymentData.currency, paymentData.amount]);
+  }, [paymentData.currency, paymentData.amount, rates]);
 
   return (
     <PageWrapper id="page-payments" requireSession={true}>

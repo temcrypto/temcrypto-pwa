@@ -23,7 +23,6 @@ const TokenItem = memo(
     const { balances, balancesInCurrency, baseCurrency } = useWalletContext();
 
     const handleClick = useCallback(() => {
-      console.log('TokenItem ~', token.symbol, 'clicked');
       if (onClick) {
         onClick();
       }
