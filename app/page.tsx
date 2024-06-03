@@ -15,7 +15,7 @@ import { Sheet } from 'react-modal-sheet';
 import DepositMenu from '@/components/DepositMenu';
 import PageWrapper from '@/components/PageWrapper';
 import SendMenu from '@/components/SendMenu';
-import { useWalletContext } from '@/context/WalletContext';
+import { useWalletContext } from '@/context/wallet-context';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 type HomeMenuType = 'pay' | 'deposit' | 'send' | 'movements' | null;

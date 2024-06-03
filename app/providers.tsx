@@ -3,7 +3,7 @@ import { SessionProvider } from 'next-auth/react';
 
 import { auth } from '@/auth';
 import DynamicProviderWrapper from '@/components/DynamicWrapper';
-import { WalletProvider } from '@/context/WalletContext';
+import { WalletProvider } from '@/context/wallet-context';
 
 const Providers = async ({ children }: { children: ReactNode }) => {
   const session = await auth();

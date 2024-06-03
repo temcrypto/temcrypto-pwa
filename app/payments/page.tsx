@@ -27,7 +27,7 @@ import {
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { Spinner } from '@/components/Loading';
 import TokenItem from '@/components/TokenItem';
-import { useWalletContext } from '@/context/WalletContext';
+import { useWalletContext } from '@/context/wallet-context';
 import {
   estimateGas,
   getEnsAddress,

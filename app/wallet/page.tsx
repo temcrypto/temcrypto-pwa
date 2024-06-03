@@ -13,7 +13,7 @@ import { type Address } from 'viem';
 import DepositMenu from '@/components/DepositMenu';
 import PageWrapper from '@/components/PageWrapper';
 import TokenItem from '@/components/TokenItem';
-import { useWalletContext } from '@/context/WalletContext';
+import { useWalletContext } from '@/context/wallet-context';
 import useCopyToClipboard from '@/hooks/use-copy-to-clipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
