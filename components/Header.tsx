@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { IoMdArrowBack } from 'react-icons/io';
 
-import useCopyToClipboard from '@/hooks/useCopyToClipboard';
+import useCopyToClipboard from '@/hooks/use-copy-to-clipboard';
 import { useDynamicContext } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
 

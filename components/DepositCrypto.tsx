@@ -2,7 +2,7 @@ import toast from 'react-hot-toast';
 import { TbCopy } from 'react-icons/tb';
 import { QRCodeSVG } from 'qrcode.react';
 
-import useCopyToClipboard from '@/hooks/useCopyToClipboard';
+import useCopyToClipboard from '@/hooks/use-copy-to-clipboard';
 import { useDynamicContext } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
 

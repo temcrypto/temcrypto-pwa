@@ -14,7 +14,7 @@ import DepositMenu from '@/components/DepositMenu';
 import PageWrapper from '@/components/PageWrapper';
 import TokenItem from '@/components/TokenItem';
 import { useWalletContext } from '@/context/WalletContext';
-import useCopyToClipboard from '@/hooks/useCopyToClipboard';
+import useCopyToClipboard from '@/hooks/use-copy-to-clipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
 import shortenAddress from '@/utils/shortenAddress';
 import supportedTokensList from '@/utils/tokenList';
