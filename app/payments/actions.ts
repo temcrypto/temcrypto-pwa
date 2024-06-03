@@ -6,8 +6,8 @@ import { eq } from 'drizzle-orm';
 
 import db from '@/lib/db';
 import { type NewTransaction, transactions, users } from '@/lib/db/schema';
-import getRate from '@/lib/kp/getRate';
-import validatePixKey from '@/lib/kp/validatePixKey';
+import getRate from '@/lib/kp/get-rate';
+import validatePixKey from '@/lib/kp/validate-pix-key';
 import { rangeDelay } from 'delay';
 
 // Types
