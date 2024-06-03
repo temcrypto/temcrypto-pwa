@@ -28,10 +28,6 @@ const pathTitles = [
     title: 'My Wallet',
   },
   {
-    prefix: '/receive',
-    title: 'Receive',
-  },
-  {
     prefix: '/txs',
     title: 'Transaction Details',
   },
