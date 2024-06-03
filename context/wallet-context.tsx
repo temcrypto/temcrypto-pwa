@@ -11,7 +11,7 @@ import React, {
 import { type Address } from 'viem';
 
 import { useAccount } from '@/lib/wagmi';
-import { type TokenData, getTokensData } from '@/utils/getTokensData';
+import { type TokenData, getTokensData } from '@/utils/tokens-data';
 
 const UPDATE_INTERVAL = 1000 * 10; // 10 seconds in milliseconds
 const BASE_CURRENCY = 'USD';

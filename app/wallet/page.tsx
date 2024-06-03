@@ -16,8 +16,8 @@ import TokenItem from '@/components/TokenItem';
 import { useWalletContext } from '@/context/wallet-context';
 import useCopyToClipboard from '@/hooks/use-copy-to-clipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';
-import shortenAddress from '@/utils/shortenAddress';
-import supportedTokensList from '@/utils/tokenList';
+import shortenAddress from '@/utils/shorten-address';
+import supportedTokensList from '@/utils/token-list';
 
 // Define the prop types for the SectionHeader component
 type SectionHeaderProps = {

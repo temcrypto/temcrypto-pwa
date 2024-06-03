@@ -36,9 +36,9 @@ import {
   wagmiConfig,
   wagmiConfigMainnet,
 } from '@/lib/wagmi';
-import randomEmoji from '@/utils/randomEmoji';
-import shortenAddress from '@/utils/shortenAddress';
-import supportedTokensList from '@/utils/tokenList';
+import randomEmoji from '@/utils/random-emoji';
+import shortenAddress from '@/utils/shorten-address';
+import supportedTokensList from '@/utils/token-list';
 
 import { fetchPixKeyData } from './actions';
 

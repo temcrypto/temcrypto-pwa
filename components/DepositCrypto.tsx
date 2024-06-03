@@ -4,7 +4,7 @@ import { QRCodeSVG } from 'qrcode.react';
 
 import useCopyToClipboard from '@/hooks/use-copy-to-clipboard';
 import { useDynamicContext } from '@/lib/dynamicxyz';
-import shortenAddress from '@/utils/shortenAddress';
+import shortenAddress from '@/utils/shorten-address';
 
 export default function DepositCrypto() {
   const { primaryWallet } = useDynamicContext();

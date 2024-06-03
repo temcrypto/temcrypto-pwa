@@ -7,7 +7,7 @@ import { IoMdArrowBack } from 'react-icons/io';
 
 import useCopyToClipboard from '@/hooks/use-copy-to-clipboard';
 import { useDynamicContext } from '@/lib/dynamicxyz';
-import shortenAddress from '@/utils/shortenAddress';
+import shortenAddress from '@/utils/shorten-address';
 
 import LoadingSkeleton from './LoadingSkeleton';
 import Logo from './Logo';

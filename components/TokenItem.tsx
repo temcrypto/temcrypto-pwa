@@ -2,7 +2,7 @@ import { memo, useCallback } from 'react';
 import Image from 'next/image';
 
 import { useWalletContext } from '@/context/wallet-context';
-import { type SupportedToken } from '@/utils/tokenList';
+import { type SupportedToken } from '@/utils/token-list';
 
 /**
  * TokenItem component

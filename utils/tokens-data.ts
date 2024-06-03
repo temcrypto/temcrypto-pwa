@@ -1,7 +1,7 @@
 import { type Address, parseAbi, formatUnits, isAddress } from 'viem';
 
 import { wagmiConfig, multicall } from '@/lib/wagmi';
-import supportedTokensList, { type SupportedToken } from '@/utils/tokenList';
+import supportedTokensList, { type SupportedToken } from '@/utils/token-list';
 
 // Define and export the TokenData type
 export type TokenData = {
