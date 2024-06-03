@@ -159,7 +159,6 @@ const WalletPage = memo(function Wallet() {
     authToken,
     isAuthenticated,
     loadingNetwork,
-    bridgeChainsToConnect,
   );
 
   console.log('Wallet Page', userWalletAddress);
