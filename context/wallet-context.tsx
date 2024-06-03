@@ -16,13 +16,6 @@ import { type TokenData, getTokensData } from '@/utils/tokens-data';
 const UPDATE_INTERVAL = 1000 * 10; // 10 seconds in milliseconds
 const BASE_CURRENCY = 'USD';
 
-// Define the structure for currency rates
-interface CurrencyRate {
-  code: string;
-  name: string;
-  rate: number;
-}
-
 // Define the WalletContext type
 interface WalletContextType {
   userAddress?: Address;
@@ -58,7 +51,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
         {
           next: { revalidate: 60 }, // Revalidate the cache every 60 seconds
           headers: {
-            'User-Agent': 'TEMCRYPTO/1.0 (PWA; rv:42.0)',
+            'User-Agent': 'TEMCRYPTO/4.20.240601 (PWA; rv:1.0)',
           },
         },
       );
