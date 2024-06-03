@@ -165,7 +165,7 @@ const initialPaymentData: PaymentData = {
 };
 
 export default function Payments() {
-  const { baseCurrency, rates, userAddress } = useWalletContext();
+  const { baseCurrency, balances, rates, userAddress } = useWalletContext();
   const [showQrReader, setShowQrReader] = useState(false);
   const [receiverData, setReceiverData] = useState(initialReceiverData);
   const [paymentData, setPaymentData] = useState(initialPaymentData);
@@ -606,6 +606,21 @@ export default function Payments() {
                     </div>
                   )}
                 </div>
+
+                {receiverData.type === 'pix' && paymentData.currency && (
+                  <div className="ml-4 mt-4 flex flex-row items-center space-x-2 text-sm text-slate-500">
+                    <Image
+                      src="/images/tokens/usdt.svg"
+                      alt="USDT"
+                      width={20}
+                      height={20}
+                    />
+                    <div>
+                      {(balances.get(paymentData.currency) ?? 0).toFixed(2)}{' '}
+                      USDT available
+                    </div>
+                  </div>
+                )}
 
                 {receiverData.type === 'crypto' && paymentData.amount > 0 && (
                   <div className="ml-2 mt-2 flex animate-bounce-from-bottom flex-row items-center text-slate-500">
