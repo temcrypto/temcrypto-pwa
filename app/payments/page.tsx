@@ -16,7 +16,7 @@ import { TbGasStation } from 'react-icons/tb';
 import { QrReader } from 'react-qr-reader';
 import { useDebounce } from 'use-debounce';
 import { type Address, isAddress, parseEther, formatUnits } from 'viem';
-import { mainnet, polygon } from 'viem/chains';
+import { mainnet } from 'viem/chains';
 import {
   type GetEnsAddressReturnType,
   type GetEnsAvatarReturnType,
@@ -24,7 +24,6 @@ import {
   normalize,
 } from 'viem/ens';
 
-import { fetchPixKeyData } from '@/app/send/actions';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { Spinner } from '@/components/Loading';
 import TokenItem from '@/components/TokenItem';
@@ -40,6 +39,8 @@ import {
 import randomEmoji from '@/utils/randomEmoji';
 import shortenAddress from '@/utils/shortenAddress';
 import supportedTokensList from '@/utils/tokenList';
+
+import { fetchPixKeyData } from './actions';
 
 // Regex to test if the textTrim is an ENS name ending on '.eth'
 const ENS_REGEX = /^[a-zA-Z0-9]{1,253}\.eth$/;

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+import { fetchTxById } from '@/app/payments/actions';
 import PageWrapper from '@/components/PageWrapper';
-import { fetchTxById } from '@/app/send/actions';
 import { NewTransaction } from '@/lib/db/schema';
 import AmountBRL from '@/components/AmountBRL';
 import AmountUSDT from '@/components/AmountUSDT';
