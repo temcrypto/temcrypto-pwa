@@ -11,30 +11,26 @@ import { importSPKI, jwtVerify, type JWTPayload, type KeyLike } from 'jose';
  */
 const getKey = async (): Promise<KeyLike> => {
   try {
-    // const response = await fetch(
-    //   `https://app.dynamicauth.com/api/v0/environments/${process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID}/keys`,
-    //   {
-    //     method: 'GET',
-    //     headers: {
-    //       Authorization: `Bearer ${process.env.NEXT_DYNAMIC_BEARER_TOKEN}`,
-    //     },
-    //   },
-    // );
+    const response = await fetch(
+      `https://app.dynamicauth.com/api/v0/environments/${process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID}/keys`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_DYNAMIC_BEARER_TOKEN}`,
+        },
+      },
+    );
 
-    // // Fetch and parse the response JSON
-    // const json = await response.json();
+    // Fetch and parse the response JSON
+    const json = await response.json();
 
     // // Get the public key from the response
-    // const publicKey = json.key.publicKey;
+    const publicKey = json.key.publicKey;
 
-    // // Convert the Base64-encoded public key to an ASCII string
-    // const pemPublicKey = Buffer.from(publicKey, 'base64').toString('ascii');
+    // Convert the Base64-encoded public key to an ASCII string
+    const pemPublicKey = Buffer.from(publicKey, 'base64').toString('ascii');
 
-    // // Import the public key as a KeyLike object using the 'RS256' algorithm
-    // const keyLike = await importSPKI(pemPublicKey, 'RS256');
-
-    const publicKey = process.env.NEXT_DYNAMIC_PUBLIC_KEY as string;
-    const pemPublicKey = publicKey.replace('\\n', '\n');
+    // Import the public key as a KeyLike object using the 'RS256' algorithm
     const keyLike = await importSPKI(pemPublicKey, 'RS256');
 
     return keyLike;

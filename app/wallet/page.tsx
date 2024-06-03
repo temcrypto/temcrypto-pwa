@@ -141,7 +141,26 @@ const WalletPage = memo(function Wallet() {
     baseCurrency,
     totalBalance,
   } = useWalletContext();
+  const {
+    primaryWallet,
+    user,
+    authToken,
+    isAuthenticated,
+    loadingNetwork,
+    bridgeChainsToConnect,
+  } = useDynamicContext();
   const [sheetOpen, setSheetOpen] = useState<WalletMenuType>(null);
+
+  console.log(
+    '.......',
+    userWalletAddress,
+    user,
+    primaryWallet,
+    authToken,
+    isAuthenticated,
+    loadingNetwork,
+    bridgeChainsToConnect,
+  );
 
   console.log('Wallet Page', userWalletAddress);
 
