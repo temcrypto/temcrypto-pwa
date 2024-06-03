@@ -18,7 +18,7 @@ const getKey = async (): Promise<KeyLike> => {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_DYNAMIC_BEARER_TOKEN}`,
         },
-      }
+      },
     );
 
     // Fetch and parse the response JSON
@@ -48,7 +48,7 @@ const getKey = async (): Promise<KeyLike> => {
  * or null if the token is invalid.
  */
 export const validateJWT = async (
-  token: string
+  token: string,
 ): Promise<JWTPayload | null> => {
   try {
     // Get the public key

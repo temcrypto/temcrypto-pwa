@@ -1,6 +1,6 @@
 import NextAuth, { type DefaultSession, type NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import { validateJWT } from './lib/authHelpers';
+import { validateJWT } from './lib/auth-helpers';
 
 type User = {
   id: string;
@@ -71,10 +71,10 @@ export const {
   ...authConfig,
   providers: [
     Credentials({
-      name: 'dynamic',
+      name: 'dynamicxyz',
       credentials: { token: { label: 'Token', type: 'password' } },
       async authorize(
-        credentials: Partial<Record<'token', unknown>>
+        credentials: Partial<Record<'token', unknown>>,
       ): Promise<User | null> {
         const token = credentials.token as string;
 
