@@ -34,8 +34,8 @@ const getKey = async (): Promise<KeyLike> => {
     // const keyLike = await importSPKI(pemPublicKey, 'RS256');
 
     const publicKey = process.env.NEXT_DYNAMIC_PUBLIC_KEY as string;
-    // const pemPublicKey = publicKey.replace('\\n', '\n');
-    const keyLike = await importSPKI(publicKey, 'RS256');
+    const pemPublicKey = publicKey.replace('\\n', '\n');
+    const keyLike = await importSPKI(pemPublicKey, 'RS256');
 
     return keyLike;
   } catch (err) {
