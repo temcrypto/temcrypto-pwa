@@ -57,7 +57,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
           {
             next: { revalidate: 60 }, // Revalidate the cache every 60 seconds
             headers: {
-              'User-Agent': 'TEMCRYPTO/4.20240601.1 (PWA; rv:1.0)',
+              'User-Agent': 'TEMCRYPTO/4.202406.1 (PWA; rv:1.0)',
             },
           },
         );
