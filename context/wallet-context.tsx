@@ -8,13 +8,14 @@ import React, {
   useCallback,
   useMemo,
 } from 'react';
+import { useSession } from 'next-auth/react';
 import { type Address } from 'viem';
 
 import { useAccount } from '@/lib/wagmi';
 import { type TokenData, getTokensData } from '@/utils/tokens-data';
 
 const UPDATE_INTERVAL = 1000 * 10; // 10 seconds in milliseconds
-const BASE_CURRENCY = 'USD';
+const DEFAULT_BASE_CURRENCY = 'USD';
 
 // Define the WalletContext type
 interface WalletContextType {
@@ -34,47 +35,54 @@ const WalletContext = createContext<WalletContextType | undefined>(undefined);
 export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const { status: authStatus } = useSession();
   const { address: userAddress, isConnected } = useAccount();
   const [balances, setBalances] = useState<Map<string, number>>(new Map());
   const [balancesInCurrency, setBalancesInCurrency] = useState<
     Map<string, number>
   >(new Map());
   const [rates, setRates] = useState<Map<string, number>>(new Map());
-  const [baseCurrency, setBaseCurrency] = useState<string>(BASE_CURRENCY);
+  const [baseCurrency, setBaseCurrency] = useState<string>(
+    DEFAULT_BASE_CURRENCY,
+  );
   const [totalBalance, setTotalBalance] = useState<number>(0);
 
   // Fetch currency rates from the API
-  const fetchRates = useCallback(async (base: string) => {
-    try {
-      const response = await fetch(
-        `https://api.temcrypto.com/v1/rates/${base}`,
-        {
-          next: { revalidate: 60 }, // Revalidate the cache every 60 seconds
-          headers: {
-            'User-Agent': 'TEMCRYPTO/4.20240601.1 (PWA; rv:1.0)',
+  const fetchRates = useCallback(
+    async (currency: string) => {
+      if (authStatus !== 'authenticated') return;
+      try {
+        const response = await fetch(
+          `https://api.temcrypto.com/v1/rates/${currency}`,
+          {
+            next: { revalidate: 60 }, // Revalidate the cache every 60 seconds
+            headers: {
+              'User-Agent': 'TEMCRYPTO/4.20240601.1 (PWA; rv:1.0)',
+            },
           },
-        },
-      );
-      if (!response.ok) {
-        throw new Error('Failed to fetch rates');
-      }
-      const { rates } = await response.json();
-      const ratesMap: Map<string, number> = new Map(
-        Object.entries(rates).map(([key, value]) => [
-          key,
-          parseFloat(value as string),
-        ]),
-      );
+        );
+        if (!response.ok) {
+          throw new Error('Failed to fetch rates');
+        }
+        const { rates } = await response.json();
+        const ratesMap: Map<string, number> = new Map(
+          Object.entries(rates).map(([key, value]) => [
+            key,
+            parseFloat(value as string),
+          ]),
+        );
 
-      setRates(ratesMap);
-    } catch (error) {
-      console.error('Failed to fetch rates:', error);
-    }
-  }, []);
+        setRates(ratesMap);
+      } catch (error) {
+        console.error('Failed to fetch rates:', error);
+      }
+    },
+    [authStatus],
+  );
 
   // Fetch balances from the Polygon RPC
   const fetchBalances = useCallback(async () => {
-    if (!userAddress) return;
+    if (!userAddress || authStatus !== 'authenticated') return;
     try {
       const tokensData = await getTokensData({ address: userAddress });
       const newBalances = new Map<string, number>(
@@ -84,7 +92,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
     } catch (error) {
       console.error('Failed to fetch token data:', error);
     }
-  }, [userAddress]);
+  }, [userAddress, authStatus]);
 
   // Update balancesInCurrency whenever balances or rates change
   useEffect(() => {
