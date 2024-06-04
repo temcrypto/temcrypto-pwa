@@ -151,16 +151,6 @@ const WalletPage = memo(function Wallet() {
   } = useDynamicContext();
   const [sheetOpen, setSheetOpen] = useState<WalletMenuType>(null);
 
-  console.log(
-    '.......',
-    userWalletAddress,
-    user,
-    primaryWallet,
-    authToken,
-    isAuthenticated,
-    loadingNetwork,
-  );
-
   console.log('Wallet Page', userWalletAddress);
 
   return (
