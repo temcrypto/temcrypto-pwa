@@ -11,8 +11,8 @@ import { Sheet } from 'react-modal-sheet';
 import { type Address } from 'viem';
 
 import DepositMenu from '@/components/DepositMenu';
-import PageWrapper from '@/components/PageWrapper';
 import TokenItem from '@/components/TokenItem';
+import PageWrapper from '@/components/page-wrapper';
 import { useWalletContext } from '@/context/wallet-context';
 import useCopyToClipboard from '@/hooks/use-copy-to-clipboard';
 import { useDynamicContext, useEmbeddedReveal } from '@/lib/dynamicxyz';

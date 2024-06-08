@@ -13,7 +13,7 @@ import {
 import { Sheet } from 'react-modal-sheet';
 
 import DepositMenu from '@/components/DepositMenu';
-import PageWrapper from '@/components/PageWrapper';
+import PageWrapper from '@/components/page-wrapper';
 import SendMenu from '@/components/SendMenu';
 import { useWalletContext } from '@/context/wallet-context';
 import LoadingSkeleton from '@/components/LoadingSkeleton';

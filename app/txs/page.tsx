@@ -1,6 +1,5 @@
 'use client';
 
-import PageWrapper from '@/components/PageWrapper';
 import { FormEventHandler, useEffect, useState } from 'react';
 import {
   Account,
@@ -12,6 +11,7 @@ import {
   parseEther,
 } from 'viem';
 
+import PageWrapper from '@/components/page-wrapper';
 import {
   EmbeddedWalletIcon,
   useDynamicContext,

@@ -1,6 +1,5 @@
 'use client';
 
-import PageWrapper from '@/components/PageWrapper';
 import {
   type ChangeEvent,
   type FormEvent,
@@ -26,6 +25,7 @@ import {
 
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { Spinner } from '@/components/Loading';
+import PageWrapper from '@/components/page-wrapper';
 import TokenItem from '@/components/TokenItem';
 import { useWalletContext } from '@/context/wallet-context';
 import {

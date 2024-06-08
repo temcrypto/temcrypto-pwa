@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { fetchTxById } from '@/app/payments/actions';
-import PageWrapper from '@/components/PageWrapper';
+import PageWrapper from '@/components/page-wrapper';
 import { NewTransaction } from '@/lib/db/schema';
 import AmountBRL from '@/components/AmountBRL';
 import AmountUSDT from '@/components/AmountUSDT';
