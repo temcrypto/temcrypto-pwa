@@ -34,17 +34,14 @@
   }
 }
 
-/* PWA */
-/* html { */
-/* max-height: calc(100% - env(safe-area-inset-bottom)); */
-/* padding: env(safe-area-inset-top) env(safe-area-inset-right)
-    env(safe-area-inset-bottom) env(safe-area-inset-left);
-} */
-
 body {
-  @apply bg-white text-slate-800 dark:bg-slate-800 dark:text-white antialiased select-none;
+  @apply h-dvh w-screen select-none overflow-hidden bg-white text-slate-800 antialiased sm:m-auto sm:w-[32rem] dark:bg-slate-800 dark:text-white;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
+}
+
+#app {
+  @apply flex h-full flex-col overflow-hidden border border-yellow-300;
 }
 
 /* React Bottom Sheet */
@@ -56,7 +53,7 @@ body {
 }
 
 .react-modal-sheet-container {
-  @apply bg-white text-slate-800 dark:bg-slate-800 dark:text-white rounded-t-3xl w-screen sm:w-[32rem] m-auto shadow-sm !important;
+  @apply m-auto w-screen rounded-t-3xl bg-white text-slate-800 shadow-sm sm:w-[32rem] dark:bg-slate-800 dark:text-white !important;
   /* box-shadow: 0px -2px 16px rgba(0, 0, 0, 0.3) !important; */
   box-shadow: 0px -2px 15px rgb(255 255 255/ 0.08) !important;
 }
