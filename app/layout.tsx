@@ -230,16 +230,15 @@ export default async function RootLayout({
           href="splash_screens/8.3__iPad_Mini_portrait.png"
         />
       </head>
-      <body
-        className={`${nunito.className} m-auto w-screen overflow-hidden sm:w-[32rem]`}
-      >
+      <body className={nunito.className}>
         <Providers>
-          <div
-            id="layout-app"
-            className="flex h-svh max-h-svh min-h-svh flex-col overflow-hidden"
-          >
+          <div id="app">
             <Header />
-            {children}
+
+            <main className="grow overflow-hidden overflow-y-scroll scroll-smooth border border-rose-500 p-6">
+              {children}
+            </main>
+
             <Toaster
               position="top-center"
               containerStyle={{ zIndex: '99999999' }}
