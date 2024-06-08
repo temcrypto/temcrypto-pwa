@@ -19,10 +19,18 @@ export default function PageWrapper({
   className?: string;
   requireSession?: boolean;
 }) {
-  const { status: authStatus } = useSession({ required: requireSession });
-  const { isAuthenticated } = useDynamicContext();
+  const { status: appAuthStatus } = useSession({ required: requireSession });
+  const { isAuthenticated: isWalletAuthenticated } = useDynamicContext();
   const pathname = usePathname();
   const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // If the user wallet is not authenticated, redirect to start page.
+    if (isMounted && pathname !== '/start' && !isWalletAuthenticated) {
+      setIsMounted(false);
+      window.location.href = '/start';
+    }
+  }, [isMounted, pathname, isWalletAuthenticated]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -31,18 +39,9 @@ export default function PageWrapper({
     };
   }, []);
 
-  // If the user wallet is not authenticated, redirect to start page.
-  if (isMounted && pathname !== '/start' && !isAuthenticated) {
-    setIsMounted(false);
-    window.location.href = '/start';
-  }
-
   return (
-    <main
-      id="main"
-      className="flex-1 overflow-hidden overflow-y-scroll scroll-smooth p-6"
-    >
-      {!isMounted || authStatus === 'loading' ? (
+    <>
+      {!isMounted || appAuthStatus === 'loading' ? (
         <Loading bounce={true} fullScreen={true} />
       ) : (
         <div
@@ -53,6 +52,6 @@ export default function PageWrapper({
           {children}
         </div>
       )}
-    </main>
+    </>
   );
 }
