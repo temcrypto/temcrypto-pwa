@@ -5,6 +5,7 @@ import { validateJWT } from './lib/auth-helpers';
 type User = {
   id: string;
   email: string;
+  sid: string;
 };
 
 declare module 'next-auth' {
@@ -51,7 +52,6 @@ export const authConfig = {
         sessionData.session.user.customAttribute = sessionData.token
           .customAttribute as string; // Transfer custom attributes to the session
       }
-      // console.log('auth ~ callback ~ session ~ sessionData 2', sessionData);
       return sessionData.session;
     },
   },
@@ -85,10 +85,11 @@ export const {
 
         const jwtPayload = await validateJWT(token);
 
-        if (jwtPayload) {
+        if (jwtPayload?.sub && typeof jwtPayload?.sid === 'string') {
           // Transform the JWT payload into your user object
           const user: User = {
-            id: jwtPayload.sub!, // Assuming 'sub' is the user ID
+            id: jwtPayload.sub, // Assuming 'sub' is the user ID
+            sid: jwtPayload.sid,
             email: (jwtPayload.email as string) ?? '', // Replace with actual field from JWT payload
           };
           return user;
