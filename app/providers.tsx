@@ -2,7 +2,7 @@ import { type ReactNode } from 'react';
 import { SessionProvider } from 'next-auth/react';
 
 import { auth } from '@/auth';
-import DynamicProviderWrapper from '@/components/DynamicWrapper';
+import DynamicProviderWrapper from '@/components/dynamic-wrapper';
 import { WalletProvider } from '@/context/wallet-context';
 
 const Providers = async ({ children }: { children: ReactNode }) => {
