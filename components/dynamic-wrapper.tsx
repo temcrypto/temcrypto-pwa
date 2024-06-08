@@ -1,7 +1,7 @@
 'use client';
 
 import { type ReactNode, useCallback } from 'react';
-import { getCsrfToken, signOut } from 'next-auth/react';
+import { getCsrfToken, signOut, useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -19,9 +19,10 @@ import { wagmiConfig, WagmiProvider } from '@/lib/wagmi';
 const queryClient = new QueryClient();
 
 const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
+  const a = useSession();
   // Memoize the handleAuthSuccess function
   const handleAuthSuccess = useCallback(
-    async (args: { authToken: string; user: UserProfile }) => {
+    async ({ authToken, user }: { authToken: string; user: UserProfile }) => {
       try {
         const csrfToken = await getCsrfToken();
 
@@ -31,7 +32,7 @@ const DynamicProviderWrapper = ({ children }: { children: ReactNode }) => {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: new URLSearchParams({ csrfToken, token: args.authToken }),
+          body: new URLSearchParams({ csrfToken, token: authToken }),
         });
 
         if (res.ok) {
