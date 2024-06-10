@@ -3770,10 +3770,10 @@
   dependencies:
     semver "^7.6.0"
 
-"@zerodev/sdk@^5.2.18":
-  version "5.2.18"
-  resolved "https://registry.yarnpkg.com/@zerodev/sdk/-/sdk-5.2.18.tgz#2736f71d650d62130aa4a129ea6509569497e558"
-  integrity sha512-I56k+/ETz1a5Khd2awPyufu60FvyZlNl7R88Fmitd3zB+UcXyFHZoDWrnDjK475rhNtjrF41s4nr+JtpF5bGHQ==
+"@zerodev/sdk@^5.2.19":
+  version "5.2.19"
+  resolved "https://registry.yarnpkg.com/@zerodev/sdk/-/sdk-5.2.19.tgz#9cb63a0f6966910d616c71656e1e45afb3fa5850"
+  integrity sha512-5+hwh5zAAWdcvhXuKiD+JxTJuH+h9b5rjLBOh6CbXujSFzDEXbF5KqyZGchCaU8mzhoDQt+X3IGZCXPJ/oOBlQ==
   dependencies:
     semver "^7.6.0"
 
